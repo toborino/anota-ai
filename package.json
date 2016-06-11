@@ -1,0 +1,32 @@
+{
+  "name": "buddha_bot",
+  "version": "1.0.0",
+  "description": "FB Messenger Bot that lets users journal. Bot responds with quotes of the day and suggested videos based on journal entries.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eforio/buddhabot.git#buddhabot"
+  },
+  "keywords": [
+    "buddha",
+    "quotes",
+    "spiritual",
+    "quotes",
+    "journalling",
+    "honesty"
+  ],
+  "author": "Stefan Kojouharov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eforio/buddhabot/issues"
+  },
+  "homepage": "https://github.com/eforio/buddhabot/tree/buddhabot#readme",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4",
+    "request": "^2.72.0"
+  }
+}
