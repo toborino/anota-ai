@@ -1,11 +1,12 @@
 {
-  "name": "buddha_bot",
+  "name": "smart_note",
   "version": "1.0.0",
-  "description": "FB Messenger Bot that lets users journal. Bot responds with quotes of the day and suggested videos based on journal entries.",
+  "description": "FB Messenger Bot that reminds users",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+      "start": "node server.js"
   },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/eforio/buddhabot.git#buddhabot"
