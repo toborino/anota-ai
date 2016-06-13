@@ -22,15 +22,15 @@ reminder.prototype =
 			//this.bot.res.send('Please use a #hashtag to assign a topic')
 			this.bot.sendTextMessage(this.event.sender.id, 'Please use a #hashtag to assign a topic')
 			console.log('missing hashtag: ' + msg)
-			this.res.send('ok')
-			this.res.sendStatus(200)
+			this.bot.res.send('ok')
+			this.bot.res.sendStatus(200)
 			return
 		}
 		else
 		{
 			console.log('adding a reminder with hashtag "' + topic + '"')
-			this.res.send('ok')
-			this.res.sendStatus(200)
+			this.bot.res.send('ok')
+			this.bot.res.sendStatus(200)
 		}
 		
 		var elements = [
