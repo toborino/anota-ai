@@ -29,7 +29,7 @@ bot.prototype =
 				}
 				sendTextMessage(sender, "parrot: " + text.substring(0, 200))
 				*/
-				this.getController('reminder').prompt(event.text)
+				this.getController('reminder').prompt(event.message.text)
 			}
 			
 		}
