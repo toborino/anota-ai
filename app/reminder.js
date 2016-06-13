@@ -68,7 +68,7 @@ reminder.prototype =
 		{
 			return false;
 		}
-		return m[0];
+		return m[0].charAt(0).toUpperCase() + m[0].slice(1);
 	}
 }
 
