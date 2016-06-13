@@ -40,7 +40,7 @@ reminder.prototype =
                     },{
                         "type": "postback",
                         "title": "Share",
-                        "payload": "",
+                        "payload": JSON.stringify({'controller': 'reminder', 'method': 'share'}),
                     }, {
                         "type": "postback",
                         "title": "More",
