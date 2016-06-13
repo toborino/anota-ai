@@ -25,11 +25,8 @@ reminder.prototype =
 			this.bot.res.send('ok')
 			return
 		}
-		else
-		{
-			console.log('adding a reminder with hashtag "' + topic + '"')
-			this.bot.res.send('ok')
-		}
+
+		console.log('adding a reminder with hashtag "' + topic + '"')
 		
 		var elements = [
 			{
@@ -52,6 +49,8 @@ reminder.prototype =
 			}
 		]
 		
+		this.bot.sendGenericMessage(this.event.sender.id, elements)
+		this.bot.res.send('ok')
 	}
 	
 	,
