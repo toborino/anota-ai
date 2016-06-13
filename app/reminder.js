@@ -57,7 +57,7 @@ reminder.prototype =
 	
 	setReminder: function()
 	{
-		this.bot.sendTextMessage(this.event.sender.id, 'reminder set: ' + this.event.postback.msg)
+		this.bot.sendTextMessage(this.event.sender.id, 'reminder set: ' + this.event.postback.payload.msg)
 		this.bot.res.send('ok')
 	}
 	,
