@@ -18,8 +18,8 @@ reminder.prototype =
 		var topic = this.getTopic(msg)
 		if(!topic)
 		{
-			this.bot.res.send('Please use a #hashtag to assign a topic')
 			this.bot.res.sendStatus(200)
+			this.bot.res.send('Please use a #hashtag to assign a topic')
 			return
 		}
 		
