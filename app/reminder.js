@@ -54,6 +54,13 @@ reminder.prototype =
 	}
 	
 	,
+	
+	setReminder: function()
+	{
+		this.bot.sendTextMessage(this.event.sender.id, 'reminder set: ' + this.event.postback.msg)
+		this.bot.res.send('ok')
+	}
+	,
 	getTopic: function(msg)
 	{
 		var m = msg.match(/#\w+/g);
