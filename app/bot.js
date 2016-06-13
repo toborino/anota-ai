@@ -17,7 +17,6 @@ bot.prototype =
 			if (event.postback) {
 				//text = JSON.stringify(event.postback)
 				this.getController(event.postback.controller, event)[event.postback.method]();
-
 				continue
 			}
 			
@@ -31,6 +30,11 @@ bot.prototype =
 				sendTextMessage(sender, "parrot: " + text.substring(0, 200))
 				*/
 				this.getController('reminder', event).prompt(event.message.text)
+			}
+			else
+			{
+				console.log(event)
+				this.res.sendStatus(200)
 			}
 			
 		}

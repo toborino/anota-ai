@@ -41,5 +41,13 @@ app.post('/webhook/', function(req, res) {
 	var _bot = new bot(req, res)
 	_bot.setToken(token);
 	_bot.webhook();
+	try
+	{
+		
+	}
+	catch(ex)
+	{
+		
+	}
 })
 
