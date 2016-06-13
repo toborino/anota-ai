@@ -20,7 +20,7 @@ reminder.prototype =
 		{
 
 			this.bot.res.send('Please use a #hashtag to assign a topic')
-			this.bot.res.sendStatus(200)
+			
 			return
 		}
 		
