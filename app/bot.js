@@ -16,6 +16,7 @@ bot.prototype =
 			sender = event.sender.id
 			if (event.postback) {
 				//text = JSON.stringify(event.postback)
+				console.log(event.postback)
 				this.getController(event.postback.controller, event)[event.postback.method]();
 				continue
 			}

@@ -36,7 +36,7 @@ reminder.prototype =
 				"buttons": [{
                         "type": "postback",
                         "title": "Set Reminder",
-                        "payload": {'msg': msg, 'controller': 'reminder', 'method': 'setReminder'}
+                        "payload": JSON.stringify({'msg': msg, 'controller': 'reminder', 'method': 'setReminder'})
                     },{
                         "type": "postback",
                         "title": "Share",
@@ -44,7 +44,7 @@ reminder.prototype =
                     }, {
                         "type": "postback",
                         "title": "More",
-                        "payload": {'controller': 'reminder', 'method': 'moreActions'}
+                        "payload": JSON.stringify({'controller': 'reminder', 'method': 'moreActions'})
 				}],
 			}
 		]
