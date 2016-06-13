@@ -64,7 +64,7 @@ bot.prototype =
 		}
 		request({
 			url: 'https://graph.facebook.com/v2.6/me/messages',
-			qs: {access_token:token},
+			qs: {access_token:this.token},
 			method: 'POST',
 			json: {
 				recipient: {id:sender},
@@ -99,7 +99,7 @@ bot.prototype =
 		}
 		request({
 			url: 'https://graph.facebook.com/v2.6/me/messages',
-			qs: {access_token:token},
+			qs: {access_token:this.token},
 			method: 'POST',
 			json: {
 				recipient: {id:sender},
@@ -114,9 +114,12 @@ bot.prototype =
 		})
 	}
 
-
+	, 
 	
-	
+	setToken: function(token)
+	{
+		this.token = token
+	}
 	
 	
 	
