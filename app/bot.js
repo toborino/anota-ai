@@ -18,7 +18,7 @@ bot.prototype =
 				//text = JSON.stringify(event.postback)
 				console.log(event.postback.payload)
 				var payload = JSON.parse(event.postback.payload)
-				this.getController(postback.controller, event)[payload.method]();
+				this.getController(payload.controller, event)[payload.method]();
 				continue
 			}
 			
