@@ -34,6 +34,7 @@ bot.prototype =
 			else
 			{
 				console.log(event)
+				this.res.send('')
 				this.res.sendStatus(200)
 			}
 			
