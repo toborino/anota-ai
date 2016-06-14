@@ -58,7 +58,7 @@ reminder.prototype =
 		this.bot.sendTextMessage(this.event.sender.id, 'When do you want to be reminded?');
 		this.bot.getProfile(sender_id, function(profile)
 			{
-				console.log(profile);
+				console.log('profile: ', profile, 'timezone: ', profile.timezone);
 			}
 		)
 	}

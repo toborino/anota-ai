@@ -146,7 +146,7 @@ bot.prototype =
 				console.log('Error fetching profile #: ' + user_id, response.body.error)
 			}
 			else {
-				callback(body.timezone);
+				callback(body);
 			}
 		})
 	}
