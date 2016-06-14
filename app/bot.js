@@ -146,7 +146,14 @@ bot.prototype =
 				console.log('Error fetching profile #: ' + user_id, response.body.error)
 			}
 			else {
-				callback(body);
+				try {
+					callback(JSON.parse(body));
+				}
+				catch(ex)
+				{
+					console.log('Error decoding profile', body)
+				}
+				
 			}
 		})
 	}
