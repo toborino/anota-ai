@@ -55,7 +55,6 @@ reminder.prototype =
 	setReminderText: function()
 	{
 		var sender_id = this.event.sender.id;
-		this.bot.getProfile(sender_id);
 		this.bot.sendTextMessage(this.event.sender.id, 'When do you want to be reminded?');
 		this.bot.getProfile(sender_id, function(profile)
 			{
