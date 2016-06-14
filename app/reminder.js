@@ -22,8 +22,6 @@ reminder.prototype =
 			//this.bot.res.send('Please use a #hashtag to assign a topic')
 			this.bot.sendTextMessage(this.event.sender.id, 'Please use a #hashtag to assign a topic')
 			console.log('missing hashtag: ' + msg)
-			this.bot.res.send('ok')
-			return
 		}
 
 		console.log('adding a reminder with hashtag "' + topic + '"')
@@ -36,7 +34,7 @@ reminder.prototype =
 				"buttons": [{
                         "type": "postback",
                         "title": "Set Reminder",
-                        "payload": JSON.stringify({'msg': msg, 'controller': 'reminder', 'method': 'setReminder'})
+                        "payload": JSON.stringify({'msg': msg, 'controller': 'reminder', 'method': 'setReminderText'})
                     },{
                         "type": "postback",
                         "title": "Share",
@@ -50,15 +48,20 @@ reminder.prototype =
 		]
 		
 		this.bot.sendGenericMessage(this.event.sender.id, elements)
-		this.bot.res.send('ok')
 	}
 	
 	,
 	
-	setReminder: function()
+	setReminderText: function()
 	{
-		this.bot.sendTextMessage(this.event.sender.id, 'reminder set: ' + this.event.postback.payload.msg)
-		this.bot.res.send('ok')
+		var sender_id = this.event.sender.id;
+		this.bot.getProfile(sender_id);
+		this.bot.sendTextMessage(this.event.sender.id, 'When do you want to be reminded?');
+		this.bot.getProfile(sender_id, function(profile)
+			{
+				console.log(profile);
+			}
+		)
 	}
 	,
 	getTopic: function(msg)

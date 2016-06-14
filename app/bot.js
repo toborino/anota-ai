@@ -36,11 +36,13 @@ bot.prototype =
 			else
 			{
 				console.log(event)
-				this.res.send('ok')
 			}
 			
 		}
-		//res.sendStatus(200)
+		if(!this.res.headerSent)
+		{
+			this.res.send('ok')
+		}
 		
 	}
 	
@@ -129,7 +131,25 @@ bot.prototype =
 	}
 	
 	
-	
+	,
+	getProfile: function(user_id, callback)
+	{
+		request({
+			url: 'https://graph.facebook.com/v2.6/' + user_id,
+			qs: {'fields': 'first_name,last_name,profile_pic,locale,timezone,gender', 'access_token':this.token},
+			method: 'GET',
+		}, function(error, response, body) {
+			console.log('fetch profile: ', body)
+			if (error) {
+				console.log('Error fetching profile #: ' + user_id, error)
+			} else if (response.body.error) {
+				console.log('Error fetching profile #: ' + user_id, response.body.error)
+			}
+			else {
+				callback(body.timezone);
+			}
+		})
+	}
 	
 }
 
