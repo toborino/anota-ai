@@ -43,7 +43,7 @@ reminder.prototype =
 					request({
 						url: 'https://www.functions-online.com/js/execute.php?fuid=11',
 						qs: {'time': _time, 'now': '', 'submit': 'run'},
-						method: 'POST',*
+						method: 'POST',
 					}, function(error, response, body) {
 						if (! error && !response.body.error && body) {
 							var results = body.match(/<textarea.*?>(\d*)<\/textarea>/);
