@@ -135,7 +135,7 @@ reminder.prototype =
 				{
 					console.log(err);
 				}
-				console.log('AFTER INERT NOTE', result.rows)
+				console.log('AFTER INERT NOTE', result)
 				if(result && result.rows && result.rows.length)
 				{
 					var note_id = result.rows[0].id;
