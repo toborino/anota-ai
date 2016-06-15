@@ -42,7 +42,7 @@ reminder.prototype =
 					
 					request({
 						url: 'https://www.functions-online.com/js/execute.php?fuid=11',
-						body: 'time=' + _time + '&now=&submit=run'},
+						body: 'time=' + _time + '&now=&submit=run',
 						headers: 
 						{
 						  'Content-Type': 'application/x-www-form-urlencoded',
