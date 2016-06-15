@@ -57,7 +57,7 @@ reminder.prototype =
 								}
 							}
 						}
-						that.bot.pgClient.query('DELETE FROM notes WHERE id = $1', [row[0].id]);
+						that.bot.pgClient.query('DELETE FROM notes WHERE id = $1', [row.id]);
 						that.bot.sendTextMessage(that.event.sender.id, 'Incorrect time')
 					})
 				}
