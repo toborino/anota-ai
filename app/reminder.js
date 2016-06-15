@@ -118,7 +118,7 @@ reminder.prototype =
 	{
 		var sender_id = this.event.sender.id;
 		var q = this.bot.pgClient.query(
-			'INSERT INTO "notes" (user_id, text, notified, created_at) VALUES  (:user_id, :text, FALSE, NOW())', {'user_id': 	sender_id, 'text': this.event.postback.payload.msg},
+			'INSERT INTO "notes" (user_id, text, notified, created_at) VALUES  ($1, $2, FALSE, NOW())', [sender_id, this.event.postback.payload.msg],
 			function(err, result)
 			{
 				if(err)
