@@ -1,5 +1,6 @@
 var request = require('request')
-					
+var dateformat = require('dateformat')
+
 var reminder = function(bot, event)
 {
 	this.bot = bot
@@ -18,7 +19,7 @@ reminder.prototype =
 	prompt: function(msg)
 	{
 		var d = new Date(new Date - 10 * 60000);
-		var created_at = require('dateformat')(d, 'yyyy-mm-dd H:MM:00');
+		var created_at = dateformat(d, 'yyyy-mm-dd H:MM:00');
 		var that = this;
 		var query = this.bot.pgClient.query(
 			'SELECT * FROM "notes" WHERE user_id = $1 AND created_at > $2 AND reminder_at IS NULL', [this.event.sender.id, created_at]
@@ -56,12 +57,12 @@ reminder.prototype =
 						if (! error && !response.body.error && body) {
 							console.log(error, body);
 							var results = body.match(/<textarea.*?>(\d*)<\/textarea>/);
-							console.log(results);
+							
 							if(results && results[1])
 							{
 								if(results[1] > (new Date).getTime() / 1000)
 								{
-									that.bot.pgClient.query('UPDATE notes SET reminder_at = $2 WHERE id = $1', [row.id, results[1]]);
+									that.bot.pgClient.query('UPDATE notes SET reminder_at = abstime($2) WHERE id = $1', [row.id, _formatted_time]);
 									that.bot.sendTextMessage(that.event.sender.id, 'Reminder set, we will alert you')
 									return;
 								}
