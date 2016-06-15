@@ -52,7 +52,7 @@ reminder.prototype =
 						},
 						method: 'POST',
 					}, function(error, response, body) {
-						console.log(error, response, body, _time);
+						console.log(error, body, _time);
 						if (! error && !response.body.error && body) {
 							console.log(error, body);
 							var results = body.match(/<textarea.*?>(\d*)<\/textarea>/);
