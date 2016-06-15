@@ -62,7 +62,7 @@ reminder.prototype =
 							{
 								if(results[1] > (new Date).getTime() / 1000)
 								{
-									that.bot.pgClient.query('UPDATE notes SET reminder_at = abstime($2) WHERE id = $1', [row.id, _formatted_time]);
+									that.bot.pgClient.query('UPDATE notes SET reminder_at = abstime($2) WHERE id = $1', [row.id, results[1]]);
 									that.bot.sendTextMessage(that.event.sender.id, 'Reminder set, we will alert you')
 									return;
 								}
