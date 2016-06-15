@@ -5,6 +5,7 @@ var bot = function(req, res)
 {
 	this.req = req
 	this.res = res
+	this.pgClient = require('./db.js')
 }
 
 bot.prototype = 

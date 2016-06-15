@@ -1,3 +1,5 @@
+var request = require('request')
+					
 var reminder = function(bot, event)
 {
 	this.bot = bot
@@ -15,7 +17,53 @@ reminder.prototype =
 	
 	prompt: function(msg)
 	{
-		var topic = this.getTopic(msg)
+		var d = new Date(new Date - 10 * 60000);
+		var created_at = require('dateformat')(d, 'yyyy-mm-dd H:MM:00');
+		var that = this;
+		var query = this.bot.pgClient.query(
+			'SELECT * FROM "notes" WHERE user_id = :user_id AND created_at > :created_at AND reminder_at IS NULL', {'user_id': this.event.sender.id, 'created_at': created_at}
+			, function (err, result) {
+				if(result.rows.length > 0)
+				{
+					var row = result.rows[0]
+					var _time = msg.replace(/\bat\b/g, '').replace(/\bon\b/g, '');
+
+					request({
+						url: 'https://www.functions-online.com/js/execute.php?fuid=11',
+						qs: {'time': _time, 'now': '', 'submit': 'run'},
+						method: 'POST',
+					}, function(error, response, body) {
+						if (! error && !response.body.error && body) {
+							var results = body.match(/<textarea.*?>(\d*)<\/textarea>/);
+							if(results && results[1])
+							{
+								if(results[1] > (new Date).getTime() / 1000)
+								{
+									that.bot.pgClient.query('UPDATE notes SET reminder_at = :reminder_at WHERE id = :id', {'id': row[0].id, 'reminder_at': results[1]});
+									that.bot.sendTextMessage(that.event.sender.id, 'Reminder set, we will alert you')
+									return;
+								}
+							}
+						}
+						that.bot.pgClient.query('DELETE FROM notes WHERE id = :id', {'id': row[0].id});
+						that.bot.sendTextMessage(that.event.sender.id, 'Incorrect time')
+					})
+				}
+				else
+				{
+					that.acceptMessage(msg);
+				}				
+			}
+		 )
+
+	}
+	
+	,
+	
+	
+	acceptMessage: function(msg)
+	{
+		var topic = this.getTopic(msg);
 		if(!topic)
 		{
 
@@ -51,15 +99,21 @@ reminder.prototype =
 	}
 	
 	,
+	matchTimeInput: function()
+	{
+
+	}
+	,
 	
 	setReminderText: function()
 	{
 		var sender_id = this.event.sender.id;
+		var q = this.bot.pgClient.query('INSERT INTO "notes" (user_id, text, notified, created_at) VALUES  (:user_id, :text, FALSE, NOW())', {'user_id': 	user_id, 'text': this.event.postback.payload.msg});
+		
 		this.bot.sendTextMessage(this.event.sender.id, 'When do you want to be reminded?');
 		this.bot.getProfile(sender_id, function(profile)
 			{
-				var pgClient = require('./db.js');
-				var query = pgClient.query('CREATE TABLE items(id SERIAL PRIMARY KEY, text VARCHAR(40) not null, complete BOOLEAN)');
+				
 			}
 		)
 	}

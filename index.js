@@ -11,26 +11,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 app.get('/', function (req, res) {
-	var pgClient = require('./app/db.js');
-	var query = pgClient.query('CREATE TABLE notes(id SERIAL PRIMARY KEY, user_id bigint , text VARCHAR(250), reminder_at timestamp, notified BOOLEAN, created_at timestamp )');
-	query.on('end', function()
-		{
-			pgClient.query('CREATE INDEX ON notes (user_id)');
-		}
-	)
-//	var exec = require('child_process').exec;
-//	var cmd = 'php -r "echo date(\'e\');"';
-
-/*
-	exec(cmd, function(error, stdout, stderr) {
-		console.log(error);
-		console.log(stdout);
-		console.log(stderr);
-		res.send(error, stdout, stderr);
-		// command output is in stdout
-	});
-*/ 
-    
+	
 })
 
 
