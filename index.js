@@ -14,7 +14,7 @@ app.get('/', function (req, res) {
 	var pgClient = require('bot/db.js');
 //	var query = pgClient.query('CREATE TABLE notes(id SERIAL PRIMARY KEY, user_id, text VARCHAR(250) not null, time, notified BOOLEAN, created_at)');
 	var exec = require('child_process').exec;
-	var cmd = 'prince -v builds/pdf/book.html -o builds/pdf/book.pdf';
+	var cmd = 'php -r "echo date(\'e\');"';
 
 	exec(cmd, function(error, stdout, stderr) {
 		res.send(error, stdout, stderr);
