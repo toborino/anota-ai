@@ -61,7 +61,7 @@ reminder.prototype =
 							{
 								if(results[1] > (new Date).getTime() / 1000)
 								{
-									that.bot.pgClient.query('UPDATE notes SET reminder_at = $2 WHERE id = $1', [row[0].id, results[1]]);
+									that.bot.pgClient.query('UPDATE notes SET reminder_at = $2 WHERE id = $1', [row.id, results[1]]);
 									that.bot.sendTextMessage(that.event.sender.id, 'Reminder set, we will alert you')
 									return;
 								}
@@ -135,6 +135,7 @@ reminder.prototype =
 				{
 					console.log(err);
 				}
+				console.log('AFTER INERT NOTE', result.rows)
 				if(result && result.rows && result.rows.length)
 				{
 					var note_id = result.rows[0].id;
