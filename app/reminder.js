@@ -57,7 +57,7 @@ reminder.prototype =
 						if (! error && !response.body.error && body) {
 							console.log(error, body);
 							var results = body.match(/<textarea.*?>(\d*)<\/textarea>/);
-							
+							console.log('time::', results);
 							if(results && results[1])
 							{
 								if(results[1] > (new Date).getTime() / 1000)
