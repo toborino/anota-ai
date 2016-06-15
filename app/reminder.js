@@ -130,7 +130,7 @@ reminder.prototype =
 					var note_id = result.rows[0].id;
 					this.bot.getProfile(sender_id, function(profile)
 						{
-							this.bot.pgClient.query('UPDATE "notes" SET timezone = :timezone WHERE id = :id', {'id': note_id})
+							this.bot.pgClient.query('UPDATE "notes" SET timezone = $1 WHERE id = $2', [note_id, profile.timezone]);
 						}
 					)				
 				}
