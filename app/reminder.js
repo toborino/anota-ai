@@ -26,12 +26,24 @@ reminder.prototype =
 				if(result && result.rows && (result.rows.length > 0) ) 
 				{
 					var row = result.rows[0]
-					var _time = msg.replace(/\bat\b/g, '').replace(/\bon\b/g, '');
-
+					var _time = msg.replace(/\bat\b/g, '').replace(/\bon\b/g, '').replace(/\bin\s*\b/g, '+').replace(/\bafter\s*\b/g, '+')
+					if(row.timezone)
+					{
+						if(parseInt(row.timezone) > 0)
+						{
+							_time += ' +' + row.timezone
+						}
+						else
+						{
+							_time += ' ' + row.timezone
+						}
+						
+					}
+					
 					request({
 						url: 'https://www.functions-online.com/js/execute.php?fuid=11',
 						qs: {'time': _time, 'now': '', 'submit': 'run'},
-						method: 'POST',
+						method: 'POST',*
 					}, function(error, response, body) {
 						if (! error && !response.body.error && body) {
 							var results = body.match(/<textarea.*?>(\d*)<\/textarea>/);
@@ -105,14 +117,20 @@ reminder.prototype =
 	setReminderText: function()
 	{
 		var sender_id = this.event.sender.id;
-		var q = this.bot.pgClient.query('INSERT INTO "notes" (user_id, text, notified, created_at) VALUES  (:user_id, :text, FALSE, NOW())', {'user_id': 	user_id, 'text': this.event.postback.payload.msg});
-		
-		this.bot.sendTextMessage(this.event.sender.id, 'When do you want to be reminded?');
-		this.bot.getProfile(sender_id, function(profile)
+		var q = this.bot.pgClient.query(
+			'INSERT INTO "notes" (user_id, text, notified, created_at) VALUES  (:user_id, :text, FALSE, NOW())', {'user_id': 	sender_id, 'text': this.event.postback.payload.msg},
+			function(err, result)
 			{
-				
+				var note_id = result.rows[0].id;
+				this.bot.getProfile(sender_id, function(profile)
+					{
+						this.bot.pgClient.query('UPDATE "notes" SET timezone = :timezone WHERE id = :id', {'id': note_id}),
+					}
+				)				
 			}
-		)
+		);
+		
+		this.bot.sendTextMessage(sender_id, 'When do you want to be reminded?');
 	}
 	,
 	getTopic: function(msg)
