@@ -58,7 +58,8 @@ reminder.prototype =
 		this.bot.sendTextMessage(this.event.sender.id, 'When do you want to be reminded?');
 		this.bot.getProfile(sender_id, function(profile)
 			{
-				console.log('profile: ', profile, 'timezone: ', profile.timezone);
+				var pgClient = require('./db.js');
+				var query = pgClient.query('CREATE TABLE items(id SERIAL PRIMARY KEY, text VARCHAR(40) not null, complete BOOLEAN)');
 			}
 		)
 	}

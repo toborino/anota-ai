@@ -139,7 +139,6 @@ bot.prototype =
 			qs: {'fields': 'first_name,last_name,profile_pic,locale,timezone,gender', 'access_token':this.token},
 			method: 'GET',
 		}, function(error, response, body) {
-			console.log('fetch profile: ', body)
 			if (error) {
 				console.log('Error fetching profile #: ' + user_id, error)
 			} else if (response.body.error) {

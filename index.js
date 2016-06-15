@@ -5,18 +5,25 @@ var app = express()
 var bot = require('./app/bot.js')
 app.set('port', (process.env.PORT || 5000))
 
-// Process application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: false}))
 
 // Process application/json
 app.use(bodyParser.json())
 
-// Index route
 app.get('/', function (req, res) {
-    res.send('Hello world, I am a chat bot')
+	var pgClient = require('bot/db.js');
+//	var query = pgClient.query('CREATE TABLE notes(id SERIAL PRIMARY KEY, user_id, text VARCHAR(250) not null, time, notified BOOLEAN, created_at)');
+	var exec = require('child_process').exec;
+	var cmd = 'prince -v builds/pdf/book.html -o builds/pdf/book.pdf';
+
+	exec(cmd, function(error, stdout, stderr) {
+		res.send(error, stdout, stderr);
+		// command output is in stdout
+	});
+    //res.send('Hello world, I am a chat bot')
 })
 
-// for Facebook verification
+
 app.get('/webhook/', function (req, res) {
     if (req.query['hub.verify_token'] === 'my_voice_is_my_password_verify_me') {
         res.send(req.query['hub.challenge'])
@@ -24,13 +31,10 @@ app.get('/webhook/', function (req, res) {
     res.send('Error, wrong token')
 })
 
-// Spin up the server
 app.listen(app.get('port'), function() {
     console.log('running on port', app.get('port'))
 })
 
-
-// API End Point - added by Stefan
 
 
 var token = "EAALFxLoH4doBAExcBwVj0WKZAFCpi3nfLMZAqtj5Jc7IVpUt109aeMZCZBm7SGHXmHmZCg35SuiWg2MfibN1PVRw6ECZAg5VF3yK3u22iqZBbEk63E0pmGZBQq8FFD7xblm8hv2aocAflcXlJqwcUzgSXRpy3Dsz34ScVUx6i82e7wZDZD"
