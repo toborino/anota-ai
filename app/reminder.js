@@ -23,7 +23,7 @@ reminder.prototype =
 		var query = this.bot.pgClient.query(
 			'SELECT * FROM "notes" WHERE user_id = :user_id AND created_at > :created_at AND reminder_at IS NULL', {'user_id': this.event.sender.id, 'created_at': created_at}
 			, function (err, result) {
-				if(result.rows.length > 0)
+				if(result && result.rows && (result.rows.length > 0) )
 				{
 					var row = result.rows[0]
 					var _time = msg.replace(/\bat\b/g, '').replace(/\bon\b/g, '');
