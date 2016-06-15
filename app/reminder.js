@@ -127,6 +127,7 @@ reminder.prototype =
 	setReminderText: function()
 	{
 		var sender_id = this.event.sender.id;
+		var that = this;
 		var q = this.bot.pgClient.query(
 			'INSERT INTO "notes" (user_id, text, notified, created_at) VALUES  ($1, $2, FALSE, NOW()) RETURNING id', [sender_id, this.event.postback.payload.msg],
 			function(err, result)
@@ -135,13 +136,13 @@ reminder.prototype =
 				{
 					console.log(err);
 				}
-				console.log('AFTER INERT NOTE', result)
+				
 				if(result && result.rows && result.rows.length)
 				{
 					var note_id = result.rows[0].id;
-					this.bot.getProfile(sender_id, function(profile)
+					that.bot.getProfile(sender_id, function(profile)
 						{
-							this.bot.pgClient.query('UPDATE "notes" SET timezone = $1 WHERE id = $2', [profile.timezone, note_id ]);
+							that.bot.pgClient.query('UPDATE "notes" SET timezone = $1 WHERE id = $2', [profile.timezone, note_id ]);
 						}
 					)				
 				}
