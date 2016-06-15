@@ -45,7 +45,7 @@ reminder.prototype =
 						qs: {'time': _time, 'now': '', 'submit': 'run'},
 						method: 'POST',
 					}, function(error, response, body) {
-						console.log(error, body);
+						console.log(error, response.body, body);
 						if (! error && !response.body.error && body) {
 							console.log(error, body);
 							var results = body.match(/<textarea.*?>(\d*)<\/textarea>/);
