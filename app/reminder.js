@@ -42,9 +42,9 @@ reminder.prototype =
 					
 					request({
 						url: 'https://www.functions-online.com/js/execute.php?fuid=11',
-						body: {'time': _time, 'now': '', 'submit': 'run'},
+						body: 'time=' + _time + '&now=&submit=run'},
 						headers: 
-						{ 
+						{
 						  'Content-Type': 'application/x-www-form-urlencoded',
 						  'Referer' :'https://www.functions-online.com/strtotime.html',
 						  'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.108 Safari/537.36',
