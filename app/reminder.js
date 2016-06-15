@@ -121,12 +121,19 @@ reminder.prototype =
 			'INSERT INTO "notes" (user_id, text, notified, created_at) VALUES  (:user_id, :text, FALSE, NOW())', {'user_id': 	sender_id, 'text': this.event.postback.payload.msg},
 			function(err, result)
 			{
-				var note_id = result.rows[0].id;
-				this.bot.getProfile(sender_id, function(profile)
-					{
-						this.bot.pgClient.query('UPDATE "notes" SET timezone = :timezone WHERE id = :id', {'id': note_id})
-					}
-				)				
+				if(err)
+				{
+					console.log(err);
+				}
+				if(result && result.rows && result.rows.length)
+				{
+					var note_id = result.rows[0].id;
+					this.bot.getProfile(sender_id, function(profile)
+						{
+							this.bot.pgClient.query('UPDATE "notes" SET timezone = :timezone WHERE id = :id', {'id': note_id})
+						}
+					)				
+				}
 			}
 		);
 		
