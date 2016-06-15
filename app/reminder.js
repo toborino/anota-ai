@@ -21,7 +21,7 @@ reminder.prototype =
 		var created_at = require('dateformat')(d, 'yyyy-mm-dd H:MM:00');
 		var that = this;
 		var query = this.bot.pgClient.query(
-			'SELECT * FROM "notes" WHERE user_id = :user_id AND created_at > :created_at AND reminder_at IS NULL', {'user_id': this.event.sender.id, 'created_at': created_at}
+			'SELECT * FROM "notes" WHERE user_id = $1 AND created_at > $2 AND reminder_at IS NULL', [this.event.sender.id, created_at]
 			, function (err, result) {
 				if(result && result.rows && (result.rows.length > 0) ) 
 				{
@@ -51,13 +51,13 @@ reminder.prototype =
 							{
 								if(results[1] > (new Date).getTime() / 1000)
 								{
-									that.bot.pgClient.query('UPDATE notes SET reminder_at = :reminder_at WHERE id = :id', {'id': row[0].id, 'reminder_at': results[1]});
+									that.bot.pgClient.query('UPDATE notes SET reminder_at = $2 WHERE id = $1', [row[0].id, results[1]]);
 									that.bot.sendTextMessage(that.event.sender.id, 'Reminder set, we will alert you')
 									return;
 								}
 							}
 						}
-						that.bot.pgClient.query('DELETE FROM notes WHERE id = :id', {'id': row[0].id});
+						that.bot.pgClient.query('DELETE FROM notes WHERE id = $1', [row[0].id]);
 						that.bot.sendTextMessage(that.event.sender.id, 'Incorrect time')
 					})
 				}
@@ -130,7 +130,7 @@ reminder.prototype =
 					var note_id = result.rows[0].id;
 					this.bot.getProfile(sender_id, function(profile)
 						{
-							this.bot.pgClient.query('UPDATE "notes" SET timezone = $1 WHERE id = $2', [note_id, profile.timezone]);
+							this.bot.pgClient.query('UPDATE "notes" SET timezone = $1 WHERE id = $2', [profile.timezone, note_id ]);
 						}
 					)				
 				}
