@@ -45,8 +45,11 @@ reminder.prototype =
 						qs: {'time': _time, 'now': '', 'submit': 'run'},
 						method: 'POST',
 					}, function(error, response, body) {
+						console.log(error, body);
 						if (! error && !response.body.error && body) {
+							console.log(error, body);
 							var results = body.match(/<textarea.*?>(\d*)<\/textarea>/);
+							console.log(results);
 							if(results && results[1])
 							{
 								if(results[1] > (new Date).getTime() / 1000)
