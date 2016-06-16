@@ -30,6 +30,7 @@ reminder.prototype =
 					var _time = msg.replace(/\bat\b/g, '').replace(/\bon\b/g, '').replace(/\bin\s*\b/g, '+').replace(/\bafter\s*\b/g, '+')
 					if(row.timezone)
 					{
+						/*
 						if(parseInt(row.timezone) > 0)
 						{
 							_time += ' +' + row.timezone
@@ -38,7 +39,9 @@ reminder.prototype =
 						{
 							_time += ' ' + row.timezone
 						}
+						*/
 					}
+					
 					request({
 						url: 'https://www.functions-online.com/js/execute.php?fuid=11',
 						body: 'time=' + encodeURIComponent(_time) + '&now=&submit=run',

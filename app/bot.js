@@ -1,5 +1,6 @@
 var reminder = require('./reminder.js')
 var request = require('request')
+var dateformat = require('dateformat')
 
 var bot = function(req, res)
 {
@@ -93,7 +94,17 @@ bot.prototype =
 	
 	
 	
+	sendReminders: function()
+	{
+		var that = this;
+		that.pgClient.query('SELECT * FROM "notes" WHERE notified = FALSE AND reminder_at IS NOT NULL AND reminder_at <= ' + dateformat(new Data(), 'yyyy-mm-dd H:MM:00')).on('row', function(row) {
+			console.log('reminding: ' , row);
+			that.sendTextMessage(row.user_id, row.text);
+			that.pgClient.query('UPDATE "notes" SET notified = TRUE WHERE id = ' + row.id);
+		});
+	}
 	
+	,
 	
 	
 	
