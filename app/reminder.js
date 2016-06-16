@@ -27,7 +27,7 @@ reminder.prototype =
 				if(result && result.rows && (result.rows.length > 0) ) 
 				{
 					var row = result.rows[0]
-					var _time = msg.replace(/(\b|^)at\b/gi, '').replace(/(\b|^)on\b/gi, '').replace(/(\b|^)in\s*\b/gi, '+').replace(/(\b|^)after\s*\b/gi, '+').replace(/remind\s*me\s*/i, '')
+					var _time = msg.replace(/\bat\b/gi, '').replace(/\bon\b/gi, '').replace(/\bin\s*\b/gi, '+').replace(/\bafter\s*\b/gi, '+').replace(/remind\s*me\s*/i, '')
 					if(row.timezone)
 					{
 						/*
