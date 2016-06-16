@@ -63,7 +63,9 @@ reminder.prototype =
 								{
 									try
 									{
-										that.bot.pgClient.query('UPDATE notes SET reminder_at = abstime($1) WHERE id = $2', [parseInt(results[1]), row.id]);
+										var date = new Date(results[1] * 1000);
+										
+										that.bot.pgClient.query('UPDATE notes SET reminder_at = $1 WHERE id = $2', [dateformat(date, 'yyyy-mm-dd H:MM:00'), row.id]);
 										that.bot.sendTextMessage(that.event.sender.id, 'Reminder set, we will alert you')
 										return
 									}
