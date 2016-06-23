@@ -17,7 +17,7 @@ var timeFormat =
 			var str = timezone.replace('-', '')
 			var pad = "00"
 			var formatted_timezone = pad.substring(0, pad.length - str.length) + str + "00"
-			if(parseInt(row.timezone) > 0)
+			if(parseInt(timezone) > 0)
 			{
 				_time += ' +' + formatted_timezone
 			}
