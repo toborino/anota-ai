@@ -28,7 +28,7 @@ reminder.prototype =
 				if(result && result.rows && (result.rows.length > 0) ) 
 				{
 					var row = result.rows[0]
-					var _time = timeformat.formatTime(msg, row);
+					var _time = timeformat.formatTime(msg, row.timezone);
 
 					
 					request({
