@@ -1,6 +1,6 @@
 var request = require('request')
 var dateformat = require('dateformat')
-var timeformat = require('./timeformat.js')
+var timeformat = require('./timeFormat.js')
 
 var reminder = function(bot, event)
 {
