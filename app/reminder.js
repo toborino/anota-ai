@@ -1,5 +1,6 @@
 var request = require('request')
 var dateformat = require('dateformat')
+var timeformat = require('./timeformat.js')
 
 var reminder = function(bot, event)
 {
@@ -27,20 +28,8 @@ reminder.prototype =
 				if(result && result.rows && (result.rows.length > 0) ) 
 				{
 					var row = result.rows[0]
-					var _time = msg.replace(/\bat\b/gi, '').replace(/\bon\b/gi, '').replace(/\bin\s*\b/gi, '+').replace(/\bafter\s*\b/gi, '+').replace(/remind\s*me\s*/i, '')
-					if(row.timezone)
-					{
-						/*
-						if(parseInt(row.timezone) > 0)
-						{
-							_time += ' +' + row.timezone
-						}
-						else
-						{
-							_time += ' ' + row.timezone
-						}
-						*/
-					}
+					var _time = timeformat.formatTime(msg, row);
+
 					
 					request({
 						url: 'https://www.functions-online.com/js/execute.php?fuid=11',
@@ -67,9 +56,9 @@ reminder.prototype =
 									try
 									{
 										var date = new Date(results[1] * 1000);
-										
+										var intervalString = timeformat.dateIntervalString(date);
 										that.bot.pgClient.query('UPDATE notes SET reminder_at = $1 WHERE id = $2', [dateformat(date, 'yyyy-mm-dd H:MM:00'), row.id]);
-										that.bot.sendTextMessage(that.event.sender.id, 'Reminder set, we will alert you')
+										that.bot.sendTextMessage(that.event.sender.id, 'Reminder set, we will alert you after ' + intervalString)
 										return
 									}
 									catch(ex)
@@ -92,9 +81,8 @@ reminder.prototype =
 
 	}
 	
+	
 	,
-	
-	
 	acceptMessage: function(msg)
 	{
 		var topic = this.getTopic(msg);
