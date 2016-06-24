@@ -1,12 +1,14 @@
 var reminder = require('./reminder.js')
 var request = require('request')
 var dateformat = require('dateformat')
+var config = require('./config.js')
 
 var bot = function(req, res)
 {
 	this.req = req
 	this.res = res
 	this.pgClient = require('./db.js')
+	this.token = config.token
 }
 
 bot.prototype = 
@@ -133,13 +135,6 @@ bot.prototype =
 				console.log('Error: ', response.body.error)
 			}
 		})
-	}
-
-	, 
-	
-	setToken: function(token)
-	{
-		this.token = token
 	}
 	
 	
