@@ -142,6 +142,7 @@ reminder.prototype =
 					var note_id = result.rows[0].id;
 					that.bot.getProfile(sender_id, function(profile)
 						{
+							
 							that.bot.pgClient.query('UPDATE "notes" SET timezone = $1 WHERE id = $2', [profile.timezone, note_id ]);
 						}
 					)				

@@ -1,4 +1,5 @@
 var reminder = require('./reminder.js')
+var reminder = require('./diagnose.js')
 var request = require('request')
 var dateformat = require('dateformat')
 var config = require('./config.js')
@@ -35,7 +36,14 @@ bot.prototype =
 				}
 				sendTextMessage(sender, "parrot: " + text.substring(0, 200))
 				*/
-				this.getController('reminder', event).prompt(event.message.text)
+				if(event.message.text=='/timezone')
+				{
+					this.getController('diagnose', event).prompt(event.message.text)
+				}
+				else
+				{
+					this.getController('reminder', event).prompt(event.message.text)
+				}
 			}
 			else
 			{
@@ -58,6 +66,8 @@ bot.prototype =
 		{
 			case 'reminder':
 				return new reminder(this, event);
+			case 'diagnose':
+				return new diagnose(this, event);
 		}
 		//sendTextMessage(sender, "Postback received: "+text.substring(0, 200), token)
 	}
