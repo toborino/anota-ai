@@ -31,7 +31,12 @@ var timeFormat =
 	}
 
 	,
-	now: function(timezone){
+	now: function(msg, timezone){
+		if(msg.toLowerCase().match(/\b(second|minute|min|hour|day|week|month|year)s?\b/i) != -1)
+		{
+			return '';
+		}
+			
 		return new Date() / 1000 + timezone * 60 * 60;
 	}
 	
