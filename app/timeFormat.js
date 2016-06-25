@@ -31,6 +31,11 @@ var timeFormat =
 	}
 
 	,
+	now: function(timezone){
+		return new Date() / 1000 + timezone * 60 * 60;
+	}
+	
+	,
 	
 	shouldAddTimezone: function(_time)
 	{

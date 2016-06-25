@@ -29,11 +29,11 @@ reminder.prototype =
 				{
 					var row = result.rows[0]
 					var _time = timeformat.formatTime(msg, row.timezone);
+					var _now = timeformat.now(row.timezone);
 
-					
 					request({
 						url: 'https://www.functions-online.com/js/execute.php?fuid=11',
-						body: 'time=' + encodeURIComponent(_time) + '&now=&submit=run',
+						body: 'time=' + encodeURIComponent(_time) + '&now=' + _now + '&submit=run',
 						headers: 
 						{
 						  'Content-Type': 'application/x-www-form-urlencoded',
