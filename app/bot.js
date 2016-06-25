@@ -1,5 +1,5 @@
 var reminder = require('./reminder.js')
-var reminder = require('./diagnose.js')
+var diagnose = require('./diagnose.js')
 var request = require('request')
 var dateformat = require('dateformat')
 var config = require('./config.js')
