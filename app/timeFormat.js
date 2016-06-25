@@ -44,8 +44,9 @@ var timeFormat =
 			(msg.match(/(am|pm)/))
 		)
 			{
-				return new Date() / 1000 + timezone * 60 * 60;
+				return Math.floor(new Date() / 1000 + timezone * 60 * 60);
 			}
+		return '';
 	}
 	
 	,
