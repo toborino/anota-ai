@@ -15,9 +15,15 @@ var bot = function(req, res)
 bot.prototype = 
 {
     webhook : function() {
+		
+			console.log('msg:>>>')
+			console.log(this.req)
+			console.log('<<<done')
+		
 		messaging_events = this.req.body.entry[0].messaging
 		for (i = 0; i < messaging_events.length; i++) {
 			event = this.req.body.entry[0].messaging[i]
+
 			sender = event.sender.id
 			if (event.postback) {
 				//text = JSON.stringify(event.postback)
@@ -36,7 +42,7 @@ bot.prototype =
 				}
 				sendTextMessage(sender, "parrot: " + text.substring(0, 200))
 				*/
-				console.log('msg:>>>', event.message.text, '<<<done');
+				
 				if(event.message.text=='/timezone')
 				{
 					this.getController('diagnose', event).prompt(event.message.text)
