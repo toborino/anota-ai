@@ -36,6 +36,7 @@ bot.prototype =
 				}
 				sendTextMessage(sender, "parrot: " + text.substring(0, 200))
 				*/
+				console.log(event.message.text);
 				if(event.message.text=='/timezone')
 				{
 					this.getController('diagnose', event).prompt(event.message.text)
