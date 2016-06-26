@@ -192,7 +192,7 @@ bot.prototype =
 				if (this.req.method == 'GET')
 				{
 					var fs = require('fs');
-					fs.readFile('./template/timezone.html', 'utf8', function (err, data)
+					fs.readFile(__dirname + '/template/timezone.html', 'utf8', function (err, data)
 						{
 							if(err)
 							{
