@@ -29,7 +29,7 @@ search.prototype = {
 							
 							var row = results.rows[i]
 							var topic = that.getTopic(row.text)
-							console.log(row, topic)
+							console.log(row, topic, topics)
 							if(!topic)
 							{
 								continue;
