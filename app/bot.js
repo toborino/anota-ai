@@ -222,12 +222,13 @@ bot.prototype =
 							{
 								fs.readFile(__dirname + '/template/timezone-set.html', 'utf8', function (err, data)
 									{
+										console.log(err, data)
 										if(err)
 										{
 											that.res.send('Error occured, but we have been notified!')
 											return console.log(err)
 										}
-										that.res.send(data)									
+										that.res.send(data)
 									}
 								)
 							}
