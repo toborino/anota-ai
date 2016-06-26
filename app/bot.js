@@ -210,7 +210,7 @@ bot.prototype =
 					var token = that.req.body.token;
 					var offset = that.req.body.offset;
 					var timezone = require('./timeFormat.js').offsetToTimezone(offset)
-					
+					that.res.send(timezone)					
 					that.getModel('user').updateTimezone(token, timezone, function(err, row)
 						{
 							if(err)
