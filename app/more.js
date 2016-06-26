@@ -16,8 +16,8 @@ more.prototype = {
 			{
 				var elements = [
 					{
-						'title': 'Topic: ' + topic,
-						"subtitle": msg,
+						'title': 'More Options ' 
+						"subtitle": 'What do you want to do?'
 						
 						"buttons": [{
 								"type": "postback",
