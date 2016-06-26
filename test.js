@@ -17,7 +17,8 @@ pgClient.query('INSERT INTO "user_data" (user_id, update_timezone_token, update_
 			{
 				if(err)
 				{
-					that.bot.pgClient.query('UPDATE user_data SET update_timezone_token = $2, expires = $3 WHERE user_id = $1', [user_id, token, dateformat(expiry_date, 'yyyy-mm-dd H:MM:00')]);
+					console.log(err);
+					pgClient.query('UPDATE user_data SET update_timezone_token = $2, expires = $3 WHERE user_id = $1', [user_id, token, dateformat(expiry_date, 'yyyy-mm-dd H:MM:00')]);
 					
 					console.log(err);
 				}
