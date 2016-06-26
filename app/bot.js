@@ -193,15 +193,15 @@ bot.prototype =
 				{
 					var fs = require('fs');
 					fs.read('./template/timezone.html', 'utf8', function (err, data)
-					{
-						if(err)
 						{
-							return console.log(err)
+							if(err)
+							{
+								return console.log(err)
+							}
+							data = data.replace('{{token}}', this.req.query['token']);
+							this.res.send(data)
 						}
-						data = data.replace('{{token}}', this.req.query['token']);
-						this.res.send(data)
-					}
-					
+					)
 				}
 				else
 				{
