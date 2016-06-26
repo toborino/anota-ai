@@ -122,7 +122,7 @@ reminder.prototype =
 			'INSERT INTO "notes" (user_id, text, notified, created_at) VALUES  ($1, $2, FALSE, NOW()) RETURNING id', [sender_id, this.event.postback.payload.msg],
 			function(err, result)
 			{
-				console.log(result.rows.length)
+				
 				if(err)
 				{
 					console.log(err);
