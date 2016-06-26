@@ -1,10 +1,10 @@
-var more =	function(bot, event)
+var search =	function(bot, event)
 {
 	this.bot = bot
 	this.event = event
 }
 
-more.prototype = {
+search.prototype = {
 	
 	prompt: function()
 	{
@@ -33,4 +33,4 @@ more.prototype = {
 }
 
 
-module.export = more
+module.exports = search
