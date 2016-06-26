@@ -86,6 +86,7 @@ reminder.prototype =
 		if(!topic)
 		{
 			this.bot.sendTextMessage(this.event.sender.id, 'Please use a #hashtag to assign a topic')
+			this.bot.getModel('user').expectInput(sender_id, 'reminder.acceptMessage')
 			return;
 		}
 		
