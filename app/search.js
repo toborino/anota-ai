@@ -32,7 +32,7 @@ search.prototype = {
 								continue;
 							}
 							
-							if(typeof(topics[topic]) == 'undefined') )
+							if(typeof(topics[topic]) == 'undefined')
 							{
 								topics[topic] = 1;
 							}
