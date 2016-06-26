@@ -130,13 +130,13 @@ reminder.prototype =
 				{
 					console.log(err);
 					that.bot.getModel('user').expectInput(sender_id, 'reminder.acceptMessage')
-					this.bot.sendTextMessage(sender_id, 'Error occured but we have been notified!');
+					that.bot.sendTextMessage(sender_id, 'Error occured but we have been notified!');
 				}
 				
 				if(result && result.rows && result.rows.length)
 				{
 					that.bot.getModel('user').expectInput(sender_id, 'reminder.setReminderTime')
-					this.bot.sendTextMessage(sender_id, 'When do you want to be reminded?');
+					that.bot.sendTextMessage(sender_id, 'When do you want to be reminded?');
 					var note_id = result.rows[0].id;
 					that.bot.getProfile(sender_id, function(profile)
 						{
