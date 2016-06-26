@@ -221,7 +221,7 @@ bot.prototype =
 							}
 							else
 							{
-								this.sendTextMessage(row.user_id, 'Got it! You are ' + timezone);
+								that.sendTextMessage(row.user_id, 'Got it! You are ' + timezone);
 								require('fs').readFile(__dirname + '/template/timezone-set.html', 'utf8', function (err, data)
 									{
 										console.log(err, data)
