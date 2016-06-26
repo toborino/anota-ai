@@ -72,7 +72,7 @@ user.prototype = {
 					if(result && result.rows && (result.rows.length > 0) ) 
 					{
 						that.bot.pgClient.query('UPDATE "user_data" SET timezone = $1 WHERE user_id = $2;', [timezone, result.rows[0].user_id], 
-							function (err, result)
+							function (err, update_result)
 							{
 								if(err)
 								{
