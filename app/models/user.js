@@ -55,9 +55,11 @@ user.prototype = {
 	,
 	'expectInput': function(user_id, mode)
 	{
+		var that = this
 		this.bot.pgClient.query('INSERT INTO "user_data" (user_id, input_mode) VALUES ($1, $2)', [user_id, mode],
 			function(err, result)
 			{
+				console.log(err, result)
 				if(err && err.code == 23505)
 				{
 					that.bot.pgClient.query('UPDATE user_data SET mode = $2 WHERE user_id = $1', [user_id, mode]);

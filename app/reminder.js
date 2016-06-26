@@ -122,6 +122,7 @@ reminder.prototype =
 			'INSERT INTO "notes" (user_id, text, notified, created_at) VALUES  ($1, $2, FALSE, NOW()) RETURNING id', [sender_id, this.event.postback.payload.msg],
 			function(err, result)
 			{
+				console.log(result.rows.length)
 				if(err)
 				{
 					console.log(err);
@@ -129,7 +130,7 @@ reminder.prototype =
 				
 				if(result && result.rows && result.rows.length)
 				{
-					that.bot.getModel('user').expectInput(that.event.sender.id, 'reminder.setReminderTime')
+					that.bot.getModel('user').expectInput(sender_id, 'reminder.setReminderTime')
 					var note_id = result.rows[0].id;
 					that.bot.getProfile(sender_id, function(profile)
 						{
