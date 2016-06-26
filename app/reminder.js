@@ -58,20 +58,20 @@ reminder.prototype =
 									var intervalString = timeformat.dateIntervalString(date);
 									that.bot.pgClient.query('UPDATE notes SET reminder_at = $1 WHERE id = $2', [dateformat(date, 'yyyy-mm-dd H:MM:00'), row.id]);
 									that.bot.sendTextMessage(that.event.sender.id, 'Reminder set, we will alert you after ' + intervalString)
-									that.bot.getModel('user').expectInput(that.event.sender.id, '')
+									that.bot.getModel('user').expectInput(that.event.sender.id, 'reminder.acceptMessage')
 									return
 								}
 							}
 						}
 						that.bot.pgClient.query('DELETE FROM notes WHERE id = $1', [row.id]);
 						that.bot.sendTextMessage(that.event.sender.id, 'Incorrect time')
-						that.bot.getModel('user').expectInput(that.event.sender.id, '')
+						that.bot.getModel('user').expectInput(that.event.sender.id, 'reminder.acceptMessage')
 					})
 				}
 				else
 				{
-					that.bot.getModel('user').expectInput(that.event.sender.id, '')
 					that.bot.sendTextMessage(that.event.sender.id, 'I could not find a reminder to set time for');
+					that.bot.getModel('user').expectInput(that.event.sender.id, 'reminder.acceptMessage')
 				}				
 			}
 		 )
