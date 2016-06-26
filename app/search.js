@@ -23,7 +23,7 @@ search.prototype = {
 	showReminders: function() 
 	{
 		var that = this;
-		this.bot.pgClient.query('SELECT * FROM notes WHERE user_id = $1 AND notified = FALSE and reminder_at >= $2', [this.event.sender.id, dateformat(new Date, 'yyyy-mm-dd H:MM:00')], 
+		this.bot.pgClient.query('SELECT * FROM notes WHERE user_id = $1 AND notified = FALSE and reminder_at >= $2 ORDER BY reminder_at ASC', [this.event.sender.id, dateformat(new Date, 'yyyy-mm-dd H:MM:00')], 
 			function( err, result)
 			{
 				var elements = [];
@@ -33,7 +33,7 @@ search.prototype = {
 					elements.push(
 						{
 							'title': 'Topic: ' + that.getTopic(row.text),
-							"subtitle": row.text.substring(0, 30),
+							"subtitle": 'at ' + dateformat(row.reminder_at, 'yyyy-mm-dd H:MM') + ': ' + row.text.substring(0, 30),
 							
 							"buttons": [{
 									"type": "postback",
