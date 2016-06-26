@@ -62,7 +62,7 @@ user.prototype = {
 				
 				if(err && err.code == 23505)
 				{
-					that.bot.pgClient.query('UPDATE user_data SET mode = $2 WHERE user_id = $1', [user_id, mode]);
+					that.bot.pgClient.query('UPDATE user_data SET input_mode = $2 WHERE user_id = $1', [user_id, mode]);
 				}
 			}
 		);
