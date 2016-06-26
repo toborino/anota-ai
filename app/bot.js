@@ -213,6 +213,7 @@ bot.prototype =
 					
 					that.getModel('user').updateTimezone(token, timezone, function(err, row)
 						{
+							that.res.send(row.user_id)
 							if(err)
 							{
 								console.log(err);

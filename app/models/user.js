@@ -86,6 +86,10 @@ user.prototype = {
 							}
 						)
 					}
+					else
+					{
+						callback('error occured');
+					}
 				}
 			}
 		)
