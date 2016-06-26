@@ -27,7 +27,7 @@ search.prototype = {
 	,
 	'delete': function()
 	{
-		
+		this.bot.sendTextMessage(this.event.sender.id, 'Nevermind, deleted.');
 	}
 
 }
