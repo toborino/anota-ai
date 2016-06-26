@@ -23,7 +23,7 @@ search.prototype = {
 				{
 					if(results.rows && results.rows.length)
 					{
-						for(var i = 0; i = results.rows.length; i++)
+						for(var i = 0; i < results.rows.length; i++)
 						{
 							var row = results.rows[i]
 							var topic = that.getTopic(row.text)
