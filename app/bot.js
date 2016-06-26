@@ -69,7 +69,7 @@ bot.prototype =
 	
 	getController: function(_controller, event)
 	{
-		var file = require('./' + _controller.replace(/\W/, '') + '.js')
+		var file = './' + _controller.replace(/\W/, '') + '.js'
 		var controller = require(file)
 		return new controller(this, event)
 	}
