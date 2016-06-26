@@ -19,21 +19,28 @@ search.prototype = {
 			var that = this;
 			var topics = {}
 			this.bot.pgClient.query('SELECT text FROM notes WHERE user_id = $1 AND notified = FALSE and reminder_at >= $2 ORDER BY reminder_at ASC', [this.event.sender.id, dateformat(new Date, 'yyyy-mm-dd H:MM:00')], 
-				function( err, result)
+				function( err, results)
 				{
-					var topic = that.getTopic(row.text)
-					if(!topic)
+					if(results.rows && results.rows.length)
 					{
-						continue;
-					}
-					
-					if(typeof(topics[topic]) == 'undefined') )
-					{
-						topics[topic] = 1;
-					}
-					else
-					{
-						topics[topic]++;
+						for(var i = 0; i = results.rows.length; i++)
+						{
+							var row = results.rows[i]
+							var topic = that.getTopic(row.text)
+							if(!topic)
+							{
+								continue;
+							}
+							
+							if(typeof(topics[topic]) == 'undefined') )
+							{
+								topics[topic] = 1;
+							}
+							else
+							{
+								topics[topic]++;
+							}
+						}
 					}
 				}
 			)
