@@ -50,4 +50,4 @@ more.prototype = {
 }
 
 
-module.export = more
+module.exports = more
