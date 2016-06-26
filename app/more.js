@@ -28,10 +28,12 @@ more.prototype = {
 								"title": "See My Topics",
 								"payload": JSON.stringify({'controller': 'search', 'method': 'showTopics'}),
 							}, {
+								/*
 								"type": "postback",
 								"title": "See Reminders",
 								"payload": JSON.stringify({'controller': 'search', 'method': 'showReminders'}),
 							}, {
+								*/
 								"type": "postback",
 								"title": "Delete This Note",
 								"payload": JSON.stringify({'controller': 'search', 'method': 'delete'})
