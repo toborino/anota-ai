@@ -129,7 +129,7 @@ reminder.prototype =
 				
 				if(result && result.rows && result.rows.length)
 				{
-					this.bot.getModel('user').expectInput(that.event.sender.id, 'reminder.setReminderTime')
+					that.bot.getModel('user').expectInput(that.event.sender.id, 'reminder.setReminderTime')
 					var note_id = result.rows[0].id;
 					that.bot.getProfile(sender_id, function(profile)
 						{
