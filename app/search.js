@@ -26,8 +26,10 @@ search.prototype = {
 					{
 						for(var i = 0; i < results.rows.length; i++)
 						{
+							
 							var row = results.rows[i]
 							var topic = that.getTopic(row.text)
+							console.log(row, topic)
 							if(!topic)
 							{
 								continue;
