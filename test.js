@@ -12,12 +12,12 @@ var expiry_date = new Date(new Date().getTime()+(60*60*1000));
 
 var user_id = 1
 
-pgClient.query('INSERT INTO "user_data" (user_id, update_timezone_token, update_timezone_token_expires) VALUES ($1, $2, $3) RETURNING id', [user_id, token, dateformat(date, 'yyyy-mm-dd H:MM:00')],
+pgClient.query('INSERT INTO "user_data" (user_id, update_timezone_token, update_timezone_token_expires) VALUES ($1, $2, $3) RETURNING id', [user_id, token, dateformat(expiry_date, 'yyyy-mm-dd H:MM:00')],
 		function(err, result)
 			{
 				if(err)
 				{
-					that.bot.pgClient.query('UPDATE user_data SET update_timezone_token = $2, expires = $3 WHERE user_id = $1', [user_id, token, dateformat(date, 'yyyy-mm-dd H:MM:00')]);
+					that.bot.pgClient.query('UPDATE user_data SET update_timezone_token = $2, expires = $3 WHERE user_id = $1', [user_id, token, dateformat(expiry_date, 'yyyy-mm-dd H:MM:00')]);
 					
 					console.log(err);
 				}
