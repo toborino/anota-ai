@@ -37,11 +37,11 @@ search.prototype = {
 							
 							"buttons": [{
 									"type": "postback",
-									"title": "Delete",
+									"title": "Delete Note",
 									"payload": JSON.stringify({'note_id': row.id, 'controller': 'reminder', 'method': 'deleteNote'})
 								},{
 									"type": "postback",
-									"title": "Details",
+									"title": "Show Note Details",
 									"payload": JSON.stringify({'note_id': row.id, 'controller': 'search', 'method': 'details'}),
 								}
 							]

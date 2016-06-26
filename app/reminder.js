@@ -17,6 +17,30 @@ reminder.prototype =
 	
 	,
 	
+	
+	
+	deleteNote: function()
+	{
+		var note_id = this.event.postback.payload.note_id;
+		var that = this
+		this.bot.pgClient.query(
+			'DELETE FROM "notes" WHERE id = $1', [note_id],
+			function(err, result) {
+				if(err)
+				{
+					that.bot.sendTextMessage(that.event.sender.id, 'Note was not deleted, please try again')
+				}
+				else
+				{
+					that.bot.sendTextMessage(that.event.sender.id, 'Ok, I deleted this one.')
+				}
+			}
+		)
+		
+	}
+	
+	,
+	
 	setReminderTime: function(msg)
 	{
 		var d = new Date(new Date - 10 * 60000);
