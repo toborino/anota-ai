@@ -186,6 +186,7 @@ bot.prototype =
 	,
 	url: function(path)
 	{
+		var that = this
 		switch(path)
 		{
 			case 'timezone':
@@ -198,8 +199,8 @@ bot.prototype =
 							{
 								return console.log(err)
 							}
-							data = data.replace('{{token}}', this.req.query['token']);
-							this.res.send(data)
+							data = data.replace('{{token}}', that.req.query['token']);
+							that.res.send(data)
 						}
 					)
 				}
