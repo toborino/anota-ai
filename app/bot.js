@@ -159,6 +159,11 @@ bot.prototype =
 	,
 	getProfile: function(user_id, callback)
 	{
+		var that = this;
+		that.pgClient.query('SELECT * FROM "user_data" WHERE user_id = $1', [user_id]).on('row', callback);
+		
+		return;
+		
 		request({
 			url: 'https://graph.facebook.com/v2.6/' + user_id,
 			qs: {'fields': 'first_name,last_name,profile_pic,locale,timezone,gender', 'access_token':this.token},
