@@ -64,6 +64,7 @@ reminder.prototype =
 						}
 						that.bot.pgClient.query('DELETE FROM notes WHERE id = $1', [row.id]);
 						that.bot.sendTextMessage(that.event.sender.id, 'Incorrect time')
+						this.bot.getModel('user').expectInput(that.event.sender.id, '')
 					})
 				}
 				else
