@@ -48,7 +48,14 @@ search.prototype = {
 						}
 					)
 				}
-				that.bot.sendGenericMessage(that.event.sender.id, elements);
+				if(elements.length)
+				{
+					that.bot.sendGenericMessage(that.event.sender.id, elements);
+				}
+				else
+				{
+					that.bot.sendTextMessage(that.event.sender.id, 'Sorry, no reminders.');
+				}
 			}
 		)
 	}
