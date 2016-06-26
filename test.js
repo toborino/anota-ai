@@ -1,4 +1,4 @@
-var pgClient = require('app/db.js')
+var pgClient = require('./app/db.js')
 
 
 var token = "";
