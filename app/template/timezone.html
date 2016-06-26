@@ -8,9 +8,9 @@
 		window.onload = function()
 		{
 			var form = document.getElementById('theForm');
-			var offset = document.getElementsByName('offset')[0];
-			var offset = new Date().getTimezoneOffset();
-			offset.value = offset
+			var offset_input = document.getElementsByName('offset')[0];
+			var timezone_offset = new Date().getTimezoneOffset();
+			offset_input.value = timezone_offset
 			form.submit();
 		}
 	</script>
