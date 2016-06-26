@@ -70,7 +70,7 @@ user.prototype = {
 	
 	'getInputMode': function(user_id, callback)
 	{
-		this.bot.pgClient.query('SELECT input_mode FROM "user_data" WHERE user_id = $1', [this.event.sender.id], 
+		this.bot.pgClient.query('SELECT input_mode FROM "user_data" WHERE user_id = $1', [user_id], 
 			function (err, result)
 			{
 				if(result && result.rows && (result.rows.length > 0) ) 

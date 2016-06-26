@@ -34,7 +34,7 @@ bot.prototype =
 				else
 				{
 					var that = this
-					this.getModel('user').getInputMode(sender, function(mode)
+					that.getModel('user').getInputMode(sender, function(mode)
 						{
 							if(!mode)
 							{
