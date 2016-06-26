@@ -51,7 +51,7 @@ search.prototype = {
 			{
 				elements.push(
 					{
-						'title': topic
+						'title': topic,
 						"subtitle": topics[topic] + ' ' + ( (topics[topic] == 1) ? 'note' : 'notes') + ' in this topic',
 						
 						"buttons": [{
