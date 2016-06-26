@@ -69,8 +69,8 @@ reminder.prototype =
 				}
 				else
 				{
-					this.bot.getModel('user').expectInput(that.event.sender.id, '')
-					this.bot.sendTextMessage(that.event.sender.id, 'I could not find a reminder to set time for');
+					that.bot.getModel('user').expectInput(that.event.sender.id, '')
+					that.bot.sendTextMessage(that.event.sender.id, 'I could not find a reminder to set time for');
 				}				
 			}
 		 )
