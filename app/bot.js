@@ -187,12 +187,13 @@ bot.prototype =
 	url: function(path)
 	{
 		var that = this
+		var fs = require('fs');
 		switch(path)
 		{
 			case 'timezone':
 				if (this.req.method == 'GET')
 				{
-					var fs = require('fs');
+
 					fs.readFile(__dirname + '/template/timezone.html', 'utf8', function (err, data)
 						{
 							if(err)
