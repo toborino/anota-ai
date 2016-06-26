@@ -38,7 +38,7 @@ bot.prototype =
 						{
 							if(!mode)
 							{
-								that.getController('reminder', event).acceptMessage(msg);
+								that.getController('reminder', event).acceptMessage(event.message.text);
 							}
 							else
 							{
@@ -46,7 +46,7 @@ bot.prototype =
 								var controller_name = parts[0]
 								var controller_method = parts[1]
 								
-								that.getController(controller_name, event)[controller_method](msg);
+								that.getController(controller_name, event)[controller_method](event.message.text);
 							}
 						}
 					)
