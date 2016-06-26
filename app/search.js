@@ -16,7 +16,56 @@ search.prototype = {
 	,
 	showTopics: function()
 	{
+			var that = this;
+			var topics = {}
+			this.bot.pgClient.query('SELECT text FROM notes WHERE user_id = $1 AND notified = FALSE and reminder_at >= $2 ORDER BY reminder_at ASC', [this.event.sender.id, dateformat(new Date, 'yyyy-mm-dd H:MM:00')], 
+				function( err, result)
+				{
+					var topic = that.getTopic(row.text)
+					if(!topic)
+					{
+						continue;
+					}
+					
+					if(typeof(topics[topic]) == 'undefined') )
+					{
+						topics[topic] = 1;
+					}
+					else
+					{
+						topics[topic]++;
+					}
+				}
+			)
+			
+
+			var elements = [];
+			for(var topic in topics)
+			{
+				elements.push(
+					{
+						'title': topic
+						"subtitle": topics[topic] + ' ' + ( (topics[topic] == 1) ? 'note' : 'notes') + ' in this topic',
+						
+						"buttons": [{
+								"type": "postback",
+								"title": "List Notes",
+								"payload": JSON.stringify({'topic': topic, 'controller': 'search', 'method': 'showTopic'})
+							}
+						]
+					}
+				)
+			}
+			if(elements.length)
+			{
+				that.bot.sendGenericMessage(that.event.sender.id, elements);
+			}
+			else
+			{
+				that.bot.sendTextMessage(that.event.sender.id, 'Sorry, no reminders.');
+			}
 		
+	
 	}
 	
 	,
