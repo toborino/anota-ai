@@ -28,12 +28,19 @@ more.prototype = {
 								"title": "See My Topics",
 								"payload": JSON.stringify({'controller': 'search', 'method': 'showTopics'}),
 							}, {
-								/*
+								
 								"type": "postback",
 								"title": "See Reminders",
 								"payload": JSON.stringify({'controller': 'search', 'method': 'showReminders'}),
-							}, {
-								*/
+							}
+						]
+					},
+					{
+						'title' 'Advanced',
+						'subtitle' 'Advanced options',
+						
+						'buttons': [{
+								
 								"type": "postback",
 								"title": "Delete This Note",
 								"payload": JSON.stringify({'controller': 'search', 'method': 'delete'})
@@ -41,7 +48,7 @@ more.prototype = {
 								"type": "web_url",
 								"title": "Update Timezone",
 								"url": config.base_url + '/timezone?token=' + token
-						}],
+						}]
 					}
 				]
 				that.bot.sendGenericMessage(that.event.sender.id, elements)
