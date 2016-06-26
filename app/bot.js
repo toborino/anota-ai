@@ -209,17 +209,25 @@ bot.prototype =
 					var token = that.req.body.token;
 					var offset = that.req.body.offset;
 					var timezone = require('./timeFormat.js').offsetToTimezone(offset)
-					that.getModel('user').updateTimezone(token, timezone, function(row)
+					that.getModel('user').updateTimezone(token, timezone, function(err, row)
 						{
-							fs.readFile(__dirname + '/template/timezone-set.html', 'utf8', function (err, data)
-								{
-									if(err)
+							if(err)
+							{
+								console.log(err);
+								that.res.send('Error occured, but we have been notified!')
+							}
+							else
+							{
+								fs.readFile(__dirname + '/template/timezone-set.html', 'utf8', function (err, data)
 									{
-										return console.log(err)
+										if(err)
+										{
+											return console.log(err)
+										}
+										that.res.send(data)									
 									}
-									that.res.send(data)									
-								}
-							)
+								)
+							}
 						}
 					)
 				}
