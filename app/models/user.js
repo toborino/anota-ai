@@ -58,7 +58,7 @@ user.prototype = {
 	'updateTimezone': function(token, timezone, callback)
 	{
 		var that = this
-		this.bot.pgClient.query('SELECT * FROM "user_data" WHERE update_timezone_token = $1 AND update_timezone_token_expires < $2', [token, dateformat(new Date(), 'yyyy-mm-dd H:MM:00')], 
+		this.bot.pgClient.query('SELECT * FROM "user_data" WHERE update_timezone_token = $1 AND update_timezone_token_expires >= $2', [token, dateformat(new Date(), 'yyyy-mm-dd H:MM:00')], 
 			function (err, result)
 			{
 				
@@ -88,7 +88,7 @@ user.prototype = {
 					}
 					else
 					{
-						callback('error occured');
+						// callback('');
 					}
 				}
 			}
