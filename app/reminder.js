@@ -58,6 +58,7 @@ reminder.prototype =
 									var intervalString = timeformat.dateIntervalString(date);
 									that.bot.pgClient.query('UPDATE notes SET reminder_at = $1 WHERE id = $2', [dateformat(date, 'yyyy-mm-dd H:MM:00'), row.id]);
 									that.bot.sendTextMessage(that.event.sender.id, 'Reminder set, we will alert you after ' + intervalString)
+									that.bot.getModel('user').expectInput(that.event.sender.id, '')
 									return
 								}
 							}
