@@ -15,7 +15,7 @@ app.get('/', function (req, res) {
 })
 
 app.get('/timezone', function (req, res) {
-	res.send(req);
+	res.send(req.query['token']);
 })
 
 
