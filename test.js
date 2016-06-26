@@ -15,10 +15,9 @@ var user_id = 1
 pgClient.query('INSERT INTO "user_data" (user_id, update_timezone_token, update_timezone_token_expires) VALUES ($1, $2, $3) RETURNING id', [user_id, token, dateformat(expiry_date, 'yyyy-mm-dd H:MM:00')],
 		function(err, result)
 			{
-				if(err)
+				if(err && err.code == 23505)
 				{
-					console.log(err);
-					pgClient.query('UPDATE user_data SET update_timezone_token = $2, expires = $3 WHERE user_id = $1', [user_id, token, dateformat(expiry_date, 'yyyy-mm-dd H:MM:00')]);
+					pgClient.query('UPDATE user_data SET update_timezone_token = $2, update_timezone_token_expires = $3 WHERE user_id = $1', [user_id, token, dateformat(expiry_date, 'yyyy-mm-dd H:MM:00')]);
 					
 					console.log(err);
 				}

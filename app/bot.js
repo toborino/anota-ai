@@ -1,4 +1,3 @@
-var reminder = require('./reminder.js')
 var diagnose = require('./diagnose.js')
 var request = require('request')
 var dateformat = require('dateformat')
@@ -15,18 +14,12 @@ var bot = function(req, res)
 bot.prototype = 
 {
     webhook : function() {
-		
-			console.log('msg:>>>')
-			console.log(this.req)
-			console.log('<<<done')
-		
 		messaging_events = this.req.body.entry[0].messaging
 		for (i = 0; i < messaging_events.length; i++) {
 			event = this.req.body.entry[0].messaging[i]
 
 			sender = event.sender.id
 			if (event.postback) {
-				//text = JSON.stringify(event.postback)
 				console.log(event.postback.payload)
 				event.postback.payload = JSON.parse(event.postback.payload)
 				this.getController(event.postback.payload.controller, event)[event.postback.payload.method]();
@@ -34,22 +27,29 @@ bot.prototype =
 			}
 			
 			if (event.message && event.message.text) {
-				/*
-				text = event.message.text
-				if (text === 'hi') {
-					sendGenericMessage(sender)
-					continue
-				}
-				sendTextMessage(sender, "parrot: " + text.substring(0, 200))
-				*/
-				
 				if(event.message.text=='/timezone')
 				{
 					this.getController('diagnose', event).prompt(event.message.text)
 				}
 				else
 				{
-					this.getController('reminder', event).prompt(event.message.text)
+					var that = this
+					this.getModel('user').getInputMode(sender, function(mode)
+						{
+							if(!mode)
+							{
+								that.getController('reminder', event).acceptMessage(msg);
+							}
+							else
+							{
+								var parts = mode.split('.');
+								var controller_name = parts[0]
+								var controller_method = parts[1]
+								
+								that.getController(controller_name, event)[controller_method](msg);
+							}
+						}
+					)
 				}
 			}
 			else
@@ -69,17 +69,20 @@ bot.prototype =
 	
 	getController: function(_controller, event)
 	{
-		switch(_controller)
-		{
-			case 'reminder':
-				return new reminder(this, event);
-			case 'diagnose':
-				return new diagnose(this, event);
-		}
-		//sendTextMessage(sender, "Postback received: "+text.substring(0, 200), token)
+		var file = require('./' + _controller.replace(/\W/, '') + '.js')
+		var controller = require(file)
+		return new controller(this, event)
 	}
 	,
 	
+	getModel: function(model)
+	{
+		var file = './models/' + model.replace(/[\W]/, '') + '.js';
+		var model = require(file)
+		return new model(this)
+	}
+	,
+		
 	test: function()
 	{
 		this.webhook()

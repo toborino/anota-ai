@@ -17,13 +17,13 @@ reminder.prototype =
 	
 	,
 	
-	prompt: function(msg)
+	setReminderTime: function(msg)
 	{
 		var d = new Date(new Date - 10 * 60000);
 		var created_at = dateformat(d, 'yyyy-mm-dd H:MM:00');
 		var that = this;
 		var query = this.bot.pgClient.query(
-			'SELECT * FROM "notes" WHERE user_id = $1 AND created_at > $2 AND reminder_at IS NULL', [this.event.sender.id, created_at]
+			'SELECT * FROM "notes" WHERE user_id = $1 AND created_at > $2 AND reminder_at IS NULL ORDER BY id DESC LIMIT 1', [this.event.sender.id, created_at]
 			, function (err, result) {
 				if(result && result.rows && (result.rows.length > 0) ) 
 				{
@@ -53,18 +53,12 @@ reminder.prototype =
 							{
 								if(results[1] > (new Date).getTime() / 1000)
 								{
-									try
-									{
-										var date = new Date(results[1] * 1000);
-										var intervalString = timeformat.dateIntervalString(date);
-										that.bot.pgClient.query('UPDATE notes SET reminder_at = $1 WHERE id = $2', [dateformat(date, 'yyyy-mm-dd H:MM:00'), row.id]);
-										that.bot.sendTextMessage(that.event.sender.id, 'Reminder set, we will alert you after ' + intervalString)
-										return
-									}
-									catch(ex)
-									{
-										console.log('error in query: ', ex)
-									}
+
+									var date = new Date(results[1] * 1000);
+									var intervalString = timeformat.dateIntervalString(date);
+									that.bot.pgClient.query('UPDATE notes SET reminder_at = $1 WHERE id = $2', [dateformat(date, 'yyyy-mm-dd H:MM:00'), row.id]);
+									that.bot.sendTextMessage(that.event.sender.id, 'Reminder set, we will alert you after ' + intervalString)
+									return
 								}
 							}
 						}
@@ -74,7 +68,8 @@ reminder.prototype =
 				}
 				else
 				{
-					that.acceptMessage(msg);
+					this.bot.getModel('user').expectInput(that.event.sender.id, '')
+					this.bot.sendTextMessage(that.event.sender.id, 'I could not find a reminder to set time for');
 				}				
 			}
 		 )
@@ -109,7 +104,7 @@ reminder.prototype =
                     }, {
                         "type": "postback",
                         "title": "More",
-                        "payload": JSON.stringify({'controller': 'reminder', 'method': 'moreActions'})
+                        "payload": JSON.stringify({'controller': 'more', 'method': 'showMore'})
 				}],
 			}
 		]
@@ -117,11 +112,6 @@ reminder.prototype =
 		this.bot.sendGenericMessage(this.event.sender.id, elements)
 	}
 	
-	,
-	matchTimeInput: function()
-	{
-
-	}
 	,
 	
 	setReminderText: function()
@@ -139,6 +129,7 @@ reminder.prototype =
 				
 				if(result && result.rows && result.rows.length)
 				{
+					this.bot.getModel('user').expectInput(that.event.sender.id, 'reminder.setReminderTime')
 					var note_id = result.rows[0].id;
 					that.bot.getProfile(sender_id, function(profile)
 						{
