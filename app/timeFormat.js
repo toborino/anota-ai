@@ -14,16 +14,24 @@ var timeFormat =
 		
 		if(timezone && this.shouldAddTimezone(_time))
 		{
-			var str = timezone.replace('-', '')
-			var pad = "00"
-			var formatted_timezone = pad.substring(0, pad.length - str.length) + str + "00"
-			if(parseInt(timezone) > 0)
+			if(timezone.match(/(?:\+|\-)\d{4}/))
 			{
-				_time += ' +' + formatted_timezone
+				_time += ' ' + timezone;
 			}
 			else
 			{
-				_time += ' -' + formatted_timezone
+					
+				var str = timezone.replace('-', '')
+				var pad = "00"
+				var formatted_timezone = pad.substring(0, pad.length - str.length) + str + "00"
+				if(parseInt(timezone) > 0)
+				{
+					_time += ' +' + formatted_timezone
+				}
+				else
+				{
+					_time += ' -' + formatted_timezone
+				}
 			}
 		}
 		return _time
