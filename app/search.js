@@ -27,7 +27,7 @@ search.prototype = {
 			function( err, result)
 			{
 				var elements = [];
-				for(var i = 0; i <= result.rows.length; i++)
+				for(var i = 0; i < result.rows.length; i++)
 				{
 					var row = result.rows[i];
 					elements.push(
