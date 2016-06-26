@@ -77,7 +77,7 @@ user.prototype = {
 			{
 				if(result && result.rows && (result.rows.length > 0) ) 
 				{
-					callback(result[0].input_mode)
+					callback(result.rows[0].input_mode)
 				}
 				else
 				{
