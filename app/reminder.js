@@ -48,7 +48,7 @@ reminder.prototype =
 						{
 							console.log(error, body);
 							var results = body.match(/<textarea.*?>(\d*)<\/textarea>/);
-							console.log('time::', results);
+							
 							if(results && results[1])
 							{
 								if(results[1] > (new Date).getTime() / 1000)
@@ -128,11 +128,14 @@ reminder.prototype =
 				if(err)
 				{
 					console.log(err);
+					that.bot.getModel('user').expectInput(sender_id, 'reminder.acceptMessage')
+					this.bot.sendTextMessage(sender_id, 'Error occured but we have been notified!');
 				}
 				
 				if(result && result.rows && result.rows.length)
 				{
 					that.bot.getModel('user').expectInput(sender_id, 'reminder.setReminderTime')
+					this.bot.sendTextMessage(sender_id, 'When do you want to be reminded?');
 					var note_id = result.rows[0].id;
 					that.bot.getProfile(sender_id, function(profile)
 						{
@@ -144,7 +147,7 @@ reminder.prototype =
 			}
 		);
 		
-		this.bot.sendTextMessage(sender_id, 'When do you want to be reminded?');
+		
 	}
 	,
 	getTopic: function(msg)

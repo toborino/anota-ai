@@ -38,16 +38,14 @@ bot.prototype =
 						{
 							if(!mode)
 							{
-								that.getController('reminder', event).acceptMessage(event.message.text);
+								mode = 'reminder.acceptMessage';
 							}
-							else
-							{
-								var parts = mode.split('.');
-								var controller_name = parts[0]
-								var controller_method = parts[1]
-								
-								that.getController(controller_name, event)[controller_method](event.message.text);
-							}
+							var parts = mode.split('.');
+							var controller_name = parts[0]
+							var controller_method = parts[1]
+							
+							that.getController(controller_name, event)[controller_method](event.message.text);
+						
 						}
 					)
 				}
