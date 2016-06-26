@@ -1,3 +1,4 @@
+var dateformat = require('dateformat')
 var search =	function(bot, event)
 {
 	this.bot = bot
