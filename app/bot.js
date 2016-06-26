@@ -187,14 +187,14 @@ bot.prototype =
 	url: function(path)
 	{
 		var that = this
-		var fs = require('fs');
+		
 		switch(path)
 		{
 			case 'timezone':
 				if (this.req.method == 'GET')
 				{
 
-					fs.readFile(__dirname + '/template/timezone.html', 'utf8', function (err, data)
+					require('fs').readFile(__dirname + '/template/timezone.html', 'utf8', function (err, data)
 						{
 							if(err)
 							{
@@ -210,7 +210,7 @@ bot.prototype =
 					var token = that.req.body.token;
 					var offset = that.req.body.offset;
 					var timezone = require('./timeFormat.js').offsetToTimezone(offset)
-					that.res.send(timezone)					
+					
 					that.getModel('user').updateTimezone(token, timezone, function(err, row)
 						{
 							if(err)
@@ -220,7 +220,7 @@ bot.prototype =
 							}
 							else
 							{
-								fs.readFile(__dirname + '/template/timezone-set.html', 'utf8', function (err, data)
+								require('fs').readFile(__dirname + '/template/timezone-set.html', 'utf8', function (err, data)
 									{
 										console.log(err, data)
 										if(err)
