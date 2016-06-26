@@ -36,8 +36,8 @@ more.prototype = {
 						]
 					},
 					{
-						'title' 'Advanced',
-						'subtitle' 'Advanced options',
+						'title': 'Advanced',
+						'subtitle': 'Advanced options',
 						
 						'buttons': [{
 								
