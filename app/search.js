@@ -29,7 +29,7 @@ search.prototype = {
 							
 							var row = results.rows[i]
 							var topic = that.getTopic(row.text)
-							console.log(row, topic, topics)
+
 							if(!topic)
 							{
 								continue;
@@ -45,40 +45,36 @@ search.prototype = {
 							}
 						}
 					}
+					
+					var elements = [];
+					for(var topic in topics)
+					{
+						elements.push(
+							{
+								'title': topic,
+								"subtitle": topics[topic] + ' ' + ( (topics[topic] == 1) ? 'note' : 'notes') + ' in this topic',
+								
+								"buttons": [{
+										"type": "postback",
+										"title": "List Notes",
+										"payload": JSON.stringify({'topic': topic, 'controller': 'search', 'method': 'showTopic'})
+									}
+								]
+							}
+						)
+					}
+					
+					if(elements.length)
+					{
+						that.bot.sendGenericMessage(that.event.sender.id, elements);
+					}
+
+					else
+					{
+						that.bot.sendTextMessage(that.event.sender.id, 'Sorry, no reminders.');
+					}
 				}
 			)
-			
-
-			var elements = [];
-			for(var topic in topics)
-			{
-				elements.push(
-					{
-						'title': topic,
-						"subtitle": topics[topic] + ' ' + ( (topics[topic] == 1) ? 'note' : 'notes') + ' in this topic',
-						
-						"buttons": [{
-								"type": "postback",
-								"title": "List Notes",
-								"payload": JSON.stringify({'topic': topic, 'controller': 'search', 'method': 'showTopic'})
-							}
-						]
-					}
-				)
-			}
-			
-			console.log(topics, elements);
-			
-			if(elements.length)
-			{
-				that.bot.sendGenericMessage(that.event.sender.id, elements);
-			}
-
-			else
-			{
-				that.bot.sendTextMessage(that.event.sender.id, 'Sorry, no reminders.');
-			}
-		
 	
 	}
 	
