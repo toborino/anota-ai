@@ -182,6 +182,33 @@ bot.prototype =
 		})
 	}
 	
+	
+	,
+	url: function(path)
+	{
+		switch(path)
+		{
+			case 'timezone':
+				if (this.req.method == 'GET')
+				{
+					var fs = require('fs');
+					fs.read('./template/timezone.html', 'utf8', function (err, data)
+					{
+						if(err)
+						{
+							return console.log(err)
+						}
+						data = data.replace('{{token}}', this.req.query['token']);
+						this.res.send(data)
+					}
+					
+				}
+				else
+				{
+					
+				}
+		}
+	}
 }
 
 

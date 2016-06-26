@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+	<title>Timezone detection</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<script type="text/javascript">
+		window.onLoad = function()
+		{
+			var form = document.getElementById('theForm');
+			var timezone = document.getElementsByName('timezone')[0];
+			var offset = new Date().getTimezoneOffset();
+			timezone.value = timezone
+			form.submit();
+		}
+	</script>
+</head>
+
+<body>
+	<form id="theForm" method="post" action="/timezone" >
+		<input type="hidden" name="token" value="{{token}}" />
+		<input type="hidden" name="timezone" value="" />
+	</form>
+</body>
+
+</html>
