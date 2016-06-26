@@ -27,7 +27,7 @@ pgClient.query('INSERT INTO "user_data" (user_id, update_timezone_token, update_
 					var record_id = result.rows[0].id;
 					if(record_id)
 					{
-						console.log(record.id)
+						console.log(record_id)
 					}
 				}
 			}
