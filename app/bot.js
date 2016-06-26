@@ -206,7 +206,7 @@ bot.prototype =
 				}
 				else
 				{
-					
+					that.res.send(that.req.query);
 				}
 		}
 	}

@@ -14,10 +14,14 @@ app.get('/', function (req, res) {
 	
 })
 
-app.get('/timezone', function (req, res) {
+var timezone = function (req, res) {
 	var _bot = new bot(req, res)
 	_bot.url('timezone');
-})
+}
+
+app.get('/timezone', timezone)
+
+app.post('/timezone', timezone);
 
 
 app.get('/webhook/', function (req, res) {
