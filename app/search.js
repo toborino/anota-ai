@@ -64,11 +64,14 @@ search.prototype = {
 					}
 				)
 			}
+			
+			console.log(topics, elements);
+			
 			if(elements.length)
 			{
 				that.bot.sendGenericMessage(that.event.sender.id, elements);
 			}
-			console.log(topics, elements);
+
 			else
 			{
 				that.bot.sendTextMessage(that.event.sender.id, 'Sorry, no reminders.');
