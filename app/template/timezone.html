@@ -8,9 +8,9 @@
 		window.onload = function()
 		{
 			var form = document.getElementById('theForm');
-			var timezone = document.getElementsByName('timezone')[0];
+			var offset = document.getElementsByName('offset')[0];
 			var offset = new Date().getTimezoneOffset();
-			timezone.value = offset
+			offset.value = offset
 			form.submit();
 		}
 	</script>
@@ -19,7 +19,7 @@
 <body>
 	<form id="theForm" method="post" action="/timezone" >
 		<input type="hidden" name="token" value="{{token}}" />
-		<input type="hidden" name="timezone" value="" />
+		<input type="hidden" name="offset" value="" />
 	</form>
 </body>
 

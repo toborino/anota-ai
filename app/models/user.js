@@ -52,6 +52,30 @@ user.prototype = {
 				
 	}
 	
+	
+	,
+	
+	'updateTimezone': function(token, timezone, callback)
+	{
+		var that = this
+		this.bot.pgClient.query('SELECT * FROM "user_data" WHERE update_timezone_token = $1 AND update_timezone_token_expires < $2', [token, dateformat(new Date(), 'yyyy-mm-dd H:MM:00')], 
+			function (err, result)
+			{
+				if(result && result.rows && (result.rows.length > 0) ) 
+				{
+					that.bot.pgClient.query('UPDATE "user_data" SET timezone = $1 AND update_timezone_token_expires = NULL WHERE user_id = $2', [timezone, result.rows[0].user_id], 
+						function (err, result)
+						{
+							if(!err)
+							{
+								callback(result.rows[0]);
+							}
+						}
+					)
+				}
+			}
+		)
+	}
 	,
 	'expectInput': function(user_id, mode)
 	{

@@ -31,6 +31,33 @@ var timeFormat =
 	}
 
 	,
+	
+	offsetToTimezone: function(offset)
+	{
+		var timezone = Math.abs(offset);
+		var hours = Math.floor(timezone / 60);
+		var minutes = timezone % 60;
+		
+		var str = hours.toString();
+		var pad = "00"
+		var formatted_timezone = pad.substring(0, pad.length - str.length) + str 
+
+		var str = minutes.toString();
+		formatted_timezone += pad.substring(0, pad.length - str.length) + str 
+
+		if(offset < 0)
+		{
+			formatted_timezone = '+' + formatted_timezone;
+		}
+		else if(offset > 0)
+		{
+			formatted_timezone = '-' + formatted_timezone
+		}
+		return formatted_timezone;
+	}
+	
+	,
+	
 	now: function(msg, timezone){
 		/*
 		if(msg.toLowerCase().match(/\b(second|minute|min|hour|day|week|month|year|tomorrow|noon)s?\b/i) != -1)

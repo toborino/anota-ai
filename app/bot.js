@@ -206,7 +206,22 @@ bot.prototype =
 				}
 				else
 				{
-					that.res.send(that.req.query);
+					var token = that.req.body.token;
+					var offset = that.req.body.offset;
+					var timezone = require('./timeFormat.js').offsetToTimezone(offset)
+					that.getModel('user').updateTimezone(token, timezone, function(row)
+						{
+							fs.readFile(__dirname + '/template/timezone-set.html', 'utf8', function (err, data)
+								{
+									if(err)
+									{
+										return console.log(err)
+									}
+									that.res.send(data)									
+								}
+							)
+						}
+					)
 				}
 		}
 	}
