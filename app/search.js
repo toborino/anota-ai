@@ -29,7 +29,7 @@ search.prototype = {
 				var elements = [];
 				for(var i = 0; i <= result.rows.length; i++)
 				{
-					var row = rows[i];
+					var row = result.rows[i];
 					elements.push(
 						{
 							'title': 'Topic: ' + that.getTopic(row.text),
