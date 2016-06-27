@@ -55,6 +55,14 @@ search.prototype = {
 	perform: function(msg)
 	{
 		var that = this
+		if(!msg)
+		{
+			msg = this.event.postback.payload.msg
+			if(!msg)
+			{
+				return that.bot.sendTextMessage(that.event.sender.id, ':/');
+			}
+		}
 		var matches = msg.match(/^\s*?#\s*?(\S+?)\s*$/)
 		var condition = matches ? ' MATCHES $3' : ' "text" LIKE $3 '
 		var string = matches ? matches[1] : '%' + msg + '%'
@@ -114,7 +122,7 @@ search.prototype = {
 								"buttons": [{
 										"type": "postback",
 										"title": "List Notes",
-										"payload": JSON.stringify({'topic': topic, 'controller': 'search', 'method': 'showTopic'})
+										"payload": JSON.stringify({'topic': topic, 'controller': 'search', 'method': 'search.performs', 'keyword': '#' + topic})
 									}
 								]
 							}
