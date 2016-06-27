@@ -67,6 +67,7 @@ search.prototype = {
 				}
 			}
 		)
+		this.bot.getModel('user').expectInput(this.event.sender.id, '');
 	}
 
 	,
