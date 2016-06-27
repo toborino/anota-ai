@@ -132,6 +132,7 @@ search.prototype = {
 						]
 					}
 				]
+				that.bot.sendGenericMessage(that.event.sender.id, elements);
 			}
 		}
 		
