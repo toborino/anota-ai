@@ -9,8 +9,23 @@ search.prototype = {
 	
 	prompt: function()
 	{
-		this.bot.getModel('user').expectInput(this.event.sender.id, 'search');
+		this.bot.getModel('user').expectInput(this.event.sender.id, 'search.perform');
 		this.bot.sendTextMessage(this.event.sender.id, 'Please type Keyword or Hashtag you want to Search');
+	}
+
+	,
+	
+	perform: function(msg)
+	{
+		var matches = msg.match(/^\s*?#\s*?(\S+?)\s*$/)
+		var condition = matches ? ' MATCHES $3' : ' "text" LIKE $3 '
+		var string = matches ? matches[1] : '%' + msg + '%'
+		this.bot.pgClient.query('SELECT * FROM notes WHERE user_id = $1 AND notified = FALSE and reminder_at >= $2 AND ' + condition + ' ORDER BY reminder_at ASC', [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00')], 
+			function(err, result)
+			{
+				console.log(err, result);
+			}
+		)
 	}
 
 	,
