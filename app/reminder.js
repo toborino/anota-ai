@@ -166,7 +166,7 @@ reminder.prototype =
 					var topic = that.getTopic(msg);
 					if(topic)
 					{
-						that.bot.pgClient.query('INSERT INTO "topics" (note_id, topic) VALUES  ($1, $2) ', [sender_id, topic])
+						that.bot.pgClient.query('INSERT INTO "topics" (note_id, topic) VALUES  ($1, $2) ', [note_id, topic])
 					}
 					that.bot.getModel('user').expectInput(sender_id, 'reminder.setReminderTime')
 					that.bot.sendTextMessage(sender_id, 'When do you want to be reminded?');
