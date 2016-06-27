@@ -22,9 +22,14 @@ search.prototype = {
 		for(var i = 0; i < result.rows.length; i++)
 		{
 			var row = result.rows[i];
+			var topic = that.getTopic(row.text)
+			if(!topic)
+			{
+				topic = ' none'
+			}
 			elements.push(
 				{
-					'title': 'Topic: ' + that.getTopic(row.text),
+					'title': 'Topic: ' + topic,
 					"subtitle": 'at ' + dateformat(row.reminder_at, 'yyyy-mm-dd H:MM') + ': ' + row.text.substring(0, 30),
 					
 					"buttons": [{
