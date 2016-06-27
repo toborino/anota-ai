@@ -63,27 +63,37 @@ search.prototype = {
 				return that.bot.sendTextMessage(that.event.sender.id, ':/');
 			}
 		}
-		var matches = msg.match(/^\s*?#\s*?(\S+?)\s*$/)
-		var condition = matches ? ' MATCHES $3' : ' "text" LIKE $3 '
-		var string = matches ? matches[1] : '%' + msg + '%'
-		this.bot.pgClient.query('SELECT * FROM notes WHERE user_id = $1 AND notified = FALSE and reminder_at >= $2 AND ' + condition + ' ORDER BY reminder_at ASC', [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00'), string], 
-			function( err, result)
+		
+		var _showResults = function( err, result)
+		{
+			if(err)
 			{
-				if(err)
-				{
-					console.log(err)
-					return;
-				}
-				var elements = that.prepareNotesForDisplay(result)
-				if(elements.length)
-				{
-					that.bot.sendGenericMessage(that.event.sender.id, elements);
-				}
-				else
-				{
-					that.bot.sendTextMessage(that.event.sender.id, 'Sorry, no reminders.');
-				}
+				console.log(err)
+				return;
 			}
+			var elements = that.prepareNotesForDisplay(result)
+			if(elements.length)
+			{
+				that.bot.sendGenericMessage(that.event.sender.id, elements);
+			}
+			else
+			{
+				that.bot.sendTextMessage(that.event.sender.id, 'Sorry, no reminders.');
+			}
+		}
+		
+		
+		var matches = msg.match(/^\s*?#\s*?(\S+?)\s*$/)
+		
+		if(matches)
+		{
+			this.bot.pgClient.query('SELECT notes.*, topics.topic AS _topic, COUNT(*) AS _count FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE notes.user_id = $1 AND notes.notified = FALSE AND notes.reminder_at >= $2 AND topics.topic = $3 GROUP BY topics.topic, notes.id', [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00'), matches[1]], _showResults)
+		}
+		else
+		{
+			this.bot.pgClient.query('SELECT * FROM notes WHERE user_id = $1 AND notified = FALSE and reminder_at >= $2 AND "text" LIKE $3 ORDER BY reminder_at ASC', [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00'),  '%' + msg + '%'], _showResults);
+		}
+					
 		)
 		this.bot.getModel('user').expectInput(this.event.sender.id, '');
 	}
