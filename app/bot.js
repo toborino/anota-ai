@@ -43,8 +43,15 @@ bot.prototype =
 							var parts = mode.split('.');
 							var controller_name = parts[0]
 							var controller_method = parts[1]
-							
-							that.getController(controller_name, event)[controller_method](event.message.text);
+							if(typeof(that.getController(controller_name, event)[controller_method]) != 'function')
+							{
+								that.sendTextMessage(sender, "I do not understand, I'm just a robot :\\")
+								that.getModel('user').expectInput(sender, '')
+							}
+							else
+							{
+								that.getController(controller_name, event)[controller_method](event.message.text);
+							}
 						
 						}
 					)
@@ -52,7 +59,8 @@ bot.prototype =
 			}
 			else
 			{
-				console.log(event)
+				// delivery receipt
+				//console.log(event)
 			}
 			
 		}
