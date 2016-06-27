@@ -72,10 +72,10 @@ search.prototype = {
 					console.log(err);
 					return;
 				}
-				if(result && result.rows && result.rows,length)
+				if(result && result.rows && result.rows.length)
 				{
 					var row = result.rows[0]
-					var response = 'On ' + row.reminder_at + " \n " + row.text + " \n You added this note at " + row.created_at
+					var response = 'On ' + row.reminder_at + " \n " + row.text + " \n Note added " + row.created_at
 					that.bot.sendTextMessage(that.event.sender.id, response);
 				}
 			}
