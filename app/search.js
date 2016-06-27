@@ -20,7 +20,7 @@ search.prototype = {
 		var matches = msg.match(/^\s*?#\s*?(\S+?)\s*$/)
 		var condition = matches ? ' MATCHES $3' : ' "text" LIKE $3 '
 		var string = matches ? matches[1] : '%' + msg + '%'
-		this.bot.pgClient.query('SELECT * FROM notes WHERE user_id = $1 AND notified = FALSE and reminder_at >= $2 AND ' + condition + ' ORDER BY reminder_at ASC', [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00')], 
+		this.bot.pgClient.query('SELECT * FROM notes WHERE user_id = $1 AND notified = FALSE and reminder_at >= $2 AND ' + condition + ' ORDER BY reminder_at ASC', [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00'), string], 
 			function(err, result)
 			{
 				console.log(err, result);
