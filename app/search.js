@@ -78,7 +78,7 @@ search.prototype = {
 			}
 			else
 			{
-				that.bot.sendTextMessage(that.event.sender.id, 'No matching reminders...');
+				that.bot.sendTextMessage(that.event.sender.id, 'No matching notes...');
 			}
 		}
 		
@@ -145,7 +145,7 @@ search.prototype = {
 
 					else
 					{
-						that.bot.sendTextMessage(that.event.sender.id, 'Sorry, no reminders.');
+						that.bot.sendTextMessage(that.event.sender.id, 'None of your notes has been assigned a topic.');
 					}
 				}
 			)
@@ -172,7 +172,7 @@ search.prototype = {
 				}
 				else
 				{
-					that.bot.sendTextMessage(that.event.sender.id, 'Sorry, no reminders.');
+					that.bot.sendTextMessage(that.event.sender.id, 'Sorry, no notes.');
 				}
 			}
 		)
