@@ -94,7 +94,6 @@ search.prototype = {
 			this.bot.pgClient.query('SELECT * FROM notes WHERE user_id = $1 AND notified = FALSE and reminder_at >= $2 AND "text" LIKE $3 ORDER BY reminder_at ASC', [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00'),  '%' + msg + '%'], _showResults);
 		}
 					
-		)
 		this.bot.getModel('user').expectInput(this.event.sender.id, '');
 	}
 
