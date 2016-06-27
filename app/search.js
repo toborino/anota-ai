@@ -113,7 +113,7 @@ search.prototype = {
 			{
 				var elements = [
 					{
-						'title': 'More Options ' ,
+						'title': 'No match found ' ,
 						"subtitle": 'What do you want to do?' ,
 						
 						"buttons": [{
