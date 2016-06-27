@@ -80,7 +80,7 @@ search.prototype = {
 	{
 			var that = this;
 			var topics = {}
-			this.bot.pgClient.query('SELECT text FROM notes WHERE user_id = $1 AND notified = FALSE and reminder_at >= $2 ORDER BY reminder_at ASC', [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00')], 
+			this.bot.pgClient.query('SELECT topics.topic AS _topic, COUNT(*) AS _count FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE notes.user_id = $1 AND notes.notified = FALSE AND notes.reminder_at >= $2 GROUP BY topics.topic', [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00')], 
 				function( err, results)
 				{
 					
@@ -90,21 +90,7 @@ search.prototype = {
 						{
 							
 							var row = results.rows[i]
-							var topic = that.getTopic(row.text)
-
-							if(!topic)
-							{
-								continue;
-							}
-							
-							if(typeof(topics[topic]) == 'undefined')
-							{
-								topics[topic] = 1;
-							}
-							else
-							{
-								topics[topic]++;
-							}
+							topics[row._topic] = row._count
 						}
 					}
 					
