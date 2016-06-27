@@ -34,11 +34,11 @@ search.prototype = {
 					
 					"buttons": [{
 							"type": "postback",
-							"title": "Delete Note",
+							"title": "Mark Done",
 							"payload": JSON.stringify({'note_id': row.id, 'controller': 'reminder', 'method': 'deleteNote'})
 						},{
 							"type": "postback",
-							"title": "Show Note Details",
+							"title": "See Entire Message",
 							"payload": JSON.stringify({'note_id': row.id, 'controller': 'search', 'method': 'details'}),
 						}
 					]
@@ -111,7 +111,27 @@ search.prototype = {
 			}
 			else
 			{
-				that.bot.sendTextMessage(that.event.sender.id, 'No matching notes...');
+				var elements = [
+					{
+						'title': 'More Options ' ,
+						"subtitle": 'What do you want to do?' ,
+						
+						"buttons": [{
+								"type": "postback",
+								"title": "Search Again",
+								"payload": JSON.stringify({'controller': 'search', 'method': 'prompt'})
+							},{
+								"type": "postback",
+								"title": "See My Topics",
+								"payload": JSON.stringify({'controller': 'search', 'method': 'showTopics'}),
+							}, {
+								"type": "postback",
+								"title": "More",
+								"payload": JSON.stringify({'controller': 'more', 'method': 'showMore'})
+							}
+						]
+					}
+				]
 			}
 		}
 		
