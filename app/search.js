@@ -61,6 +61,11 @@ search.prototype = {
 		this.bot.pgClient.query('SELECT * FROM notes WHERE user_id = $1 AND notified = FALSE and reminder_at >= $2 AND ' + condition + ' ORDER BY reminder_at ASC', [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00'), string], 
 			function( err, result)
 			{
+				if(err)
+				{
+					console.log(err)
+					return;
+				}
 				var elements = that.prepareNotesForDisplay(result)
 				if(elements.length)
 				{
@@ -83,7 +88,11 @@ search.prototype = {
 			this.bot.pgClient.query('SELECT topics.topic AS _topic, COUNT(*) AS _count FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE notes.user_id = $1 AND notes.notified = FALSE AND notes.reminder_at >= $2 GROUP BY topics.topic', [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00')], 
 				function( err, results)
 				{
-					
+					if(err)
+					{
+						console.log(err)
+						return;
+					}					
 					if(results.rows && results.rows.length)
 					{
 						for(var i = 0; i < results.rows.length; i++)
@@ -133,6 +142,12 @@ search.prototype = {
 		this.bot.pgClient.query('SELECT notes.*, topics.topic FROM notes LEFT JOIN topics on notes.id = topics.note_id WHERE notes.user_id = $1 AND notes.notified = FALSE and notes.reminder_at >= $2 GROUP BY note.id ORDER BY notes.reminder_at ASC', [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00')], 
 			function( err, result)
 			{
+				if(err)
+				{
+					console.log(err)
+					return;
+				}
+				
 				var elements = that.prepareNotesForDisplay(result)
 				if(elements.length)
 				{
