@@ -30,7 +30,7 @@ search.prototype = {
 			elements.push(
 				{
 					'title': 'Topic: ' + topic,
-					"subtitle": 'at ' + dateformat(row.reminder_at, 'yyyy-mm-dd H:MM') + ': ' + row.text.substring(0, 30),
+					"subtitle": 'at ' + dateformat(row.reminder_at, 'yyyy-mm-dd H:MM') + ': ' + row.text.substring(0, 30) + (row.text.length > 30 ? ' ...' : ''),
 					
 					"buttons": [{
 							"type": "postback",
@@ -75,7 +75,7 @@ search.prototype = {
 				if(result && result.rows && result.rows.length)
 				{
 					var row = result.rows[0]
-					var response = 'On ' + row.reminder_at + " \n " + row.text + " \n Note added " + row.created_at
+					var response = 'On ' + dateformat(row.reminder_at, 'ddd mmm-dd H:MM') + " \n " + row.text + " \n Note added " + dateformat(row.created_at, 'ddd mmm-dd H:MM')
 					that.bot.sendTextMessage(that.event.sender.id, response);
 				}
 			}
