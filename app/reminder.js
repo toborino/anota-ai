@@ -146,9 +146,10 @@ reminder.prototype =
 	setReminderText: function()
 	{
 		var sender_id = this.event.sender.id;
+		var msg = this.event.postback.payload.msg;
 		var that = this;
 		var q = this.bot.pgClient.query(
-			'INSERT INTO "notes" (user_id, text, notified, created_at) VALUES  ($1, $2, FALSE, NOW()) RETURNING id', [sender_id, this.event.postback.payload.msg],
+			'INSERT INTO "notes" (user_id, text, notified, created_at) VALUES  ($1, $2, FALSE, NOW()) RETURNING id', [sender_id, msg],
 			function(err, result)
 			{
 				
@@ -161,9 +162,15 @@ reminder.prototype =
 				
 				if(result && result.rows && result.rows.length)
 				{
+					var note_id = result.rows[0].id;
+					var topic = that.getTopic(msg);
+					if(topic)
+					{
+						that.bot.pgClient.query('INSERT INTO "topics" (note_id, topic) VALUES  ($1, $2) ', [sender_id, topic])
+					}
 					that.bot.getModel('user').expectInput(sender_id, 'reminder.setReminderTime')
 					that.bot.sendTextMessage(sender_id, 'When do you want to be reminded?');
-					var note_id = result.rows[0].id;
+					
 					that.bot.getProfile(sender_id, function(profile)
 						{
 							
