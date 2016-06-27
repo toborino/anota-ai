@@ -78,7 +78,7 @@ search.prototype = {
 			}
 			else
 			{
-				that.bot.sendTextMessage(that.event.sender.id, 'Sorry, no reminders.');
+				that.bot.sendTextMessage(that.event.sender.id, 'No matching reminders...');
 			}
 		}
 		
