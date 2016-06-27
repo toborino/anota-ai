@@ -152,19 +152,6 @@ search.prototype = {
 		this.bot.sendTextMessage(this.event.sender.id, 'Nevermind, deleted.');
 	}
 
-
-	,
-	
-	getTopic: function(msg)
-	{
-		var m = msg.match(/#\w+/g);
-		if(!m || !m.length)
-		{
-			return false;
-		}
-		return m[0].charAt(1).toUpperCase() + m[0].slice(2);
-	}
-
 }
 
 
