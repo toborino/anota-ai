@@ -22,10 +22,10 @@ search.prototype = {
 		for(var i = 0; i < result.rows.length; i++)
 		{
 			var row = result.rows[i];
-			var topic = that.getTopic(row.text)
+			var topic = row.topic
 			if(!topic)
 			{
-				topic = ' none'
+				topic = 'none'
 			}
 			elements.push(
 				{
@@ -130,7 +130,7 @@ search.prototype = {
 	showReminders: function() 
 	{
 		var that = this;
-		this.bot.pgClient.query('SELECT * FROM notes WHERE user_id = $1 AND notified = FALSE and reminder_at >= $2 ORDER BY reminder_at ASC', [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00')], 
+		this.bot.pgClient.query('SELECT notes.*, topics.topic FROM notes LEFT JOIN topics on notes.id = topics.note_id WHERE notes.user_id = $1 AND notes.notified = FALSE and notes.reminder_at >= $2 GROUP BY note.id ORDER BY notes.reminder_at ASC', [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00')], 
 			function( err, result)
 			{
 				var elements = that.prepareNotesForDisplay(result)
