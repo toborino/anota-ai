@@ -119,7 +119,7 @@ reminder.prototype =
 		
 		var elements = [
 			{
-				'title': 'Topic: ' + (topic ? topic : ' - use #hashtag in note text to assign a topic' ,
+				'title': 'Topic: ' + (topic ? topic : ' - use #hashtag in note text to assign a topic') ,
 				"subtitle": msg,
 				
 				"buttons": [{
