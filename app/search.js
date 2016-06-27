@@ -49,6 +49,39 @@ search.prototype = {
 	}
 	
 	
+	
+	,
+	
+	details: function(note_id)
+	{
+		var that = this
+		if(!note_id)
+		{
+			note_id = this.event.postback.payload.note_id
+			if(!note_id)
+			{
+				return that.bot.sendTextMessage(that.event.sender.id, ':/');
+			}
+		}
+		
+		this.bot.pgClient.query('SELECT notes.*, topics.topic AS topic FROM notes LEFT JOIN topics ON topics.note_id = notes.id WHERE id = $3 AND user_id = $1 AND notified = FALSE and reminder_at >= $2 ORDER BY reminder_at ASC', [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00'),  note_id], 
+			function(err, result)
+			{
+				if(err)
+				{
+					console.log(err);
+					return;
+				}
+				if(result && result.rows && result.rows,length)
+				{
+					var row = result.rows[0]
+					var response = 'On ' + row.reminder_at + " \n " + row.text + " \n You added this note at " + row.created_at
+					that.bot.sendTextMessage(that.event.sender.id, response);
+				}
+			}
+		);
+	}
+	
 	,
 	
 	
