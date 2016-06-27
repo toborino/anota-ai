@@ -57,7 +57,7 @@ search.prototype = {
 		var that = this
 		if(!msg)
 		{
-			msg = this.event.postback.payload.msg
+			msg = this.event.postback.payload.topic
 			if(!msg)
 			{
 				return that.bot.sendTextMessage(that.event.sender.id, ':/');
@@ -131,7 +131,7 @@ search.prototype = {
 								"buttons": [{
 										"type": "postback",
 										"title": "List Notes",
-										"payload": JSON.stringify({'topic': topic, 'controller': 'search', 'method': 'search.perform', 'keyword': '#' + topic})
+										"payload": JSON.stringify({'topic': '#' + topic, 'controller': 'search', 'method': 'perform'})
 									}
 								]
 							}
