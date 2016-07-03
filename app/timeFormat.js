@@ -6,6 +6,7 @@ var timeFormat =
 	,
 	
 	formatTime: function(msg, timezone) {
+		timezone = timezone.toString()
 		var _time = this.translateEnglishNumbers(msg);
 		_time = _time.replace(/\bat\s*?(\d{1,2})\s*?(am|pm)?\s*?$/i, 'at $1:00 $2')
 		_time = _time.replace(/\bat\b/gi, '').replace(/\bon\b/gi, '').replace(/\bin\s*\b/gi, '+').replace(/\bafter\s*\b/gi, '+').replace(/remind\s*me\s*/i, '')
@@ -14,13 +15,17 @@ var timeFormat =
 		
 		if(timezone && this.shouldAddTimezone(_time))
 		{
-			if(timezone.match(/(?:\+|\-)\d{4}/))
+			var matches;
+			if(matches = timezone.match(/(?:GMT)?(\+|\-)?(\d{4})/))
 			{
-				_time += ' ' + timezone;
+				_time += ' GMT' + ( matches[1] || '+') + matches[2];
+			}
+			else if(timezone.match(/^\-?\d{1,3}$/))
+			{
+				_time += ' GMT' + this.offsetToTimezone(timezone);
 			}
 			else
 			{
-					
 				var str = timezone.replace('-', '')
 				var pad = "00"
 				var formatted_timezone = pad.substring(0, pad.length - str.length) + str + "00"
@@ -39,10 +44,11 @@ var timeFormat =
 	}
 
 	,
-	
-	offsetToTimezone: function(offset)
+	//echo date('r', strtotime('11 pm GMT-7', time() - 7 * 60 * 60) );
+	offsetToTimezone: function(offsetInMinutes)
 	{
-		var timezone = Math.abs(offset);
+		offsetInMinutes = parseInt(offsetInMinutes);
+		var timezone = Math.abs(offsetInMinutes);
 		var hours = Math.floor(timezone / 60);
 		var minutes = timezone % 60;
 		
@@ -53,11 +59,11 @@ var timeFormat =
 		var str = minutes.toString();
 		formatted_timezone += pad.substring(0, pad.length - str.length) + str 
 
-		if(offset < 0)
+		if(offsetInMinutes < 0)
 		{
 			formatted_timezone = '+' + formatted_timezone;
 		}
-		else if(offset > 0)
+		else if(offsetInMinutes > 0)
 		{
 			formatted_timezone = '-' + formatted_timezone
 		}
@@ -66,7 +72,8 @@ var timeFormat =
 	
 	,
 	
-	now: function(msg, timezone){
+
+	now: function(msg, offsetInMinutes) {
 		/*
 		if(msg.toLowerCase().match(/\b(second|minute|min|hour|day|week|month|year|tomorrow|noon)s?\b/i) != -1)
 		{
@@ -79,7 +86,7 @@ var timeFormat =
 			(msg.match(/(am|pm)/))
 		)
 			{
-				return Math.floor(new Date() / 1000 + timezone * 60 * 60);
+				return Math.floor(new Date() / 1000 - offsetInMinutes * 60);
 			}
 		return '';
 	}

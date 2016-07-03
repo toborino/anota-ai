@@ -47,8 +47,9 @@ reminder.prototype =
 		var created_at = dateformat(d, 'yyyy-mm-dd H:MM:00');
 		var that = this;
 		var query = this.bot.pgClient.query(
-			'SELECT * FROM "notes" WHERE user_id = $1 AND created_at > $2 AND reminder_at IS NULL ORDER BY id DESC LIMIT 1', [this.event.sender.id, created_at]
-			, function (err, result) {
+			'SELECT notes.id, notes.user_id, notes.text, notes.reminder_at, notes.notified, notes.created_at, user_data.timezone  FROM "notes" INNER JOIN user_data ON notes.user_id = user_data.user_id WHERE notes.user_id = $1 AND notes.created_at > $2 AND notes.reminder_at IS NULL ORDER BY notes.id DESC LIMIT 1', [this.event.sender.id, created_at]
+			, function (err, result) 
+			{
 				if(result && result.rows && (result.rows.length > 0) ) 
 				{
 					var row = result.rows[0]
@@ -77,19 +78,76 @@ reminder.prototype =
 							{
 								if(results[1] > (new Date).getTime() / 1000)
 								{
-
-									var date = new Date(results[1] * 1000);
-									var intervalString = timeformat.dateIntervalString(date);
-									that.bot.pgClient.query('UPDATE notes SET reminder_at = $1 WHERE id = $2', [dateformat(date, 'yyyy-mm-dd H:MM:00'), row.id]);
-									that.bot.sendTextMessage(that.event.sender.id, 'Reminder set, we will alert you after ' + intervalString)
-									that.bot.getModel('user').expectInput(that.event.sender.id, 'reminder.acceptMessage')
-									return
+									that.acceptReminderTime(row.id, that.event.sender.id, new Date(results[1] * 1000));
+								}
+								else
+								{
+									
+									
+									
+									
+						
+						
+						
+									request({
+										url: 'https://www.functions-online.com/js/execute.php?fuid=11',
+										body: 'time=' + encodeURIComponent(_time + ' +1 day') + '&now=' + _now + '&submit=run',
+										headers: 
+										{
+										  'Content-Type': 'application/x-www-form-urlencoded',
+										  'Referer' :'https://www.functions-online.com/strtotime.html',
+										  'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.108 Safari/537.36',
+										  'X-Requested-With' :'XMLHttpRequest'
+										},
+										method: 'POST',
+									}, function(error, response, body) {
+										console.log(error, body, _time);
+										if(! error && !response.body.error && body)
+										{
+											console.log(error, body);
+											var results = body.match(/<textarea.*?>(\d*)<\/textarea>/);
+											
+											if(results && results[1])
+											{
+												if(results[1] > (new Date).getTime() / 1000)
+												{
+													that.acceptReminderTime(row.id, that.event.sender.id, new Date(results[1] * 1000));
+												}
+												else
+												{
+													that.rejectReminderTime(row.id, that.event.sender.id)
+												}
+											}
+											else
+											{
+												that.rejectReminderTime(row.id, that.event.sender.id)
+											}
+										}
+										else
+										{
+											that.rejectReminderTime(row.id, that.event.sender.id)
+										}
+									})
+						
+						
+						
+									
+									
+									
+									
+									
+									
 								}
 							}
+							else
+							{
+								that.rejectReminderTime(row.id, that.event.sender.id)
+							}
 						}
-						that.bot.pgClient.query('DELETE FROM notes WHERE id = $1', [row.id]);
-						that.bot.sendTextMessage(that.event.sender.id, 'Incorrect time')
-						that.bot.getModel('user').expectInput(that.event.sender.id, 'reminder.acceptMessage')
+						else
+						{
+							that.rejectReminderTime(row.id, that.event.sender.id)
+						}
 					})
 				}
 				else
@@ -101,6 +159,29 @@ reminder.prototype =
 		 )
 
 	}
+	
+	
+	,
+	
+	rejectReminderTime: function(note_id, sender_id, error_message)
+	{
+		var that = this;
+		error_message = error_message || 'Incorrect time' ;
+		that.bot.pgClient.query('DELETE FROM notes WHERE id = $1', [note_id]);
+		that.bot.sendTextMessage(sender_id, error_message)
+		that.bot.getModel('user').expectInput(sender_id, 'reminder.acceptMessage')
+	}
+
+	,
+	
+	acceptReminderTime: function(note_id, sender_id, date)
+	{
+		var intervalString = timeformat.dateIntervalString(date);
+		that.bot.pgClient.query('UPDATE notes SET reminder_at = $1 WHERE id = $2', [dateformat(date, 'yyyy-mm-dd H:MM:00'), note_id]);
+		that.bot.sendTextMessage(that.event.sender.id, 'Reminder set, we will alert you after ' + intervalString)
+		that.bot.getModel('user').expectInput(sender_id, 'reminder.acceptMessage')		
+	}
+	
 	
 	
 	,
