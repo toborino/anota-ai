@@ -53,7 +53,7 @@ reminder.prototype =
 				{
 					var row = result.rows[0]
 					var _time = timeformat.formatTime(msg, row.timezone);
-					var _now = timeformat.now(row.timezone);
+					var _now = timeformat.now(msg, row.timezone);
 
 					request({
 						url: 'https://www.functions-online.com/js/execute.php?fuid=11',

@@ -58,7 +58,9 @@ user.prototype = {
 	'updateTimezone': function(token, timezone, callback)
 	{
 		var that = this
-		this.bot.pgClient.query('SELECT * FROM "user_data" WHERE update_timezone_token = $1 AND update_timezone_token_expires >= $2 LIMIT 1', [token, dateformat(new Date(), 'yyyy-mm-dd H:MM:00')], 
+		var params = [token, dateformat(new Date(), 'yyyy-mm-dd H:MM:00')];
+		console.log(params)
+		this.bot.pgClient.query('SELECT * FROM "user_data" WHERE update_timezone_token = $1 AND update_timezone_token_expires >= $2 LIMIT 1', params, 
 			function (err, result)
 			{
 				
@@ -88,7 +90,8 @@ user.prototype = {
 					}
 					else
 					{
-						// callback('');
+						callback('unable to aquire user_data record. query logged');
+						callback(q);
 					}
 				}
 			}

@@ -226,7 +226,6 @@ bot.prototype =
 					
 					that.getModel('user').updateTimezone(token, timezone, function(err, row)
 						{
-							console.log(err);
 							if(err)
 							{
 								console.log(err);
@@ -237,7 +236,6 @@ bot.prototype =
 								that.sendTextMessage(row.user_id, 'Got it! You are ' + timezone);
 								require('fs').readFile(__dirname + '/template/timezone-set.html', 'utf8', function (err, data)
 									{
-										console.log(err, data)
 										if(err)
 										{
 											that.res.send('Error occured, but we have been notified!')
