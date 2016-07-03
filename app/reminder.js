@@ -205,8 +205,8 @@ reminder.prototype =
 						{
 							var elements = [
 								{
-									'title': 'Hi. Let\'s start by setting your timezone first, just click the button below',
-									"subtitle": msg,
+									'title': 'Hi. Let\'s start by setting your timezone first',
+									"subtitle": 'just click the button below',
 									
 									"buttons": [{
 										"type": "web_url",
