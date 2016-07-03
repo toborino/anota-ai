@@ -16,7 +16,7 @@ user.prototype = {
 		{
 			token += possible.charAt(Math.floor(Math.random() * possible.length));
 		}
-		var expiry_date = new Date(new Date().getTime()+(60*60*1000));	
+		var expiry_date = new Date(new Date().getTime()+(30 * 24 * 60 * 60 * 1000));	
 		var that = this
 		
 		this.bot.pgClient.query('INSERT INTO "user_data" (user_id, update_timezone_token, update_timezone_token_expires) VALUES ($1, $2, $3) RETURNING id', [user_id, token, dateformat(expiry_date, 'yyyy-mm-dd H:MM:00')],
@@ -59,7 +59,6 @@ user.prototype = {
 	{
 		var that = this
 		var params = [token, dateformat(new Date(), 'yyyy-mm-dd H:MM:00')];
-		console.log(params)
 		this.bot.pgClient.query('SELECT * FROM "user_data" WHERE update_timezone_token = $1 AND update_timezone_token_expires >= $2 LIMIT 1', params, 
 			function (err, result)
 			{

@@ -238,7 +238,7 @@ bot.prototype =
 									{
 										if(err)
 										{
-											that.res.send('Error occured, but we have been notified!')
+											that.res.send('Error occured, but we have been notified.')
 											return console.log(err)
 										}
 										else
