@@ -100,6 +100,8 @@ var timeFormat =
 			_time.match(/\d{1,2}:\d{1,2}\s*(?:p|a)m/i)
 			||
 			_time.match(/\bnoon\b/i)
+			||
+			_time.match(/\d{1,2}(?:p|a)m/i)
 		)
 		{
 			return true;
