@@ -89,7 +89,7 @@ user.prototype = {
 					}
 					else
 					{
-						callback('unable to aquire user_data record');
+						callback('unable to aquire user_data record. params: ', params);
 					}
 				}
 			}
