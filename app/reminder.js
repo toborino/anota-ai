@@ -176,6 +176,7 @@ reminder.prototype =
 	
 	acceptReminderTime: function(note_id, sender_id, date)
 	{
+		var that = this;
 		var intervalString = timeformat.dateIntervalString(date);
 		that.bot.pgClient.query('UPDATE notes SET reminder_at = $1 WHERE id = $2', [dateformat(date, 'yyyy-mm-dd H:MM:00'), note_id]);
 		that.bot.sendTextMessage(that.event.sender.id, 'Reminder set, we will alert you after ' + intervalString)
