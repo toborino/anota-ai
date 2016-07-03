@@ -224,7 +224,7 @@ reminder.prototype =
 				
 				else
 				{
-					var topic = this.getTopic(msg);
+					var topic = that.getTopic(msg);
 					if(!topic)
 					{
 						/*
