@@ -1,6 +1,7 @@
 var request = require('request')
 var dateformat = require('dateformat')
 var timeformat = require('./timeFormat.js')
+var config = require('./config.js')
 
 var reminder = function(bot, event)
 {
@@ -188,39 +189,77 @@ reminder.prototype =
 	,
 	acceptMessage: function(msg)
 	{
-		var topic = this.getTopic(msg);
-		if(!topic)
-		{
-			/*
-			this.bot.sendTextMessage(this.event.sender.id, 'Please use a #hashtag to assign a topic')
-			this.bot.getModel('user').expectInput(this.event.sender.id, 'reminder.acceptMessage')
-			return;
-			*/
-		}
-		
-		
-		var elements = [
+		var that = this;
+		that.bot.pgClient.query('SELECT * FROM "user_data" WHERE user_id = $1', [user_id],
+			function(err, result)
 			{
-				'title': 'Topic: ' + (topic ? topic : ' - use #hashtag in note text to assign a topic') ,
-				"subtitle": msg,
+				if(err)
+				{
+					return console.log(err);
+				}
 				
-				"buttons": [{
-                        "type": "postback",
-                        "title": "Set Reminder",
-                        "payload": JSON.stringify({'msg': msg, 'controller': 'reminder', 'method': 'setReminderText'})
-                    },{
-                        "type": "postback",
-                        "title": "Share",
-                        "payload": JSON.stringify({'controller': 'reminder', 'method': 'share'}),
-                    }, {
-                        "type": "postback",
-                        "title": "More",
-                        "payload": JSON.stringify({'controller': 'more', 'method': 'showMore'})
-				}],
+				if(!result || !result.rows || result.rows.length <= 0 || !result.rows[0].timezone)
+				{
+					that.bot.getModel('user').getUpdateTimezoneToken(that.event.sender.id, 
+						function(token)
+						{
+							var elements = [
+								{
+									'title': 'Hi. Let\'s start by setting your timezone first, just click the button below',
+									"subtitle": msg,
+									
+									"buttons": [{
+										"type": "web_url",
+										"title": "Update Timezone",
+										"url": config.base_url + '/timezone?token=' + token
+									}],
+								}
+							]
+							
+							that.bot.sendGenericMessage(that.event.sender.id, elements)
+							return;
+						}
+					)
+				}
+				
+				else
+				{
+					var topic = this.getTopic(msg);
+					if(!topic)
+					{
+						/*
+						this.bot.sendTextMessage(this.event.sender.id, 'Please use a #hashtag to assign a topic')
+						this.bot.getModel('user').expectInput(this.event.sender.id, 'reminder.acceptMessage')
+						return;
+						*/
+					}
+					
+					
+					var elements = [
+						{
+							'title': 'Topic: ' + (topic ? topic : ' - use #hashtag in note text to assign a topic') ,
+							"subtitle": msg,
+							
+							"buttons": [{
+									"type": "postback",
+									"title": "Set Reminder",
+									"payload": JSON.stringify({'msg': msg, 'controller': 'reminder', 'method': 'setReminderText'})
+								},{
+									"type": "postback",
+									"title": "Share",
+									"payload": JSON.stringify({'controller': 'reminder', 'method': 'share'}),
+								}, {
+									"type": "postback",
+									"title": "More",
+									"payload": JSON.stringify({'controller': 'more', 'method': 'showMore'})
+							}],
+						}
+					]
+					
+					that.bot.sendGenericMessage(that.event.sender.id, elements)
+				}	
 			}
-		]
-		
-		this.bot.sendGenericMessage(this.event.sender.id, elements)
+		)
 	}
 	
 	,
