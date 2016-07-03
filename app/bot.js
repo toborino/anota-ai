@@ -233,7 +233,7 @@ bot.prototype =
 							}
 							else
 							{
-								that.sendTextMessage(row.user_id, 'Got it! You are ' + require('./timeFormat.js').offsetToTimezone(timezone));
+								that.sendTextMessage(row.user_id, 'Got it! You are UTC' + require('./timeFormat.js').offsetToTimezone(timezone));
 								require('fs').readFile(__dirname + '/template/timezone-set.html', 'utf8', function (err, data)
 									{
 										if(err)
