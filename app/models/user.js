@@ -90,8 +90,7 @@ user.prototype = {
 					}
 					else
 					{
-						callback('unable to aquire user_data record. query logged');
-						callback(q);
+						callback('unable to aquire user_data record');
 					}
 				}
 			}
