@@ -190,7 +190,7 @@ reminder.prototype =
 	acceptMessage: function(msg)
 	{
 		var that = this;
-		that.bot.pgClient.query('SELECT * FROM "user_data" WHERE user_id = $1', [user_id],
+		that.bot.pgClient.query('SELECT * FROM "user_data" WHERE user_id = $1', [that.event.sender.id],
 			function(err, result)
 			{
 				if(err)
