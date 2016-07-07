@@ -14,14 +14,13 @@ var bot = function(req, res)
 bot.prototype = 
 {
     webhook : function() {
-		
-		var fstream;
+		/*
 		this.req.pipe(this.req.busboy);
         this.req.busboy.on('file', function (fieldname, file, filename) {
             console.log("Uploading: " + filename);
             file.pipe(process.stdout);
         });
-        
+        */
         
         
 		messaging_events = this.req.body.entry[0].messaging
