@@ -27,7 +27,7 @@ bot.prototype =
 		messaging_events = this.req.body.entry[0].messaging
 		for (i = 0; i < messaging_events.length; i++) {
 			event = this.req.body.entry[0].messaging[i]
-console.log("EVENT:::", event);
+
 			sender = event.sender.id
 			if (event.postback) {
 				console.log(event.postback.payload)
@@ -39,7 +39,6 @@ console.log("EVENT:::", event);
 			if(event.message && event.message.attachments)
 			{
 				console.log(event.message.attachments[0].payload)
-				console.log(event.message.attachments[0].toString())
 			}
 			
 			if (event.message && event.message.text) {
