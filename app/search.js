@@ -3,7 +3,7 @@ var search =	function(bot, event)
 {
 	this.bot = bot
 	this.event = event
-	this.cardLimit = 15
+	this.cardLimit = 12
 }
 
 search.prototype = {
