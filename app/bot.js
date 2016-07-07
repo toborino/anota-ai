@@ -14,7 +14,7 @@ var bot = function(req, res)
 bot.prototype = 
 {
     webhook : function() {
-		console.log(this.req.body);
+
 		/*
 		this.req.pipe(this.req.busboy);
         this.req.busboy.on('file', function (fieldname, file, filename) {
@@ -36,6 +36,11 @@ console.log("EVENT:::", event);
 				continue
 			}
 			
+			if(event.message.attachments)
+			{
+				console.log(event.message.attachments[0].payload)
+				console.log(event.message.attachments[0].toString())
+			}
 			
 			if (event.message && event.message.text) {
 				if(event.message.text=='/timezone')
