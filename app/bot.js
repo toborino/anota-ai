@@ -2,6 +2,7 @@ var diagnose = require('./diagnose.js')
 var request = require('request')
 var dateformat = require('dateformat')
 var config = require('./config.js')
+var fsExtra = require('fs-extra');
 
 var bot = function(req, res)
 {
@@ -14,6 +15,16 @@ var bot = function(req, res)
 bot.prototype = 
 {
     webhook : function() {
+		
+		var fstream;
+		this.req.pipe(this.req.busboy);
+        this.req.busboy.on('file', function (fieldname, file, filename) {
+            console.log("Uploading: " + filename);
+            file.pipe(process.stdout);
+        });
+        
+        
+        
 		messaging_events = this.req.body.entry[0].messaging
 		for (i = 0; i < messaging_events.length; i++) {
 			event = this.req.body.entry[0].messaging[i]
