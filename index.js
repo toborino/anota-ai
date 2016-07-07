@@ -10,10 +10,6 @@ app.use(bodyParser.urlencoded({extended: false}))
 // Process application/json
 app.use(bodyParser.json())
 
-// file upload
-var busboy = require('connect-busboy')
-app.use(busboy())
-
 app.get('/', function (req, res) {
 	
 })
