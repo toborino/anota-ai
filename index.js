@@ -11,7 +11,8 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 // file upload
-app.use(require('connect-busboy')())
+var busboy = require('connect-busboy')
+app.use(busboy())
 
 app.get('/', function (req, res) {
 	
