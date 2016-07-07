@@ -290,7 +290,7 @@ reminder.prototype =
 		var that = this;
 		that.bot.pgClient.query('SELECT * FROM notes WHERE id = ' + parseInt(note_id)).on('row', function(row)
 			{
-				var new_message = row.text + "\n" + "Created " + dateformat(row.created_at, 'ddd mm-dd H:MM GMT') + "\nhttp://m.me/SmartNotesBot";
+				var new_message = row.text + "\n" + "Created " + dateformat(row.created_at, 'ddd mm-dd H:MM') + "GMT\nhttp://m.me/SmartNotesBot";
 				that.bot.sendTextMessage(that.event.sender.id, new_message)
 			}
 		)
