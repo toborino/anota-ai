@@ -226,6 +226,7 @@ reminder.prototype =
 								
 								else
 								{
+									that.pgClient.query('UPDATE notes SET timezone = $1 WHERE id = $2', [result.rows[0].timezone], note_id);
 									var elements = [
 										{
 											'title': 'Topic: ' + (topic ? topic : ' - use #hashtag in note text to assign a topic') ,
