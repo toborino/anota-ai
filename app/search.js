@@ -145,7 +145,7 @@ search.prototype = {
 		}
 		else
 		{
-			this.bot.pgClient.query('SELECT notes.*, topics.topic AS topic FROM notes LEFT JOIN topics ON topics.note_id = notes.id WHERE user_id = $1 AND notified = FALSE and reminder_at >= $2 AND "text" LIKE $3 ORDER BY reminder_at ASC', [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00'),  '%' + msg + '%'], _showResults);
+			this.bot.pgClient.query('SELECT notes.*, topics.topic AS topic FROM notes LEFT JOIN topics ON topics.note_id = notes.id WHERE user_id = $1 AND notified = FALSE and reminder_at >= $2 AND "text_lower" LIKE $3 ORDER BY reminder_at ASC', [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00'),  '%' + msg.toLowerCase() + '%'], _showResults);
 		}
 					
 		this.bot.getModel('user').expectInput(this.event.sender.id, '');
@@ -235,6 +235,8 @@ search.prototype = {
 	,
 	'delete': function()
 	{
+		var note_id = event.postback.payload.note_id;
+		this.bot.pgClient.query('DELETE FROM notes WHERE id = ' + parseInt(note_id)); 
 		this.bot.sendTextMessage(this.event.sender.id, 'Nevermind, deleted.');
 	}
 

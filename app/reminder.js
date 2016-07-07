@@ -83,13 +83,6 @@ reminder.prototype =
 								}
 								else
 								{
-									
-									
-									
-									
-						
-						
-						
 									request({
 										url: 'https://www.functions-online.com/js/execute.php?fuid=11',
 										body: 'time=' + encodeURIComponent(_time + ' +1 day') + '&now=' + _now + '&submit=run',
@@ -129,14 +122,6 @@ reminder.prototype =
 											that.rejectReminderTime(row.id, that.event.sender.id)
 										}
 									})
-						
-						
-						
-									
-									
-									
-									
-									
 									
 								}
 							}
@@ -189,120 +174,91 @@ reminder.prototype =
 	,
 	acceptMessage: function(msg)
 	{
-		var that = this;
-		that.bot.pgClient.query('SELECT * FROM "user_data" WHERE user_id = $1', [that.event.sender.id],
+		that.bot.pgClient.query('INSERT INTO "notes" (user_id, text, text_lower, notified, created_at) VALUES  ($1, $2, FALSE, NOW()) RETURNING id', [that.event.sender.id, msg, msg.toLowerCase() ],
 			function(err, result)
 			{
 				if(err)
 				{
 					return console.log(err);
 				}
-				
-				if(!result || !result.rows || result.rows.length <= 0 || !result.rows[0].timezone)
-				{
-					that.bot.getModel('user').getUpdateTimezoneToken(that.event.sender.id, 
-						function(token)
-						{
-							var elements = [
-								{
-									'title': 'Hi. Let\'s start by setting your timezone first',
-									"subtitle": 'just click the button below',
-									
-									"buttons": [{
-										"type": "web_url",
-										"title": "Update Timezone",
-										"url": config.base_url + '/timezone?token=' + token
-									}],
-								}
-							]
-							
-							that.bot.sendGenericMessage(that.event.sender.id, elements)
-							return;
-						}
-					)
-				}
-				
 				else
 				{
-					var topic = that.getTopic(msg);
-					if(!topic)
+					if(result && result.rows && result.rows.length)
 					{
-						/*
-						this.bot.sendTextMessage(this.event.sender.id, 'Please use a #hashtag to assign a topic')
-						this.bot.getModel('user').expectInput(this.event.sender.id, 'reminder.acceptMessage')
-						return;
-						*/
+						var note_id = result.rows[0].id;
+						that.bot.pgClient.query('INSERT INTO "topics" (note_id, topic) VALUES  ($1, $2) ', [note_id, topic.toLowerCase()])
+						that.bot.pgClient.query('SELECT * FROM "user_data" WHERE user_id = $1', [that.event.sender.id],
+							function(err, result)
+							{
+								if(err)
+								{
+									return console.log(err);
+								}
+								
+								if(!result || !result.rows || result.rows.length <= 0 || !result.rows[0].timezone)
+								{
+									that.bot.getModel('user').getUpdateTimezoneToken(that.event.sender.id, 
+										function(token)
+										{
+											var elements = [
+												{
+													"title": "Hi. Let's start by setting your timezone first",
+													"subtitle": 'just click the button below',
+													
+													"buttons": [{
+														"type": "web_url",
+														"title": "Update Timezone",
+														"url": config.base_url + '/timezone?token=' + token
+													}],
+												}
+											]
+											
+											that.bot.sendGenericMessage(that.event.sender.id, elements)
+											return;
+										}
+									)
+								}
+								
+								else
+								{
+									var elements = [
+										{
+											'title': 'Topic: ' + (topic ? topic : ' - use #hashtag in note text to assign a topic') ,
+											"subtitle": msg,
+											
+											"buttons": [{
+													"type": "postback",
+													"title": "Set Reminder",
+													"payload": JSON.stringify({'note_id': note_id, 'controller': 'reminder', 'method': 'askForTime'})
+												},{
+													"type": "postback",
+													"title": "Share",
+													"payload": JSON.stringify({'controller': 'reminder', 'method': 'share', 'note_id': note_id}),
+												}, {
+													"type": "postback",
+													"title": "More",
+													"payload": JSON.stringify({'controller': 'more', 'method': 'showMore', 'note_id': note_id})
+											}],
+										}
+									]
+									
+									that.bot.sendGenericMessage(that.event.sender.id, elements)
+								}	
+							}
+						)
+						
 					}
-					
-					
-					var elements = [
-						{
-							'title': 'Topic: ' + (topic ? topic : ' - use #hashtag in note text to assign a topic') ,
-							"subtitle": msg,
-							
-							"buttons": [{
-									"type": "postback",
-									"title": "Set Reminder",
-									"payload": JSON.stringify({'msg': msg, 'controller': 'reminder', 'method': 'setReminderText'})
-								},{
-									"type": "postback",
-									"title": "Share",
-									"payload": JSON.stringify({'controller': 'reminder', 'method': 'share'}),
-								}, {
-									"type": "postback",
-									"title": "More",
-									"payload": JSON.stringify({'controller': 'more', 'method': 'showMore'})
-							}],
-						}
-					]
-					
-					that.bot.sendGenericMessage(that.event.sender.id, elements)
-				}	
+				}
 			}
-		)
+		);
 	}
 	
 	,
 	
-	setReminderText: function()
+	askForTime: function()
 	{
-		var sender_id = this.event.sender.id;
-		var msg = this.event.postback.payload.msg;
-		var that = this;
-		var q = this.bot.pgClient.query(
-			'INSERT INTO "notes" (user_id, text, notified, created_at) VALUES  ($1, $2, FALSE, NOW()) RETURNING id', [sender_id, msg],
-			function(err, result)
-			{
-				
-				if(err)
-				{
-					console.log(err);
-					that.bot.getModel('user').expectInput(sender_id, 'reminder.acceptMessage')
-					that.bot.sendTextMessage(sender_id, 'Error occured but we have been notified!');
-				}
-				
-				if(result && result.rows && result.rows.length)
-				{
-					var note_id = result.rows[0].id;
-					var topic = that.getTopic(msg);
-					if(topic)
-					{
-						that.bot.pgClient.query('INSERT INTO "topics" (note_id, topic) VALUES  ($1, $2) ', [note_id, topic.toLowerCase()])
-					}
-					that.bot.getModel('user').expectInput(sender_id, 'reminder.setReminderTime')
-					that.bot.sendTextMessage(sender_id, 'When do you want to be reminded?');
-					
-					that.bot.getProfile(sender_id, function(profile)
-						{
-							
-							that.bot.pgClient.query('UPDATE "notes" SET timezone = $1 WHERE id = $2', [profile.timezone, note_id ]);
-						}
-					)				
-				}
-			}
-		);
-		
-		
+		that.bot.getModel('user').expectInput(sender_id, 'reminder.setReminderTime')
+		that.bot.sendTextMessage(sender_id, 'When do you want to be reminded?');
 	}
 	,
 	getTopic: function(msg)
@@ -313,6 +269,19 @@ reminder.prototype =
 			return false;
 		}
 		return m[0].charAt(1).toUpperCase() + m[0].slice(2);
+	}
+	
+	,
+	share: function(msg_id)
+	{
+		var that = this;
+		that.pgClient.query('SELECT * FROM notes WHERE id = ' + parseInt(msg_id)).on('row', function(row)
+			{
+				var new_message = row.text + "\n" + "Created " + dateformat(d, 'ddd mm-dd H:MM GMT') + "\nhttp://m.me/SmartNotesBot";
+				that.bot.sendTextMessage(that.event.sender.id, new_message)
+			}
+		)
+		
 	}
 }
 

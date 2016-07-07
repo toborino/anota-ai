@@ -57,7 +57,6 @@ bot.prototype =
 							{
 								that.getController(controller_name, event)[controller_method](event.message.text);
 							}
-						
 						}
 					)
 				}

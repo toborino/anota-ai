@@ -9,7 +9,7 @@ var more =	function(bot, event)
 
 more.prototype = {
 	
-	showMore: function(msg)
+	showMore: function()
 	{
 		var that = this
 		this.bot.getModel('user').getUpdateTimezoneToken(that.event.sender.id, function(token)
@@ -22,7 +22,7 @@ more.prototype = {
 						"buttons": [{
 								"type": "postback",
 								"title": "Search",
-								"payload": JSON.stringify({'msg': msg, 'controller': 'search', 'method': 'prompt'})
+								"payload": JSON.stringify({'controller': 'search', 'method': 'prompt'})
 							},{
 								"type": "postback",
 								"title": "See My Topics",
@@ -43,7 +43,7 @@ more.prototype = {
 								
 								"type": "postback",
 								"title": "Delete This Note",
-								"payload": JSON.stringify({'controller': 'search', 'method': 'delete'})
+								"payload": JSON.stringify({'controller': 'search', 'method': 'delete', 'note_id': that.event.postback.payload.note_id})
 							}, {
 								"type": "web_url",
 								"title": "Update Timezone",
