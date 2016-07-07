@@ -174,6 +174,7 @@ reminder.prototype =
 	,
 	acceptMessage: function(msg)
 	{
+		var that = this;
 		that.bot.pgClient.query('INSERT INTO "notes" (user_id, text, text_lower, notified, created_at) VALUES  ($1, $2, FALSE, NOW()) RETURNING id', [that.event.sender.id, msg, msg.toLowerCase() ],
 			function(err, result)
 			{
