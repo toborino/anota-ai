@@ -226,29 +226,32 @@ reminder.prototype =
 								
 								else
 								{
-									that.bot.pgClient.query('UPDATE notes SET timezone = $1 WHERE id = $2', [result.rows[0].timezone], note_id);
-									var elements = [
-										{
-											'title': 'Topic: ' + (topic ? topic : ' - use #hashtag in note text to assign a topic') ,
-											"subtitle": msg,
-											
-											"buttons": [{
-													"type": "postback",
-													"title": "Set Reminder",
-													"payload": JSON.stringify({'note_id': note_id, 'controller': 'reminder', 'method': 'askForTime'})
-												},{
-													"type": "postback",
-													"title": "Share",
-													"payload": JSON.stringify({'controller': 'reminder', 'method': 'share', 'note_id': note_id}),
-												}, {
-													"type": "postback",
-													"title": "More",
-													"payload": JSON.stringify({'controller': 'more', 'method': 'showMore', 'note_id': note_id})
-											}],
-										}
-									]
-									
-									that.bot.sendGenericMessage(that.event.sender.id, elements)
+									that.bot.pgClient.query('UPDATE notes SET timezone = $1 WHERE id = $2', [result.rows[0].timezone, note_id], function(err, result)
+									{
+										var elements = [
+											{
+												'title': 'Topic: ' + (topic ? topic : ' - use #hashtag in note text to assign a topic') ,
+												"subtitle": msg,
+												
+												"buttons": [{
+														"type": "postback",
+														"title": "Set Reminder",
+														"payload": JSON.stringify({'note_id': note_id, 'controller': 'reminder', 'method': 'askForTime'})
+													},{
+														"type": "postback",
+														"title": "Share",
+														"payload": JSON.stringify({'controller': 'reminder', 'method': 'share', 'note_id': note_id}),
+													}, {
+														"type": "postback",
+														"title": "More",
+														"payload": JSON.stringify({'controller': 'more', 'method': 'showMore', 'note_id': note_id})
+												}],
+											}
+										]
+										
+										that.bot.sendGenericMessage(that.event.sender.id, elements)
+									}
+									)	
 								}	
 							}
 						)
