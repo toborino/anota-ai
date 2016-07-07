@@ -188,7 +188,10 @@ reminder.prototype =
 					if(result && result.rows && result.rows.length)
 					{
 						var note_id = result.rows[0].id;
-						that.bot.pgClient.query('INSERT INTO "topics" (note_id, topic) VALUES  ($1, $2) ', [note_id, topic.toLowerCase()])
+						if(topic)
+						{
+							that.bot.pgClient.query('INSERT INTO "topics" (note_id, topic) VALUES  ($1, $2) ', [note_id, topic.toLowerCase()])
+						}
 						that.bot.pgClient.query('SELECT * FROM "user_data" WHERE user_id = $1', [that.event.sender.id],
 							function(err, result)
 							{
@@ -268,7 +271,7 @@ reminder.prototype =
 		var m = msg.match(/#\w+/g);
 		if(!m || !m.length)
 		{
-			return false;
+			return '';
 		}
 		return m[0].charAt(1).toUpperCase() + m[0].slice(2);
 	}
