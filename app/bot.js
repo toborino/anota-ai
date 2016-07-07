@@ -14,7 +14,7 @@ var bot = function(req, res)
 bot.prototype = 
 {
     webhook : function() {
-		console.log(this.req.attachments);
+		console.log(this.req.body);
 		/*
 		this.req.pipe(this.req.busboy);
         this.req.busboy.on('file', function (fieldname, file, filename) {
