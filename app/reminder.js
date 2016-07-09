@@ -273,6 +273,7 @@ reminder.prototype =
 	askForTime: function()
 	{
 		var that = this;
+		var sender_id = that.event.sender.id;
 		that.bot.getModel('user').expectInput(sender_id, 'reminder.setReminderTime')
 		that.bot.sendTextMessage(sender_id, 'When do you want to be reminded?');
 	}
