@@ -7,7 +7,6 @@ app.set('port', (process.env.PORT || 5000))
 
 app.use(bodyParser.urlencoded({extended: false}))
 
-// Process application/json
 app.use(bodyParser.json())
 
 app.get('/', function (req, res) {
@@ -39,13 +38,5 @@ app.listen(app.get('port'), function() {
 app.post('/webhook/', function(req, res) {
 	var _bot = new bot(req, res)
 	_bot.webhook();
-	try
-	{
-		
-	}
-	catch(ex)
-	{
-		
-	}
 })
 

@@ -17,7 +17,7 @@ bot.prototype =
 		messaging_events = this.req.body.entry[0].messaging
 		for (i = 0; i < messaging_events.length; i++) {
 			event = this.req.body.entry[0].messaging[i]
-console.log(event.postback, event.postback.payload);
+
 			sender = event.sender.id
 			if (event.postback) {
 				console.log(event.postback.payload)
@@ -25,12 +25,7 @@ console.log(event.postback, event.postback.payload);
 				this.getController(event.postback.payload.controller, event)[event.postback.payload.method]();
 				continue
 			}
-			
-			if(event.message && event.message.attachments)
-			{
-				console.log(event.message.attachments[0].payload)
-			}
-			
+						
 			if (event.message && event.message.text) {
 				if(event.message.text=='/timezone')
 				{
