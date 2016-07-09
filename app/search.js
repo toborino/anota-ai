@@ -82,7 +82,7 @@ search.prototype = {
 				return that.bot.sendTextMessage(that.event.sender.id, ':/');
 			}
 		}
-		console.log(note_id)
+		
 		this.bot.pgClient.query('SELECT notes.*, topics.topic AS topic FROM notes LEFT JOIN topics ON topics.note_id = notes.id WHERE notes.id = $2 AND user_id = $1', [this.event.sender.id, note_id], 
 			function(err, result)
 			{
@@ -128,6 +128,7 @@ search.prototype = {
 						var first100 = row.text.substring(0, 200);
 						var remaining = row.text.substring(200);
 						var parts = remaining.match(/.{1, 320}/);
+						console.log(parts);
 						var _sendChunk = function(chunkIndex)
 						{
 							if(!parts)
