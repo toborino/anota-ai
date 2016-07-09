@@ -18,7 +18,7 @@ search.prototype = {
 	
 	prepareNotesForDisplay: function(result)
 	{
-		console.log(result);
+		console.log(result.rows);
 		var that = this
 		var elements = [];
 		for(var i = 0; i < result.rows.length; i++)
