@@ -139,7 +139,7 @@ search.prototype = {
 							if(_chunk)
 							{
 								var _nextIdex = chunkIndex + 1;
-								that.bot.sendTextMessage(that.event.sender.id, _chunk + ' ...', function(body) {
+								that.bot.sendTextMessage(that.event.sender.id, _chunk + (parts[_nextIdex] ? ' ...' : ''), function(body) {
 									_sendChunk(_nextIdex);
 								}
 								);
