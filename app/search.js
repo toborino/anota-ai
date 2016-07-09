@@ -246,11 +246,11 @@ search.prototype = {
 		
 		if(matches)
 		{
-			this.bot.pgClient.query('SELECT notes.*, topics.topic AS topic, COUNT(*) AS _count FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE notes.user_id = $1 AND notes.notified = FALSE AND ( (notes.reminder_at >= $2) OR (notes.reminder_at IS NULL) ) AND topics.topic = $3 ORDER BY notes.reminder_at DESC GROUP BY topics.topic, notes.id LIMIT ' + that.cardLimit, [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00'), matches[1]], _showResults)
+			this.bot.pgClient.query('SELECT notes.*, topics.topic AS topic, COUNT(*) AS _count FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE notes.user_id = $1 AND notes.notified = FALSE AND ( (notes.reminder_at >= $2) OR (notes.reminder_at IS NULL) ) AND topics.topic = $3 ORDER BY notes.reminder_at DESC, notes.id DESC GROUP BY topics.topic, notes.id LIMIT ' + that.cardLimit, [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00'), matches[1]], _showResults)
 		}
 		else
 		{
-			this.bot.pgClient.query('SELECT notes.*, topics.topic AS topic FROM notes LEFT JOIN topics ON topics.note_id = notes.id WHERE user_id = $1 AND notified = FALSE AND ( (reminder_at >= $2) OR (reminder_at IS NULL) ) AND "text_lower" LIKE $3 ORDER BY reminder_at DESC LIMIT ' + that.cardLimit, [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00'),  '%' + msg.toLowerCase() + '%'], _showResults);
+			this.bot.pgClient.query('SELECT notes.*, topics.topic AS topic FROM notes LEFT JOIN topics ON topics.note_id = notes.id WHERE user_id = $1 AND notified = FALSE AND ( (reminder_at >= $2) OR (reminder_at IS NULL) ) AND "text_lower" LIKE $3 ORDER BY reminder_at DESC, notes.id DESC LIMIT ' + that.cardLimit, [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00'),  '%' + msg.toLowerCase() + '%'], _showResults);
 		}
 					
 		this.bot.getModel('user').expectInput(this.event.sender.id, '');
@@ -261,7 +261,7 @@ search.prototype = {
 	{
 			var that = this;
 			var topics = {}
-			this.bot.pgClient.query('SELECT topics.topic AS _topic, COUNT(*) AS _count FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE notes.user_id = $1 AND notes.notified = FALSE AND ( (notes.reminder_at >= $2) OR (notes.reminder_at IS NULL) ) ORDER BY notes.reminder_at DESC GROUP BY topics.topic LIMIT ' + that.cardLimit, [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00')], 
+			this.bot.pgClient.query('SELECT topics.topic AS _topic, COUNT(*) AS _count FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE notes.user_id = $1 AND notes.notified = FALSE AND ( (notes.reminder_at >= $2) OR (notes.reminder_at IS NULL) ) ORDER BY notes.reminder_at DESC, notes.id DESC GROUP BY topics.topic LIMIT ' + that.cardLimit, [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00')], 
 				function( err, results)
 				{
 					if(err)
