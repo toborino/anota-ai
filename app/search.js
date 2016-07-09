@@ -146,30 +146,27 @@ search.prototype = {
 							}
 							else
 							{
-								that.bot.sendTextMessage(that.event.sender.id, elements, function()
-								{
-									var elements = [
-										{
-											'title': "Note added " + dateformat(row.created_at, 'ddd mmm-dd H:MM')  +  " GMT",
-											"subtitle": 'What do you want to do?' ,
-											
-											"buttons": [
-												{
-													"type": "postback",
-													"title": "Mark Done",
-													"payload": JSON.stringify({'note_id': row.id, 'controller': 'reminder', 'method': 'markDone'})
-												},
-												{
-													"type": "postback",
-													"title": "Share",
-													"payload": JSON.stringify({'note_id': row.id, 'controller': 'reminder', 'method': 'share'})
-												}
-											]
-										}
-									]
-									that.bot.sendGenericMessage(that.event.sender.id, elements)
-									
-								});
+								var elements = [
+									{
+										'title': "Note added " + dateformat(row.created_at, 'ddd mmm-dd H:MM')  +  " GMT",
+										"subtitle": 'What do you want to do?' ,
+										
+										"buttons": [
+											{
+												"type": "postback",
+												"title": "Mark Done",
+												"payload": JSON.stringify({'note_id': row.id, 'controller': 'reminder', 'method': 'markDone'})
+											},
+											{
+												"type": "postback",
+												"title": "Share",
+												"payload": JSON.stringify({'note_id': row.id, 'controller': 'reminder', 'method': 'share'})
+											}
+										]
+									}
+								]
+								that.bot.sendGenericMessage(that.event.sender.id, elements)
+								
 							}
 						}
 						_sendChunk(0);
