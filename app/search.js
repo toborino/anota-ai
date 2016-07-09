@@ -63,6 +63,15 @@ search.prototype = {
 				}
 			)
 		}
+		if(result.rows.length > 9){
+			elements.push(
+				{
+					'title': 'See more',
+					"subtitle": 'More notes',
+					"buttons": [{"type": "postback","title": "See Notes","payload": JSON.stringify({'topic': topic}) }]
+				}
+			)
+		}
 		return elements
 	}
 	
@@ -274,7 +283,7 @@ search.prototype = {
 								
 								"buttons": [{
 										"type": "postback",
-										"title": "List Notes",
+										"title": "See Notes",
 										"payload": JSON.stringify({'topic': '#' + topic, 'controller': 'search', 'method': 'perform'})
 									}
 								]
@@ -284,6 +293,15 @@ search.prototype = {
 					
 					if(elements.length)
 					{
+						if(results.rows.length > 9){
+							elements.push(
+								{
+									'title': 'See more',
+									"subtitle": 'More topics',
+									"buttons": [{"type": "postback","title": "See Notes","payload": JSON.stringify({'topic': topic}) }]
+								}
+							)
+						}
 						that.bot.sendGenericMessage(that.event.sender.id, elements);
 					}
 
