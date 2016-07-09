@@ -127,7 +127,7 @@ search.prototype = {
 					{
 						var first100 = row.text.substring(0, 200);
 						var remaining = row.text.substring(200);
-						var parts = remaining.match(/.{1, 320}/);
+						var parts = remaining.match(/.{1,320}/);
 						console.log(parts);
 						var _sendChunk = function(chunkIndex)
 						{
