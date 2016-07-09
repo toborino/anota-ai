@@ -296,7 +296,7 @@ reminder.prototype =
 		var that = this;
 		that.bot.pgClient.query('SELECT * FROM notes WHERE id = ' + parseInt(note_id)).on('row', function(row)
 			{
-				var new_message = row.text.substring(0, 290) + "\nhttp://m.me/SmartNotesBot";
+				var new_message = row.text.substring(0, 290) + (row.text.length > 290 ? ' ...' : '') + "\nhttp://m.me/SmartNotesBot";
 				that.bot.sendTextMessage(that.event.sender.id, new_message)
 			}
 		)
