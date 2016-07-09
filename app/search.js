@@ -72,6 +72,7 @@ search.prototype = {
 				}
 			)
 		}
+		console.log(elements);
 		return elements
 	}
 	
