@@ -54,7 +54,7 @@ reminder.prototype =
 		var created_at = dateformat(d, 'yyyy-mm-dd H:MM:00');
 		var that = this;
 		var query = this.bot.pgClient.query(
-			'SELECT notes.id, notes.user_id, notes.text, notes.reminder_at, notes.notified, notes.created_at, user_data.timezone  FROM "notes" INNER JOIN user_data ON notes.user_id = user_data.user_id WHERE notes.user_id = $1 AND notes.created_at > $2 AND notes.reminder_at IS NULL ORDER BY notes.id DESC LIMIT 1', [this.event.sender.id, created_at]
+			'SELECT notes.id, notes.user_id, notes.text, notes.reminder_at, notes.notified, notes.created_at, user_data.timezone, user_data.entering_time_for_note_id  FROM "notes" INNER JOIN user_data ON notes.user_id = user_data.user_id AND user_data.entering_time_for_note_id = notes.id WHERE notes.user_id = $1 AND user_data.entering_time_for_note_id IS NOT NULL AND notes.reminder_at IS NULL ORDER BY notes.id DESC LIMIT 1', [this.event.sender.id]
 			, function (err, result) 
 			{
 				if(result && result.rows && (result.rows.length > 0) ) 
@@ -171,6 +171,7 @@ reminder.prototype =
 		var that = this;
 		var intervalString = timeformat.dateIntervalString(date);
 		that.bot.pgClient.query('UPDATE notes SET reminder_at = $1 WHERE id = $2', [dateformat(date, 'yyyy-mm-dd H:MM:00'), note_id]);
+		that.bot.pgClient.query('UPDATE user_data SET entering_time_for_note_id = NULL WHERE user_id = $1', [sender_id]);
 		that.bot.sendTextMessage(that.event.sender.id, 'Reminder set, we will alert you after ' + intervalString)
 		that.bot.getModel('user').expectInput(sender_id, 'reminder.acceptMessage')		
 	}
@@ -208,6 +209,10 @@ reminder.prototype =
 								
 								if(!result || !result.rows || result.rows.length <= 0 || !result.rows[0].timezone)
 								{
+									if(result.rows.length <= 0)
+									{
+										that.bot.pgClient.query('INSERT INTO user_data (user_id, entering_time_for_note_id) VALUES ($2, $1)', [note_id, that.event.sender.id]);
+									}
 									that.bot.getModel('user').getUpdateTimezoneToken(that.event.sender.id, 
 										function(token)
 										{
@@ -234,6 +239,7 @@ reminder.prototype =
 								{
 									that.bot.pgClient.query('UPDATE notes SET timezone = $1 WHERE id = $2', [result.rows[0].timezone, note_id], function(err, result)
 									{
+										that.bot.pgClient.query('UPDATE user_data SET entering_time_for_note_id = $1 WHERE user_id = $2;', [note_id, that.event.sender.id])
 										var elements = [
 											{
 												'title': 'Topic: ' + (topic ? topic : ' - use #hashtag in note text to assign a topic') ,
@@ -301,6 +307,20 @@ reminder.prototype =
 				var new_message = row.text.substring(0, 290) + (row.text.length > 290 ? ' ...' : '') + "\nhttp://m.me/SmartNotesBot";
 				that.bot.sendTextMessage(that.event.sender.id, new_message)
 			}
+		)
+		
+	}
+	
+	,
+	
+	addReminderToNote: function()
+	{
+		var that = this;
+		var note_id = this.event.postback.payload.note_id;
+		this.bot.pgClient.query('UPDATE user_data SET entering_time_for_note_id = $1 WHERE user_id = $2;', [note_id, this.event.sender.id], function(err, result)
+		{
+			that.askForTime();
+		}
 		)
 		
 	}

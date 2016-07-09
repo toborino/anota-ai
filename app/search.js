@@ -59,6 +59,16 @@ search.prototype = {
 						"payload": JSON.stringify({'note_id': row.id, 'controller': 'reminder', 'method': 'markDone'})
 					}
 				)
+				if(!row.reminder_at)
+				{
+					_buttons.push(
+						{
+							"type": "postback",
+							"title": "Set Reminder",
+							"payload": JSON.stringify({'note_id': row.id, 'controller': 'reminder', 'method': 'addReminderToNote'})
+						}
+					)
+				}
 			}
 			elements.push(
 				{
