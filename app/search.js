@@ -77,7 +77,7 @@ search.prototype = {
 				}
 			)
 		}
-		console.log(elements);
+//		console.log(elements);
 		return elements
 	}
 	
