@@ -13,7 +13,13 @@ reminder.prototype =
 {
 	markDone: function()
 	{
-		this.bot.sendTextMessage(this.event.sender.id, "marked done " + JSON.stringify(this.event.postback))
+		var that = this;
+		var note_id = this.event.postback.payload.note_id;
+		this.bot.pgClient.query(
+			'UPDATE "notes" SET done = TRUE WHERE id = $1', [note_id], function(err, res) {
+				that.bot.sendTextMessage(that.event.sender.id, "marked done " + JSON.stringify(that.event.postback))
+			}
+		)
 	}
 	
 	,

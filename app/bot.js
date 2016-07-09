@@ -101,7 +101,7 @@ bot.prototype =
 	,
 	
 	
-	sendTextMessage : function(sender, text) {
+	sendTextMessage : function(sender, text, _callback) {
 		messageData = {
 			text:text
 		}
@@ -118,6 +118,13 @@ bot.prototype =
 				console.log('Error sending messages: ', error)
 			} else if (response.body.error) {
 				console.log('Error: ', response.body.error)
+			}
+			else 
+			{
+				if(typeof(_callback) == 'function')
+				{
+					_callback(response.body);
+				}
 			}
 		})
 	}

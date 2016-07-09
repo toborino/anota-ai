@@ -28,21 +28,33 @@ search.prototype = {
 			{
 				topic = 'none'
 			}
+			var is_long = row.text.length > 30;
+			var _buttons = [];
+			if(is_long)
+			{
+				_buttons.push(
+					{
+						"type": "postback",
+						"title": "See More",
+						"payload": JSON.stringify({'note_id': row.id, 'controller': 'search', 'method': 'details'}),
+					}
+				)
+			}
+			else
+			{
+				_buttons.push(
+					{
+						"type": "postback",
+						"title": "Mark Done",
+						"payload": JSON.stringify({'note_id': row.id, 'controller': 'reminder', 'method': 'markDone'})
+					}
+				)
+			}
 			elements.push(
 				{
 					'title': 'Topic: ' + topic,
-					"subtitle": 'at ' + dateformat(row.reminder_at, 'yyyy-mm-dd H:MM') + ' GMT: ' + row.text.substring(0, 30) + (row.text.length > 30 ? ' ...' : ''),
-					
-					"buttons": [{
-							"type": "postback",
-							"title": "Mark Done",
-							"payload": JSON.stringify({'note_id': row.id, 'controller': 'reminder', 'method': 'deleteNote'})
-						},{
-							"type": "postback",
-							"title": "See Entire Message",
-							"payload": JSON.stringify({'note_id': row.id, 'controller': 'search', 'method': 'details'}),
-						}
-					]
+					"subtitle": 'at ' + dateformat(row.reminder_at, 'yyyy-mm-dd H:MM') + ' GMT: ' + row.text.substring(0, 30) + (is_long ? ' ...' : ''),
+					"buttons": _buttons
 				}
 			)
 		}
@@ -76,8 +88,86 @@ search.prototype = {
 				if(result && result.rows && result.rows.length)
 				{
 					var row = result.rows[0]
-					var response = 'On ' + dateformat(row.reminder_at, 'ddd mmm-dd H:MM') + " GMT \n " + row.text + " \n Note added " + dateformat(row.created_at, 'ddd mmm-dd H:MM')
-					that.bot.sendTextMessage(that.event.sender.id, response);
+					if(row.text.length <= 220)
+					{
+						var response = 'On ' + dateformat(row.reminder_at, 'ddd mmm-dd H:MM') + " GMT \n " + row.text + " \n Note added " + dateformat(row.created_at, 'ddd mmm-dd H:MM')
+						
+						that.bot.sendTextMessage(that.event.sender.id, elements, function()
+						{
+							var elements = [
+								{
+									'title': 'More options' ,
+									"subtitle": 'What do you want to do?' ,
+									
+									"buttons": [
+										{
+											"type": "postback",
+											"title": "Mark Done",
+											"payload": JSON.stringify({'note_id': row.id, 'controller': 'reminder', 'method': 'markDone'})
+										},
+										{
+											"type": "postback",
+											"title": "Share",
+											"payload": JSON.stringify({'note_id': row.id, 'controller': 'reminder', 'method': 'share'})
+										}
+									]
+								}
+							]
+							that.bot.sendGenericMessage(that.event.sender.id, elements)
+							
+						});
+					}
+					else
+					{
+						var first100 = row.text.substring(0, 200);
+						var remaining = row.text.substring(200);
+						var parts = remaining.match(/.{1, 320}/);
+						var _sendChunk = function(chunkIndex)
+						{
+							if(!parts)
+							{
+								return;
+							}
+							var _chunk = parts[chunkIndex];
+							if(_chunk)
+							{
+								var _nextIdex = chunkIndex + 1;
+								that.bot.sendTextMessage(that.event.sender.id, chunk, function(body) {
+									that.bot.sendTextMessage(that.event.sender.id, _chunk);
+									_sendChunk(_nextIdex);
+								}
+								);
+							}
+							else
+							{
+								that.bot.sendTextMessage(that.event.sender.id, elements, function()
+								{
+									var elements = [
+										{
+											'title': "Note added " + dateformat(row.created_at, 'ddd mmm-dd H:MM') ,
+											"subtitle": 'What do you want to do?' ,
+											
+											"buttons": [
+												{
+													"type": "postback",
+													"title": "Mark Done",
+													"payload": JSON.stringify({'note_id': row.id, 'controller': 'reminder', 'method': 'markDone'})
+												},
+												{
+													"type": "postback",
+													"title": "Share",
+													"payload": JSON.stringify({'note_id': row.id, 'controller': 'reminder', 'method': 'share'})
+												}
+											]
+										}
+									]
+									that.bot.sendGenericMessage(that.event.sender.id, elements)
+									
+								});
+							}
+						}
+						_sendChunk(0);
+					}
 				}
 			}
 		);
@@ -114,21 +204,13 @@ search.prototype = {
 			{
 				var elements = [
 					{
-						'title': 'No match found ' ,
+						'title': 'nothing was found' ,
 						"subtitle": 'What do you want to do?' ,
 						
 						"buttons": [{
 								"type": "postback",
 								"title": "Search Again",
 								"payload": JSON.stringify({'controller': 'search', 'method': 'prompt'})
-							},{
-								"type": "postback",
-								"title": "See My Topics",
-								"payload": JSON.stringify({'controller': 'search', 'method': 'showTopics'}),
-							}, {
-								"type": "postback",
-								"title": "More",
-								"payload": JSON.stringify({'controller': 'more', 'method': 'showMore'})
 							}
 						]
 					}
