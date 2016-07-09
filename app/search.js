@@ -45,6 +45,11 @@ search.prototype = {
 				_buttons.push(
 					{
 						"type": "postback",
+						"title": "Share",
+						"payload": JSON.stringify({'note_id': row.id, 'controller': 'reminder', 'method': 'share'})
+					} ,
+					{
+						"type": "postback",
 						"title": "Mark Done",
 						"payload": JSON.stringify({'note_id': row.id, 'controller': 'reminder', 'method': 'markDone'})
 					}
