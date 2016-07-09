@@ -22,6 +22,10 @@ search.prototype = {
 		var elements = [];
 		for(var i = 0; i < result.rows.length; i++)
 		{
+			if(i >= 9)
+			{
+				break;
+			}
 			var row = result.rows[i];
 			var topic = row.topic
 			if(!topic)
@@ -268,7 +272,10 @@ search.prototype = {
 					{
 						for(var i = 0; i < results.rows.length; i++)
 						{
-							
+							if(i >= 9)
+							{
+								break;
+							}
 							var row = results.rows[i]
 							topics[row._topic] = row._count
 						}
