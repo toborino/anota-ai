@@ -128,7 +128,7 @@ search.prototype = {
 						var first100 = row.text.substring(0, 200);
 						var remaining = row.text.substring(200);
 						var parts = remaining.match(/.{1,320}/);
-						console.log(parts);
+						
 						var _sendChunk = function(chunkIndex)
 						{
 							if(!parts)
@@ -139,8 +139,7 @@ search.prototype = {
 							if(_chunk)
 							{
 								var _nextIdex = chunkIndex + 1;
-								that.bot.sendTextMessage(that.event.sender.id, chunk, function(body) {
-									that.bot.sendTextMessage(that.event.sender.id, _chunk);
+								that.bot.sendTextMessage(that.event.sender.id, _chunk, function(body) {
 									_sendChunk(_nextIdex);
 								}
 								);
@@ -151,7 +150,7 @@ search.prototype = {
 								{
 									var elements = [
 										{
-											'title': "Note added " + dateformat(row.created_at, 'ddd mmm-dd H:MM') ,
+											'title': "Note added " + dateformat(row.created_at, 'ddd mmm-dd H:MM')  +  " GMT",
 											"subtitle": 'What do you want to do?' ,
 											
 											"buttons": [
