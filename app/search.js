@@ -127,7 +127,7 @@ search.prototype = {
 					{
 						var first100 = row.text.substring(0, 200);
 						var remaining = row.text.substring(200);
-						var parts = remaining.match(/.{1,320}/);
+						var parts = remaining.match(/.{1,310}/);
 						
 						var _sendChunk = function(chunkIndex)
 						{
@@ -139,7 +139,7 @@ search.prototype = {
 							if(_chunk)
 							{
 								var _nextIdex = chunkIndex + 1;
-								that.bot.sendTextMessage(that.event.sender.id, _chunk, function(body) {
+								that.bot.sendTextMessage(that.event.sender.id, _chunk + ' ...', function(body) {
 									_sendChunk(_nextIdex);
 								}
 								);
@@ -169,7 +169,11 @@ search.prototype = {
 								
 							}
 						}
-						_sendChunk(0);
+						that.bot.sendTextMessage(that.event.sender.id, first100 + ' ...', function(body) {
+								_sendChunk(0);
+							}
+						)
+						
 					}
 				}
 			}
