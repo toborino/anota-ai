@@ -267,7 +267,7 @@ reminder.prototype =
 										
 										if(topic)
 										{
-											that.bot.pgClient.query('SELECT notes.*, topics.topic AS topic FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE notes.id <> $3  AND notes.user_id = $1 AND notes.notified = FALSE AND notes.done = false AND topics.topic = $2) ORDER BY notes.reminder_at ASC, notes.id DESC  LIMIT 8', [that.event.sender.id, topic, note_id], function(err, result)
+											that.bot.pgClient.query('SELECT notes.*, topics.topic AS topic FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE notes.id <> $3  AND notes.user_id = $1 AND notes.notified = FALSE AND notes.done = false AND topics.topic = $2 ORDER BY notes.reminder_at ASC, notes.id DESC  LIMIT 8', [that.event.sender.id, topic, note_id], function(err, result)
 												{
 													if(err)
 													{
