@@ -75,10 +75,11 @@ reminder.prototype =
 						},
 						method: 'POST',
 					}, function(error, response, body) {
-						console.log(error, body, _time);
-						if(! error && !response.body.error && body)
+						if(error) {
+							console.log(error);
+						}
+						if(!error && !response.body.error && body)
 						{
-							console.log(error, body);
 							var results = body.match(/<textarea.*?>(\d*)<\/textarea>/);
 							
 							if(results && results[1])
@@ -101,10 +102,13 @@ reminder.prototype =
 										},
 										method: 'POST',
 									}, function(error, response, body) {
-										console.log(error, body, _time);
+										if(error)
+										{
+											console.log(error);
+										}
+										
 										if(! error && !response.body.error && body)
 										{
-											console.log(error, body);
 											var results = body.match(/<textarea.*?>(\d*)<\/textarea>/);
 											
 											if(results && results[1])

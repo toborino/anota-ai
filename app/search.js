@@ -18,7 +18,6 @@ search.prototype = {
 	
 	prepareNotesForDisplay: function(result)
 	{
-		console.log(result.rows);
 		var that = this
 		var elements = [];
 		for(var i = 0; i < result.rows.length; i++)
@@ -87,7 +86,6 @@ search.prototype = {
 				}
 			)
 		}
-//		console.log(elements);
 		return elements
 	}
 	
@@ -103,7 +101,6 @@ search.prototype = {
 			note_id = this.event.postback.payload.note_id
 			if(!note_id)
 			{
-				console.log(note_id)
 				return that.bot.sendTextMessage(that.event.sender.id, ':/');
 			}
 		}
@@ -153,7 +150,6 @@ search.prototype = {
 						var first100 = row.text.substring(0, 200);
 						var remaining = row.text.substring(200);
 						var parts = remaining.match(/.{1,310}/g);
-						console.log(parts);
 						var _sendChunk = function(chunkIndex)
 						{
 							if(!parts)
