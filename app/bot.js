@@ -150,7 +150,7 @@ bot.prototype =
 			{
 				if(hashtag)
 				{
-					that.pgClient.query('SELECT notes.*, topics.topic AS topic FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE (notes.id = $3) OR  (notes.user_id = $1 AND notes.notified = FALSE AND ( (notes.reminder_at >= NOW()) OR (notes.reminder_at IS NULL) ) AND notes.done = false AND topics.topic = $2) ORDER BY notes.id != $3, notes.reminder_at ASC, notes.id DESC  LIMIT ' + that.cardLimit, [row.user_id, hashtag, row.id], function(err, result)
+					that.pgClient.query('SELECT notes.*, topics.topic AS topic FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE (notes.id = $3) OR  (notes.user_id = $1 AND notes.notified = FALSE AND ( (notes.reminder_at >= NOW()) OR (notes.reminder_at IS NULL) ) AND notes.done = false AND topics.topic = $2) ORDER BY notes.id != $3, notes.reminder_at ASC, notes.id DESC  LIMIT 8', [row.user_id, hashtag, row.id], function(err, result)
 						{
 							if(err)
 							{
