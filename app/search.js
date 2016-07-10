@@ -72,7 +72,7 @@ search.prototype = {
 			elements.push(
 				{
 					'title': 'Topic: ' + topic,
-					"subtitle": (row.reminder_at ? ('at ' + dateformat(row.reminder_at, 'yyyy-mm-dd H:MM') + ' GMT: ') : '') + row.text.substring(0, 30) + (is_long ? ' ...' : ''),
+					"subtitle": /*(row.reminder_at ? ('at ' + dateformat(row.reminder_at, 'yyyy-mm-dd H:MM') + ' GMT: ') : '') + */ row.text.substring(0, 30) + (is_long ? ' ...' : ''),
 					"buttons": _buttons
 				}
 			)
@@ -118,7 +118,7 @@ search.prototype = {
 					var row = result.rows[0]
 					if(row.text.length <= 220)
 					{
-						var response = 'On ' + dateformat(row.reminder_at, 'ddd mmm-dd H:MM') + " GMT \n " + row.text + " \n Note added " + dateformat(row.created_at, 'ddd mmm-dd H:MM')
+						var response = /*'On ' + dateformat(row.reminder_at, 'ddd mmm-dd H:MM') + " GMT \n " + */ row.text /* + " \n Note added " + dateformat(row.created_at, 'ddd mmm-dd H:MM') */
 						
 						that.bot.sendTextMessage(that.event.sender.id, response, function()
 						{
@@ -169,7 +169,7 @@ search.prototype = {
 							{
 								var elements = [
 									{
-										'title': "Note added " + dateformat(row.created_at, 'ddd mmm-dd H:MM')  +  " GMT",
+										'title': "Options" /* "Note added " + dateformat(row.created_at, 'ddd mmm-dd H:MM')  +  " GMT" */,
 										"subtitle": 'What do you want to do?' ,
 										
 										"buttons": [
