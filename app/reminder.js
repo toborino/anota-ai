@@ -54,7 +54,7 @@ reminder.prototype =
 		var created_at = dateformat(d, 'yyyy-mm-dd H:MM:00');
 		var that = this;
 		var query = this.bot.pgClient.query(
-			'SELECT notes.id, notes.user_id, notes.text, notes.reminder_at, notes.notified, notes.created_at, user_data.timezone, user_data.entering_time_for_note_id  FROM "notes" INNER JOIN user_data ON notes.user_id = user_data.user_id AND user_data.entering_time_for_note_id = notes.id WHERE notes.user_id = $1  AND notes.reminder_at IS NULL', [this.event.sender.id]
+			'SELECT notes.id, notes.user_id, notes.text, notes.reminder_at, notes.notified, notes.created_at, user_data.timezone, user_data.entering_time_for_note_id  FROM "notes" INNER JOIN user_data ON notes.user_id = user_data.user_id AND user_data.entering_time_for_note_id = notes.id WHERE notes.user_id = $1 ', [this.event.sender.id]
 			, function (err, result) 
 			{
 				if(result && result.rows && (result.rows.length > 0) ) 
