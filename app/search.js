@@ -120,7 +120,7 @@ search.prototype = {
 					{
 						var response = 'On ' + dateformat(row.reminder_at, 'ddd mmm-dd H:MM') + " GMT \n " + row.text + " \n Note added " + dateformat(row.created_at, 'ddd mmm-dd H:MM')
 						
-						that.bot.sendTextMessage(that.event.sender.id, elements, function()
+						that.bot.sendTextMessage(that.event.sender.id, response, function()
 						{
 							var elements = [
 								{
