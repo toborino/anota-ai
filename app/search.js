@@ -252,7 +252,7 @@ search.prototype = {
 		
 		if(matches)
 		{
-			this.bot.pgClient.query('SELECT notes.*, topics.topic AS topic, COUNT(*) AS _count FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE notes.user_id = $1 AND notes.notified = FALSE AND ( (notes.reminder_at >= $2) OR (notes.reminder_at IS NULL) ) AND notes.done = false AND topics.topic = $3 ORDER BY notes.reminder_at ASC, notes.id DESC GROUP BY topics.topic, notes.id LIMIT ' + that.cardLimit, [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00'), matches[1]], _showResults)
+			this.bot.pgClient.query('SELECT notes.*, topics.topic AS topic, COUNT(*) AS _count FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE notes.user_id = $1 AND notes.notified = FALSE AND ( (notes.reminder_at >= $2) OR (notes.reminder_at IS NULL) ) AND notes.done = false AND topics.topic = $3 GROUP BY topics.topic, notes.id ORDER BY notes.reminder_at ASC, notes.id DESC  LIMIT ' + that.cardLimit, [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00'), matches[1]], _showResults)
 		}
 		else
 		{
@@ -267,7 +267,7 @@ search.prototype = {
 	{
 			var that = this;
 			var topics = {}
-			this.bot.pgClient.query('SELECT topics.topic AS _topic, COUNT(*) AS _count FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE notes.user_id = $1 AND notes.notified = FALSE AND ( (notes.reminder_at >= $2) OR (notes.reminder_at IS NULL) ) AND notes.done = false ORDER BY notes.reminder_at ASC, notes.id DESC GROUP BY topics.topic LIMIT ' + that.cardLimit, [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00')], 
+			this.bot.pgClient.query('SELECT topics.topic AS _topic, COUNT(*) AS _count FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE notes.user_id = $1 AND notes.notified = FALSE AND ( (notes.reminder_at >= $2) OR (notes.reminder_at IS NULL) ) AND notes.done = false GROUP BY topics.topic ORDER BY topics.topic DESC LIMIT ' + that.cardLimit, [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00')], 
 				function( err, results)
 				{
 					if(err)
