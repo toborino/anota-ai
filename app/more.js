@@ -56,6 +56,30 @@ more.prototype = {
 		)
 	}
 
+
+	,
+	
+	askForTimezone: function()
+	{
+		var that = this
+		this.bot.getModel('user').getUpdateTimezoneToken(that.event.sender.id, function(token)
+			{
+				var elements = [
+					{
+						'title': 'Timezone',
+						'subtitle': 'Click the button below to automatically detect your timezone',
+						
+						'buttons': [{
+								"type": "web_url",
+								"title": "Update Timezone",
+								"url": config.base_url + '/timezone?token=' + token
+						}]
+					}
+				]
+				that.bot.sendGenericMessage(that.event.sender.id, elements)
+			}
+		)
+	}
 }
 
 
