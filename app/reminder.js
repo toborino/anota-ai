@@ -257,11 +257,7 @@ reminder.prototype =
 														"type": "postback",
 														"title": "Share",
 														"payload": JSON.stringify({'controller': 'reminder', 'method': 'share', 'note_id': note_id}),
-													}, {
-														"type": "postback",
-														"title": "More",
-														"payload": JSON.stringify({'controller': 'more', 'method': 'showMore', 'note_id': note_id})
-												}],
+													}],
 											}
 										]
 										
