@@ -67,7 +67,7 @@ more.prototype = {
 			{
 				'title': "What can Ai Do",
 				'subtitle': "Soon, Ai will soon be able to do some of your task for you!",
-				'image_url': config + '/images/tutorial/Powered by Ai.png',
+				'image_url': config + '/images/tutorial/Powered+by+Ai.png',
 				
 				"buttons": [
 					{
