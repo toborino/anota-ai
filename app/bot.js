@@ -35,6 +35,10 @@ bot.prototype =
 				{
 					this.getController('diagnose', event).prompt(event.message.text)
 				}
+				else if(event.message.text.toLowerCase() == 'get started')
+				{
+					this.getController('more', event).getStarted();
+				}
 				else
 				{
 					var that = this
