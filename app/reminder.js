@@ -60,6 +60,10 @@ reminder.prototype =
 				if(result && result.rows && (result.rows.length > 0) ) 
 				{
 					var row = result.rows[0]
+					if(!row.timezone)
+					{
+						row.timezone = 0;
+					}
 					var _time = timeformat.formatTime(msg, row.timezone);
 					var _now = timeformat.now(msg, row.timezone);
 
@@ -315,6 +319,7 @@ reminder.prototype =
 	{
 		var that = this;
 		var sender_id = that.event.sender.id;
+		
 		that.bot.getModel('user').expectInput(sender_id, 'reminder.setReminderTime')
 		that.bot.pgClient.query('UPDATE user_data SET entering_time_for_note_id = $1 WHERE user_id = $2;', [that.event.postback.payload.note_id, that.event.sender.id], function() {
 			that.bot.sendTextMessage(sender_id, 'When do you want to be reminded?');
