@@ -24,7 +24,7 @@ var timeFormat =
 			{
 				_time += ' GMT' + this.offsetToTimezone(timezone);
 			}
-			else if(timezone != "0")
+			else
 			{
 				var str = timezone.replace('-', '')
 				var pad = "00"
@@ -59,7 +59,7 @@ var timeFormat =
 		var str = minutes.toString();
 		formatted_timezone += pad.substring(0, pad.length - str.length) + str 
 
-		if(offsetInMinutes < 0)
+		if(offsetInMinutes <= 0)
 		{
 			formatted_timezone = '+' + formatted_timezone;
 		}
