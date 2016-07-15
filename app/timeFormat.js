@@ -24,7 +24,7 @@ var timeFormat =
 			{
 				_time += ' GMT' + this.offsetToTimezone(timezone);
 			}
-			else
+			else if(timezone != "0")
 			{
 				var str = timezone.replace('-', '')
 				var pad = "00"

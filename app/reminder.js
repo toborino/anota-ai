@@ -66,7 +66,7 @@ reminder.prototype =
 					}
 					var _time = timeformat.formatTime(msg, row.timezone);
 					var _now = timeformat.now(msg, row.timezone);
-console.log(_time, _now);
+
 					request({
 						url: 'https://www.functions-online.com/js/execute.php?fuid=11',
 						body: 'time=' + encodeURIComponent(_time) + '&now=' + _now + '&submit=run',
