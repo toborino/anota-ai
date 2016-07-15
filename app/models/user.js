@@ -83,7 +83,7 @@ user.prototype = {
 								else
 								{
 									// this won't work if time was presented like "after two minutes"
-									that.bot.pgClient.query('UPDATE "notes" SET reminder_at = reminder_at + INTERVAL \'$1 minutes\' WHERE user_id = $2 AND timezone IS NULL;', [timezone, result.rows[0].user_id]) 
+									that.bot.pgClient.query('UPDATE "notes" SET reminder_at = reminder_at + INTERVAL \'' + parseInt(timezone) + ' minutes\' WHERE user_id = $1 AND timezone IS NULL;', [result.rows[0].user_id]) 
 									return callback(null, result.rows[0]);
 								}
 							}
