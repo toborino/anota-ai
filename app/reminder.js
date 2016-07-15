@@ -176,7 +176,44 @@ reminder.prototype =
 		var intervalString = timeformat.dateIntervalString(date);
 		that.bot.pgClient.query('UPDATE notes SET reminder_at = $1, notified = false WHERE id = $2', [dateformat(date, 'yyyy-mm-dd H:MM:00'), note_id]);
 		that.bot.pgClient.query('UPDATE user_data SET entering_time_for_note_id = NULL WHERE user_id = $1', [sender_id]);
-		that.bot.sendTextMessage(that.event.sender.id, 'Reminder set, we will alert you after ' + intervalString)
+		
+		that.bot.pgClient.query('SELECT * FROM WHERE user_id = $1', [sender_id], function(err, result)
+			{
+				if(err)
+				{
+					that.bot.sendTextMessage(that.event.sender.id, 'Please set your timezone');
+					return console.log(err)
+				}
+				if((result.rows.length <= 0 ) || result.rows[0].timezone === null  )
+				{
+					that.bot.getModel('user').getUpdateTimezoneToken(that.event.sender.id, 
+						function(token)
+						{
+							var elements = [
+								{
+									"title": "Awesome! I got your reminder, but I don’t know where on earth you are!",
+									"subtitle": 'Let’s set your timezone.',
+
+									"buttons": [{
+										"type": "web_url",
+										"title": "Set Timezone",
+										"url": config.base_url + '/timezone?token=' + token
+									}],
+								}
+							]
+							
+							that.bot.sendGenericMessage(that.event.sender.id, elements)
+							return;
+						}
+					)
+				}
+				else
+				{
+					that.bot.sendTextMessage(that.event.sender.id, 'Reminder set, we will alert you after ' + intervalString)
+				}
+			}
+		)
+		
 		that.bot.getModel('user').expectInput(sender_id, 'reminder.acceptMessage')		
 	}
 	
@@ -211,81 +248,58 @@ reminder.prototype =
 									return console.log(err);
 								}
 								
-								if(result.rows.length == 0 || result.rows[0].timezone === null)
+								if(result.rows.length == 0)
 								{
-									if(result.rows.length == 0)
-									{
-										that.bot.pgClient.query('INSERT INTO user_data (user_id, entering_time_for_note_id) VALUES ($2, $1)', [note_id, that.event.sender.id]);
-									}
-									that.bot.getModel('user').getUpdateTimezoneToken(that.event.sender.id, 
-										function(token)
-										{
-											var elements = [
-												{
-													"title": "Hi. Let's start by setting your timezone first",
-													"subtitle": 'just click the button below',
-
-													"buttons": [{
-														"type": "web_url",
-														"title": "Update Timezone",
-														"url": config.base_url + '/timezone?token=' + token
-													}],
-												}
-											]
-											
-											that.bot.sendGenericMessage(that.event.sender.id, elements)
-											return;
-										}
-									)
+									that.bot.pgClient.query('INSERT INTO user_data (user_id, entering_time_for_note_id) VALUES ($2, $1)', [note_id, that.event.sender.id]);
+									result.rows = [null]
 								}
 								
-								else
+
+								that.bot.pgClient.query('UPDATE notes SET timezone = $1 WHERE id = $2', [result.rows[0].timezone, note_id], function(err, result)
 								{
-									that.bot.pgClient.query('UPDATE notes SET timezone = $1 WHERE id = $2', [result.rows[0].timezone, note_id], function(err, result)
+									that.bot.pgClient.query('UPDATE user_data SET entering_time_for_note_id = $1 WHERE user_id = $2;', [note_id, that.event.sender.id])
+									var elements = [
+										{
+											'title': 'Topic: ' + (topic ? topic : ' - use #hashtag in note text to assign a topic') ,
+											"subtitle": msg,
+											
+											"buttons": [{
+													"type": "postback",
+													"title": "Set Reminder",
+													"payload": JSON.stringify({'note_id': note_id, 'controller': 'reminder', 'method': 'askForTime'})
+												},{
+													"type": "postback",
+													"title": "Share",
+													"payload": JSON.stringify({'controller': 'reminder', 'method': 'share', 'note_id': note_id}),
+												}],
+										}
+									]
+									
+									if(topic)
 									{
-										that.bot.pgClient.query('UPDATE user_data SET entering_time_for_note_id = $1 WHERE user_id = $2;', [note_id, that.event.sender.id])
-										var elements = [
+										that.bot.pgClient.query('SELECT notes.*, topics.topic AS topic FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE notes.id <> $3  AND notes.user_id = $1 AND notes.notified = FALSE AND notes.done = false AND topics.topic = $2 ORDER BY notes.reminder_at ASC, notes.id DESC  LIMIT 8', [that.event.sender.id, topic.toLowerCase(), note_id], function(err, result)
 											{
-												'title': 'Topic: ' + (topic ? topic : ' - use #hashtag in note text to assign a topic') ,
-												"subtitle": msg,
-												
-												"buttons": [{
-														"type": "postback",
-														"title": "Set Reminder",
-														"payload": JSON.stringify({'note_id': note_id, 'controller': 'reminder', 'method': 'askForTime'})
-													},{
-														"type": "postback",
-														"title": "Share",
-														"payload": JSON.stringify({'controller': 'reminder', 'method': 'share', 'note_id': note_id}),
-													}],
-											}
-										]
-										
-										if(topic)
-										{
-											that.bot.pgClient.query('SELECT notes.*, topics.topic AS topic FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE notes.id <> $3  AND notes.user_id = $1 AND notes.notified = FALSE AND notes.done = false AND topics.topic = $2 ORDER BY notes.reminder_at ASC, notes.id DESC  LIMIT 8', [that.event.sender.id, topic.toLowerCase(), note_id], function(err, result)
+												if(err)
 												{
-													if(err)
-													{
-														return console.log(err)
-													}
-													else
-													{
-														var similar_elements = that.bot.getController('search').prepareNotesForDisplay(result)
-														elements = elements.concat(similar_elements);
-														that.bot.sendGenericMessage(that.event.sender.id, elements)
-													}
+													return console.log(err)
 												}
-											)
-										}
-										else
-										{
-											that.bot.sendGenericMessage(that.event.sender.id, elements)
-										}
-										
+												else
+												{
+													var similar_elements = that.bot.getController('search').prepareNotesForDisplay(result)
+													elements = elements.concat(similar_elements);
+													that.bot.sendGenericMessage(that.event.sender.id, elements)
+												}
+											}
+										)
 									}
-									)	
-								}	
+									else
+									{
+										that.bot.sendGenericMessage(that.event.sender.id, elements)
+									}
+									
+								}
+								)	
+									
 							}
 						)
 						
