@@ -177,7 +177,7 @@ reminder.prototype =
 		that.bot.pgClient.query('UPDATE notes SET reminder_at = $1, notified = false WHERE id = $2', [dateformat(date, 'yyyy-mm-dd H:MM:00'), note_id]);
 		that.bot.pgClient.query('UPDATE user_data SET entering_time_for_note_id = NULL WHERE user_id = $1', [sender_id]);
 		
-		that.bot.pgClient.query('SELECT * FROM WHERE user_id = $1', [sender_id], function(err, result)
+		that.bot.pgClient.query('SELECT * FROM user_data WHERE user_id = $1', [sender_id], function(err, result)
 			{
 				if(err)
 				{
