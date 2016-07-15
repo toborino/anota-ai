@@ -40,7 +40,7 @@ more.prototype = {
 			{
 				'title': "Notes Powered by AI and Could Talk Back That Helps You get Things Done!",
 				'subtitle': "Search, Share, use #Hashtags. Soon it will learn to set reminders for you!",
-				'image_url': config + '/images/tutorial/Welcome.png',
+				'image_url': config.base_url + '/images/tutorial/Welcome.png',
 				
 				"buttons": [
 					{
@@ -67,7 +67,7 @@ more.prototype = {
 			{
 				'title': "What can Ai Do",
 				'subtitle': "Soon, Ai will soon be able to do some of your task for you!",
-				'image_url': config + '/images/tutorial/Powered+by+Ai.png',
+				'image_url': config.base_url + '/images/tutorial/Powered+by+Ai.png',
 				
 				"buttons": [
 					{
@@ -83,28 +83,28 @@ more.prototype = {
 			{
 				'title': "Your Ideas, To-Dos, & Links in 1 Place",
 				'subtitle': "Fastest way to Dump all of your Ideas, To-Dos and Links in One Place.",
-				'image_url': config + '/images/tutorial/Ideas.png',
+				'image_url': config.base_url + '/images/tutorial/Ideas.png',
 			}
 			,
 			
 			{
 				'title': "Easily Find Any Note",
 				'subtitle': "Now you can Easily Search your Notes by using Keywords & #Hashtags.",
-				'image_url': config + '/images/tutorial/Search.png',
+				'image_url': config.base_url + '/images/tutorial/Search.png',
 			}
 			,
 			
 			{
 				'title': "Set Reminder",
 				'subtitle': "Make all of your Notes and To-Dos come Alive. You can Add Reminders!",
-				'image_url': config + '/images/tutorial/Reminder.png',
+				'image_url': config.base_url + '/images/tutorial/Reminder.png',
 			}
 			,
 			
 			{
 				'title': "Share your Ideas Instantly",
 				'subtitle': "Easily Send Friends your To-Do list and Instantly Share your Ideas :)",
-				'image_url': config + '/images/tutorial/Share.png',
+				'image_url': config.base_url + '/images/tutorial/Share.png',
 				"buttons": [
 					{
 						"type": "postback",
@@ -118,14 +118,14 @@ more.prototype = {
 			{
 				'title': "Organize with #Hashtags",
 				'subtitle': "Add a #Hashtag Anywhere in your Note & we’ll organize it for You!",
-				'image_url': config + '/images/tutorial/Hashtags.png',
+				'image_url': config.base_url + '/images/tutorial/Hashtags.png',
 			}
 			,
 			
 			{
 				'title': "Need Help?",
 				'subtitle': "Need some Human Intervention? We can help, just send us a message.",
-				'image_url': config + '/images/tutorial/Help.png',
+				'image_url': config.base_url + '/images/tutorial/Help.png',
 				"buttons": [
 					{
 						"type": "web_url",
