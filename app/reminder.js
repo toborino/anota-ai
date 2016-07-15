@@ -163,7 +163,7 @@ reminder.prototype =
 	{
 		var that = this;
 		error_message = error_message || 'Incorrect time' ;
-		that.bot.pgClient.query('DELETE FROM notes WHERE id = $1', [note_id]);
+		
 		that.bot.sendTextMessage(sender_id, error_message)
 		that.bot.getModel('user').expectInput(sender_id, 'reminder.acceptMessage')
 	}
@@ -211,9 +211,9 @@ reminder.prototype =
 									return console.log(err);
 								}
 								
-								if(!result || !result.rows || result.rows.length <= 0 || !result.rows[0].timezone)
+								if(result.rows.length == 0 || result.rows[0].timezone === null)
 								{
-									if(result.rows.length <= 0)
+									if(result.rows.length == 0)
 									{
 										that.bot.pgClient.query('INSERT INTO user_data (user_id, entering_time_for_note_id) VALUES ($2, $1)', [note_id, that.event.sender.id]);
 									}
@@ -224,7 +224,7 @@ reminder.prototype =
 												{
 													"title": "Hi. Let's start by setting your timezone first",
 													"subtitle": 'just click the button below',
-													
+
 													"buttons": [{
 														"type": "web_url",
 														"title": "Update Timezone",
@@ -261,7 +261,6 @@ reminder.prototype =
 											}
 										]
 										
-										console.log('SELECT notes.*, topics.topic AS topic FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE notes.id <> $3  AND notes.user_id = $1 AND notes.notified = FALSE AND notes.done = false AND topics.topic = $2 ORDER BY notes.reminder_at ASC, notes.id DESC  LIMIT 8', [that.event.sender.id, topic.toLowerCase(), note_id]);
 										if(topic)
 										{
 											that.bot.pgClient.query('SELECT notes.*, topics.topic AS topic FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE notes.id <> $3  AND notes.user_id = $1 AND notes.notified = FALSE AND notes.done = false AND topics.topic = $2 ORDER BY notes.reminder_at ASC, notes.id DESC  LIMIT 8', [that.event.sender.id, topic.toLowerCase(), note_id], function(err, result)
@@ -303,8 +302,9 @@ reminder.prototype =
 		var that = this;
 		var sender_id = that.event.sender.id;
 		that.bot.getModel('user').expectInput(sender_id, 'reminder.setReminderTime')
-		that.bot.pgClient.query('UPDATE user_data SET entering_time_for_note_id = $1 WHERE user_id = $2;', [that.event.postback.payload.note_id, that.event.sender.id])
-		that.bot.sendTextMessage(sender_id, 'When do you want to be reminded?');
+		that.bot.pgClient.query('UPDATE user_data SET entering_time_for_note_id = $1 WHERE user_id = $2;', [that.event.postback.payload.note_id, that.event.sender.id], function() {
+			that.bot.sendTextMessage(sender_id, 'When do you want to be reminded?');
+		})
 	}
 	,
 	getTopic: function(msg)
