@@ -40,7 +40,7 @@ more.prototype = {
 			{
 				'title': "Notes Powered by AI and Could Talk Back That Helps You get Things Done!",
 				'subtitle': "Search, Share, use #Hashtags. Soon it will learn to set reminders for you!",
-				'image_url': config.base_url + '/images/tutorial/Welcome.png',
+				'image_url': config.base_url + '/images/tutorial/Welcome.gif',
 				
 				"buttons": [
 					{
@@ -67,7 +67,7 @@ more.prototype = {
 			{
 				'title': "What can Ai Do",
 				'subtitle': "Soon, Ai will soon be able to do some of your task for you!",
-				'image_url': config.base_url + '/images/tutorial/Powered+by+Ai.png',
+				'image_url': config.base_url + '/images/tutorial/Powered by Ai.png',
 				
 				"buttons": [
 					{
