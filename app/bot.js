@@ -24,6 +24,10 @@ bot.prototype =
 				{
 					event.postback.payload = 'payload:more::getStarted'
 				}
+				if(event.postback.payload == 'USER_DEFINED_PAYLOAD')
+				{
+					event.postback.payload = 'payload:more::getStarted'
+				}
 				var matches = event.postback.payload.match(/payload:(\w*?)::(\w*?)$/)
 				if(matches)
 				{
