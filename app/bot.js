@@ -232,7 +232,10 @@ bot.prototype =
 			} else if (response.body.error) {
 				return console.log('Error: ', response.body.error)
 			}
-			callback(response.body);
+			if(typeof(callback) == 'function') 
+			{
+				callback(response.body);
+			}
 		})
 	}
 	,
@@ -262,7 +265,10 @@ bot.prototype =
 			} else if (response.body.error) {
 				return console.log('Error: ', response.body.error)
 			}
-			callback(response.body);
+			if(typeof(callback) == 'function') 
+			{
+				callback(response.body);
+			}
 		})
 	}
 	
