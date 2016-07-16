@@ -258,7 +258,7 @@ reminder.prototype =
 									result.rows = [null]
 								}
 								var timezone;
-								if(result.rows.length)
+								if(result.rows.length && (result.rows[0] !== null))
 								{
 									timezone = result.rows[0].timezone;
 								}
