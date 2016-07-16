@@ -128,7 +128,7 @@ more.prototype = {
 					{
 						"type": "web_url",
 						"title": "Get Help",
-						"url": "\nhttp://m.me/SmartNotesBot"
+						"url": "http://m.me/SmartNotesBot"
 					}
 				]
 			}
