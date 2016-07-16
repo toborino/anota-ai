@@ -39,7 +39,7 @@ more.prototype = {
 		var that = this;
 		that.bot.sendImageMessage(that.event.sender.id, config.base_url + '/images/tutorial/Welcome.gif', function(resBody)
 			{
-				that.bot.sendButtonsMessage(that.event.sender.id, "Imagine if Notes were Powered by AI and Could Talk Back. Smart Notes Can Help You get Things Done!\n\nYou can easily Search, Set Reminders, use #Hashtags, Send Tasks to Your Friends and the More you Use it the Smarter it Gets. Soon Smart Notes will be Able to Handle Some of your To-Dos for You!", 
+				that.bot.sendButtonsMessage(that.event.sender.id, "Imagine if Notes were Powered by AI and Could Talk Back.\n\nYou can easily Search, Set Reminders, use #Hashtags\n\nSoon, Smart Notes will help You get things Done!", 
 					[
 							{
 								"type": "postback",
@@ -107,7 +107,7 @@ more.prototype = {
 				"buttons": [
 					{
 						"type": "postback",
-						"title": "Try Sharig Now",
+						"title": "Try Sharing Now",
 						"payload": JSON.stringify({'controller': 'more', 'method': 'shareMe'})
 					}
 				]
