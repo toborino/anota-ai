@@ -1,4 +1,5 @@
 var dateformat = require('dateformat')
+var config = require('./config.js')
 var search =	function(bot, event)
 {
 	this.bot = bot
@@ -11,7 +12,7 @@ search.prototype = {
 	prompt: function()
 	{
 		this.bot.getModel('user').expectInput(this.event.sender.id, 'search.perform');
-		this.bot.sendTextMessage(this.event.sender.id, 'Please type Keyword or Hashtag you want to Search');
+		this.bot.sendTextMessage(this.event.sender.id, 'Type a Keyword or a #Hashtag and I\'ll find it for you');
 	}
 
 	,
@@ -230,20 +231,13 @@ search.prototype = {
 			}
 			else
 			{
-				var elements = [
-					{
-						'title': 'nothing was found' ,
-						"subtitle": 'What do you want to do?' ,
-						
-						"buttons": [{
-								"type": "postback",
-								"title": "Search Again",
-								"payload": JSON.stringify({'controller': 'search', 'method': 'prompt'})
-							}
-						]
-					}
-				]
-				that.bot.sendGenericMessage(that.event.sender.id, elements);
+				that.bot.sendButtonsMessage(that.event.sender.id, 'We sent a Search Party and we found nothing..\nWould you like to try another search?', [{
+							"type": "postback",
+							"title": "Search Again",
+							"payload": JSON.stringify({'controller': 'search', 'method': 'prompt'})
+						}
+					]
+				);
 			}
 		}
 		
@@ -317,7 +311,19 @@ search.prototype = {
 								}
 							)
 						}
-						that.bot.sendGenericMessage(that.event.sender.id, elements);
+						
+						that.bot.sendImageMessage('that.event.sender.id', config.base_url + 'images/tutorial/Gifs/Search_Nil.gif', function(body)
+							{
+								that.bot.sendButtonsMessage(that.event.sender.id, 'It looks like you’re #hashtagless :( You can add a #hashtag anywhere in a note. Try it, it’s fun and useful ;)', 
+									[
+										{
+											"type": "postback","title": "See Notes","payload": JSON.stringify({'topic': topic}) 
+										}
+									]
+								);
+							}
+						)
+						
 					}
 
 					else
@@ -349,7 +355,11 @@ search.prototype = {
 				}
 				else
 				{
-					that.bot.sendTextMessage(that.event.sender.id, 'Sorry, no notes.');
+					that.bot.sendImageMessage('that.event.sender.id', config.base_url + 'images/tutorial/Gifs/Search_Nil.gif', function(body)
+						{
+							that.bot.sendTextMessage(that.event.sender.id, 'Sorry, there is nothing here. Try writing a Note and See what Happens..');
+						}
+					)
 				}
 			}
 		)

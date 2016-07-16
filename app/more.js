@@ -16,8 +16,8 @@ more.prototype = {
 			{
 				var elements = [
 					{
-						'title': 'Timezone',
-						'subtitle': 'Click the button below to automatically detect your timezone',
+						'title': 'Traveling?',
+						'subtitle': 'Press the button and we will instantly update your timezone',
 						
 						'buttons': [{
 								"type": "web_url",
