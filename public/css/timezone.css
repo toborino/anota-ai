@@ -1,6 +1,6 @@
 body
 {
-	background-color: #ffff00;
+	background-color: #ffc700;
 }
 #container
 {
@@ -24,5 +24,20 @@ body
 	display: block;
 	width: 254px;
 	height: 64px;
+}
+
+
+#message_us
+{
+	position: absolute;
+	bottom: -250px;
+	left: 0px;
 	background: url("../images/timezone/messenger_button.png") transparent no-repeat 0 0;
+}
+
+#see_reminders
+{
+	position: absolute;
+	bottom: -125px;
+	left: 0px;
 }
