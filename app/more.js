@@ -129,7 +129,7 @@ more.prototype = {
 					{
 						"type": "web_url",
 						"title": "Get Help",
-						"url": "http://m.me/SmartNotesBot"
+						"url": "http://m.me/279172302436701"
 					}
 				]
 			}
@@ -141,7 +141,7 @@ more.prototype = {
 	startANote: function()
 	{
 		var that = this;
-		that.bot.sendTextMessage(that.event.sender.id, "Awesome! Simply write anything and I’ll Make it Smart!\n You can add #hashtags and I’ll respond with a few options :)\nStart writing")
+		that.bot.sendTextMessage(that.event.sender.id, "AwesAwesome! Simply write anything and I’ll Make it Smart!\n\nYou can add #hashtags and I’ll respond with a few options\nStart writing")
 	}
 	
 	,
