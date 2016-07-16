@@ -257,9 +257,16 @@ reminder.prototype =
 									that.bot.pgClient.query('INSERT INTO user_data (user_id, entering_time_for_note_id) VALUES ($2, $1)', [note_id, that.event.sender.id]);
 									result.rows = [null]
 								}
-								
-
-								that.bot.pgClient.query('UPDATE notes SET timezone = $1 WHERE id = $2', [result.rows[0].timezone, note_id], function(err, result)
+								var timezone;
+								if(result.rows.length)
+								{
+									timezone = result.rows[0].timezone;
+								}
+								else
+								{
+									timezone = "0"
+								}
+								that.bot.pgClient.query('UPDATE notes SET timezone = $1 WHERE id = $2', [timezone, note_id], function(err, result)
 								{
 									that.bot.pgClient.query('UPDATE user_data SET entering_time_for_note_id = $1 WHERE user_id = $2;', [note_id, that.event.sender.id])
 									var elements = [

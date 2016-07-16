@@ -20,11 +20,16 @@ bot.prototype =
 
 			sender = event.sender.id
 			if (event.postback) {
+				if(event.postback.payload == 'getstarted')
+				{
+					event.postback.payload = 'payload:more::getStarted'
+				}
 				var matches = event.postback.payload.match(/payload:(\w*?)::(\w*?)$/)
 				if(matches)
 				{
 					event.postback.payload = '{"controller": "' + matches[1] + '", "method": "' + matches[2] + '"}'
 				}
+				
 				event.postback.payload = JSON.parse(event.postback.payload)
 				this.getController(event.postback.payload.controller, event)[event.postback.payload.method]();
 				continue
