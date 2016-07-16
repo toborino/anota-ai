@@ -235,6 +235,36 @@ bot.prototype =
 			callback(response.body);
 		})
 	}
+	,
+	
+	sendButtonsMessage: function(sender, text, buttons, callback) {
+		messageData = {
+			"attachment": {
+				"type": "template",
+				"payload": {
+					"template_type":"button",
+					"text": text
+					"buttons": buttons
+				} 
+			}
+		}
+		request({
+			url: 'https://graph.facebook.com/v2.6/me/messages',
+			qs: {access_token:this.token},
+			method: 'POST',
+			json: {
+				recipient: {id:sender},
+				message: messageData,
+			}
+		}, function(error, response, body) {
+			if (error) {
+				return console.log('Error sending messages: ', error)
+			} else if (response.body.error) {
+				return console.log('Error: ', response.body.error)
+			}
+			callback(response.body);
+		})
+	}
 	
 	
 	,
