@@ -26,6 +26,7 @@ app.post('/timezone', timezone);
 
 
 app.get('/webhook/', function (req, res) {
+	console.log(req.query)
     if (req.query['hub.verify_token'] === 'Aha_Moment_Labs') {
         res.send(req.query['hub.challenge'])
     }
