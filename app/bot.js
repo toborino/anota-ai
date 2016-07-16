@@ -243,7 +243,7 @@ bot.prototype =
 				"type": "template",
 				"payload": {
 					"template_type":"button",
-					"text": text
+					"text": text,
 					"buttons": buttons
 				} 
 			}
