@@ -141,7 +141,11 @@ more.prototype = {
 	startANote: function()
 	{
 		var that = this;
-		that.bot.sendTextMessage(that.event.sender.id, "AwesAwesome! Simply write anything and I’ll Make it Smart!\n\nYou can add #hashtags and I’ll respond with a few options\nStart writing")
+		that.bot.sendImageMessage(that.event.sender.id, config.base_url + '/images/tutorial/13705099_503972646464264_238141464_n.gif', function(resBody)
+			{
+				that.bot.sendTextMessage(that.event.sender.id, "Awesome!  Simply write anything and I’ll Make it Smart!\n\nYou can add #hashtags and I’ll respond with a few options :)\n\nStart writing")
+			}
+		)
 	}
 	
 	,
