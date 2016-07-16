@@ -39,24 +39,25 @@ more.prototype = {
 		that.bot.sendImageMessage(that.event.sender.id, config.base_url + '/images/tutorial/Welcome.gif', function(resBody)
 			{
 				that.bot.sendGenericMessage(that.event.sender.id, [
-					{
-						'title': "Notes Powered by AI and Could Talk Back That Helps You get Things Done!",
-						'subtitle': "Search, Share, use #Hashtags. Soon it will learn to set reminders for you!",
-						
-						"buttons": [
-							{
-								"type": "postback",
-								"title": "See What's Possible",
-								"payload": JSON.stringify({'controller': 'more', 'method': 'whatsPossible'})
-							},
-							{
-								"type": "postback",
-								"title": "Start a Note",
-								"payload": JSON.stringify({'controller': 'more', 'method': 'startANote'})
-							}
-						]	
-					}
-				]
+						{
+							'title': "Notes Powered by AI and Could Talk Back That Helps You get Things Done!",
+							'subtitle': "Search, Share, use #Hashtags. Soon it will learn to set reminders for you!",
+							
+							"buttons": [
+								{
+									"type": "postback",
+									"title": "See What's Possible",
+									"payload": JSON.stringify({'controller': 'more', 'method': 'whatsPossible'})
+								},
+								{
+									"type": "postback",
+									"title": "Start a Note",
+									"payload": JSON.stringify({'controller': 'more', 'method': 'startANote'})
+								}
+							]	
+						}
+					]
+				)
 			}
 		)
 	}
