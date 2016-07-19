@@ -155,6 +155,39 @@ more.prototype = {
 		var that = this;
 		that.bot.sendTextMessage(that.event.sender.id, 'Check it out! Imagine if your Notes were Smart and Powered by Ai and Could Talk Back! ' + "\nhttp://m.me/SmartNotesBot")
 	}
+	
+	,
+	
+	showHelp: function() 
+	{
+		var elements = [
+			{
+				'title': 'Need Help?',
+				'subtitle': 'Check out the Tutorial. We can help, just send us a message.',
+				'image_url': config.base_url + '/images/tutorial/Help.png',
+				'buttons': [
+					{
+						"type": "postback",
+						"title": "See Tutorial",
+						"payload": JSON.stringify({'controller': 'more', 'method': 'whatsPossible'})
+					}
+					,
+					{
+						"type": "web_url",
+						"title": "Feedback",
+						"url": 'http://m.me/279172302436701'
+					}
+					,
+					{
+						"type": "web_url",
+						"title": "Get Help",
+						"url": 'http://m.me/279172302436701'
+					}
+				]
+			}
+		]
+		that.bot.sendGenericMessage(that.event.sender.id, elements)
+	}
 }
 
 
