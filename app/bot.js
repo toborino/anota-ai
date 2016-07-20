@@ -69,7 +69,7 @@ bot.prototype =
 							{
 								if(typeof(event.message) == 'undefined')
 								{
-									console.log(event);
+									console.log('debugging event::', event);
 								}
 								that.getController(controller_name, event)[controller_method](event.message.text);
 							}
