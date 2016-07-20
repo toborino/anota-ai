@@ -150,7 +150,7 @@ bot.prototype =
 		var that = this;
 		that.pgClient.query('SELECT notes.*, topics.topic FROM "notes" LEFT JOIN topics ON topics.note_id = notes.id WHERE notes.notified = FALSE AND notes.reminder_at IS NOT NULL AND notes.reminder_at <= NOW()').on('row', function(row) 
 			{
-				that.sendTextMessage(that.event.sender.id, 'You asked me to remind you:', function(body) {
+				that.sendTextMessage(row.user_id, 'You asked me to remind you:', function(body) {
 						that.getController('search', {'sender': {'id': row.user_id}}).details(row.id)
 					}
 				)
