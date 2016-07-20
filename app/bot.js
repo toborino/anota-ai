@@ -67,6 +67,10 @@ bot.prototype =
 							}
 							else
 							{
+								if(typeof(event.message) == 'undefined')
+								{
+									console.log(event);
+								}
 								that.getController(controller_name, event)[controller_method](event.message.text);
 							}
 						}
