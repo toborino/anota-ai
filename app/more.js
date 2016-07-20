@@ -94,7 +94,7 @@ more.prototype = {
 			,
 			
 			{
-				'title': "Set Reminder",
+				'title': "Add Reminder",
 				'subtitle': "Make all of your Notes and To-Dos come Alive. You can Add Reminders!",
 				'image_url': config.base_url + '/images/tutorial/Reminder.png',
 			}

@@ -64,7 +64,7 @@ search.prototype = {
 					_buttons.push(
 						{
 							"type": "postback",
-							"title": "Set Reminder",
+							"title": "Add Reminder",
 							"payload": JSON.stringify({'note_id': row.id, 'controller': 'reminder', 'method': 'addReminderToNote'})
 						}
 					)
@@ -120,31 +120,21 @@ search.prototype = {
 					if(row.text.length <= 220)
 					{
 						var response = /*'On ' + dateformat(row.reminder_at, 'ddd mmm-dd H:MM') + " GMT \n " + */ row.text /* + " \n Note added " + dateformat(row.created_at, 'ddd mmm-dd H:MM') */
-						
-						that.bot.sendTextMessage(that.event.sender.id, response, function()
-						{
-							var elements = [
+						that.bot.sendButtonsMessage(that.event.sender.id, response, 
+							[
 								{
-									'title': 'More options' ,
-									"subtitle": 'What do you want to do?' ,
-									
-									"buttons": [
-										{
-											"type": "postback",
-											"title": "Mark Done",
-											"payload": JSON.stringify({'note_id': row.id, 'controller': 'reminder', 'method': 'markDone'})
-										},
-										{
-											"type": "postback",
-											"title": "Share",
-											"payload": JSON.stringify({'note_id': row.id, 'controller': 'reminder', 'method': 'share'})
-										}
-									]
+									"type": "postback",
+									"title": "Mark Done",
+									"payload": JSON.stringify({'note_id': row.id, 'controller': 'reminder', 'method': 'markDone'})
+								},
+								{
+									"type": "postback",
+									"title": "Share",
+									"payload": JSON.stringify({'note_id': row.id, 'controller': 'reminder', 'method': 'share'})
 								}
 							]
-							that.bot.sendGenericMessage(that.event.sender.id, elements)
-							
-						});
+						
+						);
 					}
 					else
 					{
@@ -161,19 +151,17 @@ search.prototype = {
 							if(_chunk)
 							{
 								var _nextIdex = chunkIndex + 1;
-								that.bot.sendTextMessage(that.event.sender.id, _chunk + (parts[_nextIdex] ? ' ...' : ''), function(body) {
-									_sendChunk(_nextIdex);
+								if(parts[_nextIdex])
+								{
+									that.bot.sendTextMessage(that.event.sender.id, _chunk + ' ...', function(body) {
+											_sendChunk(_nextIdex);
+										}
+									)
 								}
-								);
-							}
-							else
-							{
-								var elements = [
-									{
-										'title': "Options" /* "Note added " + dateformat(row.created_at, 'ddd mmm-dd H:MM')  +  " GMT" */,
-										"subtitle": 'What do you want to do?' ,
-										
-										"buttons": [
+								else
+								{
+									that.bot.sendButtonsMessage(that.event.sender.id, _chunk, 
+										[
 											{
 												"type": "postback",
 												"title": "Mark Done",
@@ -185,9 +173,9 @@ search.prototype = {
 												"payload": JSON.stringify({'note_id': row.id, 'controller': 'reminder', 'method': 'share'})
 											}
 										]
-									}
-								]
-								that.bot.sendGenericMessage(that.event.sender.id, elements)
+									
+									);
+								}
 								
 							}
 						}

@@ -17,7 +17,13 @@ reminder.prototype =
 		var note_id = this.event.postback.payload.note_id;
 		this.bot.pgClient.query(
 			'UPDATE "notes" SET done = TRUE WHERE id = $1', [note_id], function(err, res) {
-				that.bot.sendTextMessage(that.event.sender.id, "Marked done" )
+				var img = 1 + Math.floor(Math.random() * 10) + '.gif';
+				that.bot.sendImageMessage('that.event.sender.id', config.base_url + 'images/tutorial/Gifs/' + img, function(body)
+					{
+						that.bot.sendTextMessage(that.event.sender.id, "Great Job! Let’s do Another One." )
+					}
+				)
+				
 			}
 		)
 	}
@@ -166,7 +172,7 @@ reminder.prototype =
 	rejectReminderTime: function(note_id, sender_id, error_message)
 	{
 		var that = this;
-		error_message = error_message || 'Incorrect time' ;
+		error_message = error_message || "Sorry, I didn't get that. You can say: 'In 1hr'  or 'tomorrow at 5pm'.\n When should I remind you?";
 		
 		that.bot.sendTextMessage(sender_id, error_message)
 		that.bot.getModel('user').expectInput(sender_id, 'reminder.acceptMessage')
@@ -213,7 +219,7 @@ reminder.prototype =
 				}
 				else
 				{
-					that.bot.sendTextMessage(that.event.sender.id, 'Reminder set, we will alert you after ' + intervalString)
+					that.bot.sendTextMessage(that.event.sender.id, 'Great! I’ll remind you in ' + intervalString)
 				}
 			}
 		)
@@ -276,7 +282,7 @@ reminder.prototype =
 											
 											"buttons": [{
 													"type": "postback",
-													"title": "Set Reminder",
+													"title": "Add Reminder",
 													"payload": JSON.stringify({'note_id': note_id, 'controller': 'reminder', 'method': 'askForTime'})
 												},{
 													"type": "postback",
@@ -329,7 +335,7 @@ reminder.prototype =
 		
 		that.bot.getModel('user').expectInput(sender_id, 'reminder.setReminderTime')
 		that.bot.pgClient.query('UPDATE user_data SET entering_time_for_note_id = $1 WHERE user_id = $2;', [that.event.postback.payload.note_id, that.event.sender.id], function() {
-			that.bot.sendTextMessage(sender_id, 'When do you want to be reminded?');
+			that.bot.sendTextMessage(sender_id, 'When Should I remind you?');
 		})
 	}
 	,
@@ -353,7 +359,7 @@ reminder.prototype =
 		var that = this;
 		that.bot.pgClient.query('SELECT * FROM notes WHERE id = ' + parseInt(note_id)).on('row', function(row)
 			{
-				var new_message = row.text.substring(0, 290) + (row.text.length > 290 ? ' ...' : '') + "\nhttp://m.me/SmartNotesBot";
+				var new_message = row.text.substring(0, 290) + (row.text.length > 290 ? ' ...' : '') + "\nvia http://m.me/SmartNotesBot";
 				that.bot.sendTextMessage(that.event.sender.id, new_message)
 			}
 		)

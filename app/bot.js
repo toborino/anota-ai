@@ -148,41 +148,14 @@ bot.prototype =
 	sendReminders: function()
 	{
 		var that = this;
-		that.pgClient.query('SELECT notes.*, topics.topic FROM "notes" LEFT JOIN topics ON topics.note_id = notes.id WHERE notes.notified = FALSE AND notes.reminder_at IS NOT NULL AND notes.reminder_at <= NOW()').on('row', function(row) {
-			console.log('reminding: ' , row);
-			
-			
-			that.pgClient.query('UPDATE "notes" SET notified = TRUE WHERE id = ' + row.id);
-			var hashtag = row.topic;
-			var _sendMatches = function(result)
+		that.pgClient.query('SELECT notes.*, topics.topic FROM "notes" LEFT JOIN topics ON topics.note_id = notes.id WHERE notes.notified = FALSE AND notes.reminder_at IS NOT NULL AND notes.reminder_at <= NOW()').on('row', function(row) 
 			{
-				var elements = that.getController('search').prepareNotesForDisplay(result)
-				that.sendGenericMessage(row.user_id, elements)
+				that.sendTextMessage(that.event.sender.id, 'You asked me to remind you:', function(body) {
+						that.getController('search', {'sender': {'id': row.user_id}}).details(row.id)
+					}
+				)
 			}
-			that.sendTextMessage(row.user_id, 'Your reminders:', function()
-			{
-				if(hashtag)
-				{
-					that.pgClient.query('SELECT notes.*, topics.topic AS topic FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE (notes.id = $3) OR  (notes.user_id = $1 AND notes.notified = FALSE AND ( (notes.reminder_at >= NOW()) OR (notes.reminder_at IS NULL) ) AND notes.done = false AND topics.topic = $2) ORDER BY notes.id != $3, notes.reminder_at ASC, notes.id DESC  LIMIT 8', [row.user_id, hashtag, row.id], function(err, result)
-						{
-							if(err)
-							{
-								return console.log(err)
-							}
-							else
-							{
-								_sendMatches(result)
-							}
-						}
-					)					
-				}
-				else
-				{
-					_sendMatches({'rows': [row]});
-				}				
-			}
-			)
-		});
+		)
 	}
 	
 	,
