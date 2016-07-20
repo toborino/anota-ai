@@ -152,7 +152,7 @@ bot.prototype =
 			{
 				that.sendTextMessage(row.user_id, 'You asked me to remind you:', function(body) {
 						that.getController('search', {'sender': {'id': row.user_id}}).details(row.id)
-						that.pgClient.query('UPDATE notes SET notified = TRUE WHERE id = ' + row.id).on('row', function(row) 
+						that.pgClient.query('UPDATE notes SET notified = TRUE WHERE id = ' + row.id)
 					}
 				)
 			}
