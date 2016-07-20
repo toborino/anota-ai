@@ -160,6 +160,7 @@ more.prototype = {
 	
 	showHelp: function() 
 	{
+		var that = this
 		var elements = [
 			{
 				'title': 'Need Help?',
