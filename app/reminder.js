@@ -18,8 +18,7 @@ reminder.prototype =
 		this.bot.pgClient.query(
 			'UPDATE "notes" SET done = TRUE WHERE id = $1', [note_id], function(err, res) {
 				var img = 1 + Math.floor(Math.random() * 10) + '.gif';
-				var img_url = config.base_url + 'images/tutorial/Gifs/' + img
-				console.log(img_url);
+				var img_url = config.base_url + '/images/tutorial/Gifs/' + img
 				that.bot.sendImageMessage(that.event.sender.id, img_url, function(body)
 					{
 						that.bot.sendTextMessage(that.event.sender.id, "Great Job! Let’s do Another One." )
