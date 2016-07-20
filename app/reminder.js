@@ -159,7 +159,7 @@ reminder.prototype =
 				}
 				else
 				{
-					that.bot.sendTextMessage(that.event.sender.id, 'I could not find a reminder to set time for');
+					that.bot.sendTextMessage(that.event.sender.id, "Hmmm... Let's try again. Write a Note and Then Add a Reminder :)");
 					that.bot.getModel('user').expectInput(that.event.sender.id, 'reminder.acceptMessage')
 				}				
 			}
@@ -278,7 +278,7 @@ reminder.prototype =
 									that.bot.pgClient.query('UPDATE user_data SET entering_time_for_note_id = $1 WHERE user_id = $2;', [note_id, that.event.sender.id])
 									var elements = [
 										{
-											'title': 'Topic: ' + (topic ? topic : ' - use #hashtag in note text to assign a topic') ,
+											'title': 'Topic: ' + (topic ? topic : ' #') ,
 											"subtitle": msg,
 											
 											"buttons": [{
