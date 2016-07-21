@@ -73,7 +73,7 @@ search.prototype = {
 			elements.push(
 				{
 					'title': 'Topic: ' + topic,
-					"subtitle": /*(row.reminder_at ? ('at ' + dateformat(row.reminder_at, 'yyyy-mm-dd H:MM') + ' GMT: ') : '') + */ row.text.substring(0, 30) + (is_long ? ' ...' : ''),
+					"subtitle": row.text.substring(0, 80) + (is_long ? ' ...' : ''),
 					"buttons": _buttons
 				}
 			)
