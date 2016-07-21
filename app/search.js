@@ -238,7 +238,7 @@ search.prototype = {
 		}
 		else
 		{
-			this.bot.pgClient.query('SELECT notes.*, topics.topic AS topic FROM notes LEFT JOIN topics ON topics.note_id = notes.id WHERE user_id = $1  AND "text_lower" AND notes.done = false  LIKE $3 ORDER BY reminder_at ASC, notes.id DESC LIMIT ' + that.cardLimit, [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00'),  '%' + msg.toLowerCase() + '%'], _showResults);
+			this.bot.pgClient.query('SELECT notes.*, topics.topic AS topic FROM notes LEFT JOIN topics ON topics.note_id = notes.id WHERE user_id = $1  AND notes.done = false AND "text_lower"  LIKE $3 ORDER BY reminder_at ASC, notes.id DESC LIMIT ' + that.cardLimit, [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00'),  '%' + msg.toLowerCase() + '%'], _showResults);
 		}
 					
 		this.bot.getModel('user').expectInput(this.event.sender.id, '');
@@ -319,7 +319,7 @@ search.prototype = {
 	showReminders: function() 
 	{
 		var that = this;
-		this.bot.pgClient.query('SELECT notes.*, topics.topic FROM notes LEFT JOIN topics on notes.id = topics.note_id WHERE notes.user_id = $1 AND  AND notes.done = false GROUP BY notes.id, topics.topic ORDER BY notes.reminder_at ASC, notes.id DESC LIMIT ' + that.cardLimit, [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00')], 
+		this.bot.pgClient.query('SELECT notes.*, topics.topic FROM notes LEFT JOIN topics on notes.id = topics.note_id WHERE notes.user_id = $1  AND notes.done = false GROUP BY notes.id, topics.topic ORDER BY notes.reminder_at ASC, notes.id DESC LIMIT ' + that.cardLimit, [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00')], 
 			function( err, result)
 			{
 				if(err)
