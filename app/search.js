@@ -234,11 +234,11 @@ search.prototype = {
 		
 		if(matches)
 		{
-			this.bot.pgClient.query('SELECT notes.*, topics.topic AS topic, COUNT(*) AS _count FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE notes.user_id = $1 AND topics.topic = $3 AND notes.done = false GROUP BY topics.topic, notes.id ORDER BY notes.reminder_at ASC, notes.id DESC  LIMIT ' + that.cardLimit, [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00'), matches[1]], _showResults)
+			this.bot.pgClient.query('SELECT notes.*, topics.topic AS topic, COUNT(*) AS _count FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE notes.user_id = $1 AND topics.topic = $2 AND notes.done = false GROUP BY topics.topic, notes.id ORDER BY notes.reminder_at ASC, notes.id DESC  LIMIT ' + that.cardLimit, [this.event.sender.id, matches[1]], _showResults)
 		}
 		else
 		{
-			this.bot.pgClient.query('SELECT notes.*, topics.topic AS topic FROM notes LEFT JOIN topics ON topics.note_id = notes.id WHERE user_id = $1  AND notes.done = false AND "text_lower"  LIKE $3 ORDER BY reminder_at ASC, notes.id DESC LIMIT ' + that.cardLimit, [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00'),  '%' + msg.toLowerCase() + '%'], _showResults);
+			this.bot.pgClient.query('SELECT notes.*, topics.topic AS topic FROM notes LEFT JOIN topics ON topics.note_id = notes.id WHERE user_id = $1  AND notes.done = false AND "text_lower"  LIKE $2 ORDER BY reminder_at ASC, notes.id DESC LIMIT ' + that.cardLimit, [this.event.sender.id,  '%' + msg.toLowerCase() + '%'], _showResults);
 		}
 					
 		this.bot.getModel('user').expectInput(this.event.sender.id, '');
@@ -249,7 +249,7 @@ search.prototype = {
 	{
 			var that = this;
 			var topics = {}
-			this.bot.pgClient.query('SELECT topics.topic AS _topic, COUNT(*) AS _count FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE  notes.user_id = $1  AND notes.done = false GROUP BY topics.topic ORDER BY topics.topic DESC LIMIT ' + that.cardLimit, [this.event.sender.id, dateformat(new Date(), 'yyyy-mm-dd H:MM:00')], 
+			this.bot.pgClient.query('SELECT topics.topic AS _topic, COUNT(*) AS _count FROM topics INNER JOIN notes ON topics.note_id = notes.id WHERE  notes.user_id = $1  AND notes.done = false GROUP BY topics.topic ORDER BY topics.topic DESC LIMIT ' + that.cardLimit, [this.event.sender.id], 
 				function( err, results)
 				{
 					if(err)
