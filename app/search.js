@@ -11,7 +11,7 @@ search.prototype = {
 	
 	prompt: function()
 	{
-		console.log('prompt sender:', that.this.sender);
+		console.log('prompt sender:', this.event.sender);
 		this.bot.getModel('user').expectInput(this.event.sender.id, 'search.perform');
 		this.bot.sendTextMessage(this.event.sender.id, 'Type a Keyword or a #Hashtag and I\'ll find it for you');
 	}
