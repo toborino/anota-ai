@@ -299,8 +299,12 @@ search.prototype = {
 								}
 							)
 						}
-						
-						that.bot.sendImageMessage('that.event.sender.id', config.base_url + '/images/tutorial/Gifs/Search_Nil.gif', function(body)
+						that.bot.sendGenericMessage(that.event.sender.id, elements);
+					}
+
+					else
+					{
+						that.bot.sendImageMessage(that.event.sender.id, config.base_url + '/images/tutorial/Gifs/Search_Nil.gif', function(body)
 							{
 								that.bot.sendButtonsMessage(that.event.sender.id, 'It looks like you’re #hashtagless :( You can add a #hashtag anywhere in a note. Try it, it’s fun and useful ;)', 
 									[
@@ -311,12 +315,6 @@ search.prototype = {
 								);
 							}
 						)
-						
-					}
-
-					else
-					{
-						that.bot.sendTextMessage(that.event.sender.id, 'None of your notes has been assigned a topic.');
 					}
 				}
 			)
