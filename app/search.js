@@ -335,7 +335,7 @@ search.prototype = {
 					console.log(err)
 					return;
 				}
-				console.log(that.event.sender);
+				console.log('sender:', that.event.sender);
 				var elements = that.prepareNotesForDisplay(result)
 				if(elements.length)
 				{
