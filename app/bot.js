@@ -17,8 +17,18 @@ bot.prototype =
 		messaging_events = this.req.body.entry[0].messaging
 		for (i = 0; i < messaging_events.length; i++) {
 			event = this.req.body.entry[0].messaging[i]
-console.log('A NEW EVENT: ', event);
+			
+			if(
+				(typeof( (event.message) != "undefined") && event.message.is_echo == true)
+				||
+				event.read
+			)
+			{
+				continue;
+			}
+			
 			sender = event.sender.id
+			
 			if (event.postback) {
 				if(event.postback.payload == 'getstarted')
 				{
