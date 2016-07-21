@@ -159,7 +159,7 @@ reminder.prototype =
 				}
 				else
 				{
-					that.bot.sendTextMessage(that.event.sender.id, "Hmmm... Let's try again. Write a Note and Then Add a Reminder :)");
+					that.bot.sendTextMessage(that.event.sender.id, "Hmmm... Let us try again. Write a Note and Then Add a Reminder :)");
 					that.bot.getModel('user').expectInput(that.event.sender.id, 'reminder.acceptMessage')
 				}				
 			}
