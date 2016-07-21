@@ -35,7 +35,6 @@ more.prototype = {
 	
 	getStarted: function()
 	{
-		console.log('started?');
 		var that = this;
 		that.bot.sendImageMessage(that.event.sender.id, config.base_url + '/images/tutorial/Welcome.gif', function(resBody)
 			{

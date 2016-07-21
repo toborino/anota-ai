@@ -11,7 +11,6 @@ search.prototype = {
 	
 	prompt: function()
 	{
-		console.log('prompt sender:', this.event.sender);
 		this.bot.getModel('user').expectInput(this.event.sender.id, 'search.perform');
 		this.bot.sendTextMessage(this.event.sender.id, 'Type a Keyword or a #Hashtag and I\'ll find it for you');
 	}
@@ -336,7 +335,7 @@ search.prototype = {
 					console.log(err)
 					return;
 				}
-				console.log('showReminders sender:', that.event.sender);
+				
 				var elements = that.prepareNotesForDisplay(result)
 				if(elements.length)
 				{
@@ -344,7 +343,7 @@ search.prototype = {
 				}
 				else
 				{
-					that.bot.sendImageMessage('that.event.sender.id', config.base_url + 'images/tutorial/Gifs/Search_Nil.gif', function(body)
+					that.bot.sendImageMessage(that.event.sender.id, config.base_url + 'images/tutorial/Gifs/Search_Nil.gif', function(body)
 						{
 							that.bot.sendTextMessage(that.event.sender.id, 'Sorry, there is nothing here. Try writing a Note and See what Happens..');
 						}
