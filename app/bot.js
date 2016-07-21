@@ -19,7 +19,7 @@ bot.prototype =
 			event = this.req.body.entry[0].messaging[i]
 			
 			if(
-				(typeof( (event.message) != "undefined") && event.message.is_echo == true)
+				((typeof(event.message) != "undefined") && event.message.is_echo == true)
 				||
 				event.read
 			)
