@@ -329,8 +329,7 @@ search.prototype = {
 				}
 				
 				var elements = that.prepareNotesForDisplay(result)
-				console.log(result.rows);
-				console.log(elements);
+				
 				if(elements.length)
 				{
 					that.bot.sendGenericMessage(that.event.sender.id, elements);
