@@ -38,11 +38,11 @@ more.prototype = {
 		var that = this;
 		that.bot.sendImageMessage(that.event.sender.id, config.base_url + '/images/tutorial/Welcome.gif', function(resBody)
 			{
-				that.bot.sendButtonsMessage(that.event.sender.id, "Imagine if Notes were Powered by AI and Could Talk Back.\n\nYou can easily Search, Set Reminders, use #Hashtags\n\nSoon, Smart Notes will help You get things Done!", 
+				that.bot.sendButtonsMessage(that.event.sender.id, "Hi, I am an AI Powered Task Manager and I can help you get things done:)\n\nSimply write your Notes & To-Do's and I'll organize them for you in Menu\n\nSee What I can Do!", 
 					[
 							{
 								"type": "postback",
-								"title": "See What's Possible",
+								"title": "See What I can Do",
 								"payload": JSON.stringify({'controller': 'more', 'method': 'whatsPossible'})
 							},
 							{
@@ -64,7 +64,7 @@ more.prototype = {
 		that.bot.sendGenericMessage(that.event.sender.id, [
 			{
 				'title': "What can Ai Do",
-				'subtitle': "Soon, Ai will soon be able to do some of your task for you!",
+				'subtitle': "Soon, Ai will soon be able to DO some of your task for you!",
 				'image_url': config.base_url + '/images/tutorial/PoweredByAi.png',
 				
 				"buttons": [
@@ -79,22 +79,22 @@ more.prototype = {
 			,
 			
 			{
-				'title': "Your Ideas, To-Dos, & Links in 1 Place",
-				'subtitle': "Fastest way to Dump all of your Ideas, To-Dos and Links in One Place.",
+				'title': "I am Best Used as a Task Manager",
+				'subtitle': "With 1 Glance you can Instantly See all of your Tasks via Menu",
 				'image_url': config.base_url + '/images/tutorial/Ideas.png',
 			}
 			,
 			
 			{
-				'title': "Easily Find Any Note",
-				'subtitle': "Now you can Easily Search your Notes by using Keywords & #Hashtags.",
+				'title': "How to Find Your Notes",
+				'subtitle': "Go to Menu and select 'Recent Notes...' or 'Search' by Keyword ",
 				'image_url': config.base_url + '/images/tutorial/Search.png',
 			}
 			,
 			
 			{
-				'title': "Add Reminder",
-				'subtitle': "Make all of your Notes and To-Dos come Alive. You can Add Reminders!",
+				'title': "Adding & Editing Reminders",
+				'subtitle': "To Edit/Upadate/Add a reminder use 'Add Remider'. Then 'in 1hr' or 'at 6pm'",
 				'image_url': config.base_url + '/images/tutorial/Reminder.png',
 			}
 			,
@@ -114,9 +114,16 @@ more.prototype = {
 			,
 			
 			{
-				'title': "Organize with #Hashtags",
-				'subtitle': "Add a #Hashtag Anywhere in your Note & we’ll organize it for You!",
+				'title': "See More with #Hashtags",
+				'subtitle': "When you use the same #tag, I'll show you related notes",
 				'image_url': config.base_url + '/images/tutorial/Hashtags.png',
+			}
+			,
+
+			{
+				'title': "How to Delete a Task",
+				'subtitle': "To Delete a Task just select 'Mark Done'. Edit remider",
+				'image_url': config.base_url + '/images/tutorial/delete.png',
 			}
 			,
 			
