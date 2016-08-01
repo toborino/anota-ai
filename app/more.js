@@ -80,21 +80,21 @@ more.prototype = {
 			
 			{
 				'title': "I am Best Used as a Task Manager",
-				'subtitle': "With 1 Glance you can Instantly See all of your Tasks via Menu",
-				'image_url': config.base_url + '/images/tutorial/Ideas.png',
+				'subtitle': "With 1 Glance you can Instantly See all of your Tasks via Menu!",
+				'image_url': config.base_url + '/images/tutorial/to-do-list.png',
 			}
 			,
 			
 			{
 				'title': "How to Find Your Notes",
-				'subtitle': "Go to Menu and select 'Recent Notes...' or 'Search' by Keyword ",
+				'subtitle': "Go to Menu and select 'Recent Notes...' or 'Search' using Keywords.",
 				'image_url': config.base_url + '/images/tutorial/Search.png',
 			}
 			,
 			
 			{
 				'title': "Adding & Editing Reminders",
-				'subtitle': "To Edit/Upadate/Add a reminder use 'Add Remider'. Then 'in 1hr' or 'at 6pm'",
+				'subtitle': "To Edit/Upadate/Add a reminder use 'Add Remider'. Then 'in 1hr' or 'at 6pm'.",
 				'image_url': config.base_url + '/images/tutorial/Reminder.png',
 			}
 			,
@@ -115,14 +115,14 @@ more.prototype = {
 			
 			{
 				'title': "See More with #Hashtags",
-				'subtitle': "When you use the same #tag, I'll show you related notes",
+				'subtitle': "When you use the same #hashtag more than once, I'll show you related notes.",
 				'image_url': config.base_url + '/images/tutorial/Hashtags.png',
 			}
 			,
 
 			{
 				'title': "How to Delete a Task",
-				'subtitle': "To Delete a Task just select 'Mark Done'. Edit remider",
+				'subtitle': "To Delete a Task just select 'Mark Done' and I'll get rid of it.",
 				'image_url': config.base_url + '/images/tutorial/delete.png',
 			}
 			,
