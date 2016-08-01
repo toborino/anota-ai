@@ -38,7 +38,7 @@ more.prototype = {
 		var that = this;
 		that.bot.sendImageMessage(that.event.sender.id, config.base_url + '/images/tutorial/Welcome.gif', function(resBody)
 			{
-				that.bot.sendButtonsMessage(that.event.sender.id, "Hi, I am an AI Powered Task Manager and I can help you get things done:)\n\nSimply write your Notes & To-Do's and I'll organize them for you in Menu\n\nSee What I can Do!", 
+				that.bot.sendButtonsMessage(that.event.sender.id, "Hi, I am an AI Powered Task Manager and I can help you get things done:)\n\nSimply write your Notes & To-Do's and I'll organize them for you via the Menu\n\nSee What I can Do!", 
 					[
 							{
 								"type": "postback",
@@ -82,6 +82,13 @@ more.prototype = {
 				'title': "I am Best Used as a Task Manager",
 				'subtitle': "With 1 Glance you can Instantly See all of your Tasks via Menu!",
 				'image_url': config.base_url + '/images/tutorial/to-do-list.png',
+			}
+			,
+
+			{
+				'title': "How to Write a Note",
+				'subtitle': "Anything you Write Becomes a Sticky Note except when adding a Reminder",
+				'image_url': config.base_url + '/images/tutorial/rules.png',
 			}
 			,
 			
@@ -149,7 +156,7 @@ more.prototype = {
 		var that = this;
 		that.bot.sendImageMessage(that.event.sender.id, config.base_url + '/images/tutorial/13705099_503972646464264_238141464_n.gif', function(resBody)
 			{
-				that.bot.sendTextMessage(that.event.sender.id, "Awesome!  Simply write anything and I’ll Make it Smart!\n\nYou can add #hashtags and I’ll respond with a few options :)\n\nStart writing")
+				that.bot.sendTextMessage(that.event.sender.id, "Awesome! Whatever you write, I'll turn it into a Sticky Note!\n\nYou can use #hashtags and I’ll respond with a few options :)\n\nWhat would you like to Get Done Today?")
 			}
 		)
 	}

@@ -173,7 +173,7 @@ reminder.prototype =
 	rejectReminderTime: function(note_id, sender_id, error_message)
 	{
 		var that = this;
-		error_message = error_message || "Sorry, I didn't get that. You can say: 'In 1hr'  or 'tomorrow at 5pm'.\n When should I remind you?";
+		error_message = error_message || "Sorry, I didn't get that. You can say: 'In 1hr'  or 'tomorrow at 5pm'.\n You can Update a Reminder Anytime by Selecting 'Add Reminder' button";
 		
 		that.bot.sendTextMessage(sender_id, error_message)
 		that.bot.getModel('user').expectInput(sender_id, 'reminder.acceptMessage')
@@ -336,7 +336,7 @@ reminder.prototype =
 		
 		that.bot.getModel('user').expectInput(sender_id, 'reminder.setReminderTime')
 		that.bot.pgClient.query('UPDATE user_data SET entering_time_for_note_id = $1 WHERE user_id = $2;', [that.event.postback.payload.note_id, that.event.sender.id], function() {
-			that.bot.sendTextMessage(sender_id, 'When Should I remind you?');
+			that.bot.sendTextMessage(sender_id, "When Should I remind you?\n Please use very simple times like: 'in 1 hour' or 'tomorrow at 5pm' ");
 		})
 	}
 	,
