@@ -1,29 +1,27 @@
 {
-  "name": "smart_note",
+  "name": "anota_ai",
   "version": "1.0.0",
-  "description": "FB Messenger Bot that reminds users",
+  "description": "Anota.ai lembretes",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/eforio/buddhabot.git#buddhabot"
+    "url": "git+https://github.com/toborino/anotaai.git#anota-ai"
   },
   "keywords": [
-    "buddha",
-    "quotes",
-    "spiritual",
-    "quotes",
-    "journalling",
-    "honesty"
+    "lembretes",
+    "tarefas",
+    "deveres",
+    "realizar"
   ],
-  "author": "Stefan Kojouharov",
-  "license": "ISC",
+  "author": "Toborino",
+  "license": "WTFPL",
   "bugs": {
-    "url": "https://github.com/eforio/buddhabot/issues"
+    "url": "https://github.com/toborino/anotaai/issues"
   },
-  "homepage": "https://github.com/eforio/buddhabot/tree/buddhabot#readme",
+  "homepage": "https://github.com/toborino/anotaai/tree/anota-ai#readme",
   "dependencies": {
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
@@ -32,5 +30,9 @@
     "pg": "~5.1.0",
     "dateformat": "~1.0.12",
     "connect-busboy": "0.0.2"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {}
 }
